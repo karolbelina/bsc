@@ -1,0 +1,62 @@
+{
+    "latex-workshop.latex.outDir": "%DIR%/../out",
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.fdb_latexmk",
+        "*.fls",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.log",
+        "*.lol",
+        "*.lot",
+        "*.nav",
+        "*.out",
+        "*.snm",
+        "*.synctex(busy)",
+        "*.synctex.gz",
+        "*.synctex.gz(busy)",
+        "*.toc"
+    ],
+    "[latex]": {
+        "editor.rulers": [80]
+    },
+    
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-shell-escape",
+                "-output-directory=../out",
+                "-jobname=W08_242499_2020_praca_inżynierska",
+                "-pdf",
+                "-bibtex",
+                "-e",
+                "'$bibtex_fudge=0;'",
+                "%DOC%"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "latexmk",
+    "latex-workshop.chktex.enabled": true,
+    "latex-workshop.chktex.run": "onType"
+}

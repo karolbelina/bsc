@@ -18,15 +18,25 @@ jobs:
       with:
         repository: karolbelina/wizthesis
         path: wizthesis
-    - run: mv wizthesis/src/wizthesis.cls src
+    - run: mv wizthesis/src/wizthesis.cls .
     - name: Build
       uses: xu-cheng/latex-action@v2
       with:
+        root_file: src/eng.tex
         post_compile: "latexmk -c"
+    - name: Get current date
+      uses: 1466587594/get-current-time@v1
+      id: date
+      with:
+        format: DD-MM-YYYY
+        utcOffset: "+01:00"
+    - name: Get short SHA
+      id: hash
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: W08_242499_2020_praca_inżynierska
+        name: "eng-${{ steps.date.outputs.formattedTime }}-${{ steps.hash.outputs.sha8 }}"
         path: out/W08_242499_2020_praca_inżynierska.pdf
     - name: Publish to gh-pages
       uses: peaceiris/actions-gh-pages@v3

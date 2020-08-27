@@ -1,0 +1,65 @@
+\documentclass[polish,engineering]{wizthesis}
+
+\usepackage[utf8]{inputenc}
+\usepackage{float} % H float positioning
+
+% Set up the thesis
+\author{Karol Belina}
+\title{Narzędzie do analizy opisu\par gramatyki w językach formalnych}
+\supervisor{dr inż. Zdzisław Spławski}
+\fieldofstudy{Informatyka}
+\keywords{}
+\summary{}
+
+% Set up the style of code listings (optional)
+\setminted{frame=single,breaklines,linenos}
+% Set up the bibliography style
+\bibliographystyle{acm}
+
+\begin{document}
+
+\frontmatter % Disable page and chapter numbering for this section
+
+\maketitle
+
+% '\chapter*' removes both abstracts from the table of contents
+\chapter*{Streszczenie}
+
+{\let\clearpage\relax % Keep the english abstract on the same page
+\chapter*{Abstract}}
+
+\tableofcontents
+
+\mainmatter % Re-enable page and chapter numbering
+
+{\backmatter % Disable this chapter number
+\chapter{Wstęp}}
+
+\chapter{Rozdział pierwszy}
+
+{\backmatter % Disable this chapter number
+\chapter{Zakończenie}
+
+\bibliography{bibliography.bib}
+
+\listoffigures
+
+\listoftables
+
+\listoflistings
+
+\begin{appendices}
+
+\chapter{Załącznik pierwszy}
+
+\begin{listing}[H]
+  \inputminted[fontsize=\small]{lexers/ebnf_lexer.py:EbnfLexer -x}
+  {listings/specification.ebnf}
+  \caption{Zmodyfikowana przez autora pracy specyfikacja gramatyki języka EBNF
+  zdefiniowanego w \cite{iso-14977}}
+  \label{lst:specification}
+\end{listing}
+
+\end{appendices}
+
+\end{document}

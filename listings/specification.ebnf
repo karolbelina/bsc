@@ -1,0 +1,35 @@
+character
+  = ? any Unicode non-control character ?;
+letter
+  = ? any Unicode alphabetic character ?;
+digit
+  = ? any Unicode numeric character ?;
+whitespace
+  = ? any Unicode whitespace character ?;
+comment
+  = '(*', {comment | character}, '*)';
+gap
+  = (whitespace | comment), {whitespace}, {{comment}, {whitespace}};
+identifier
+  = letter, {{whitespace}, letter | digit};
+factor
+  = [[gap], digit, {{whitespace}, digit}, [gap], '*'],
+    [gap], [(identifier
+      | ('[' | '(/'), alternative, (']' | '/)')
+      | ('{' | '(:'), alternative, ('}' | ':)')
+      | '(', alternative, ')'
+      | "'", character - "'", {character - "'"}, "'"
+      | '"', character - '"', {character - '"'}, '"'
+      | '?', {{whitespace}, character - '?'}, '?'), [gap]];
+term
+  = factor,
+    ['-', ? a factor that could be replaced
+      by a factor containing no identifiers ?];
+sequence
+  = term, {',', term};
+alternative
+  = sequence, {('|' | '/' | '!'), sequence};
+production
+  = [gap], identifier, [gap], '=', alternative, (';' | '.'), [gap];
+grammar
+  = production, {production};

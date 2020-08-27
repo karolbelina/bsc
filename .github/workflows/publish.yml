@@ -22,7 +22,7 @@ jobs:
     - name: Build
       uses: xu-cheng/latex-action@v2
       with:
-        root_file: src/eng.tex
+        root_file: eng.tex
         post_compile: "latexmk -c"
     - name: Get current date
       uses: 1466587594/get-current-time@v1
@@ -37,9 +37,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: "eng-${{ steps.date.outputs.formattedTime }}-${{ steps.hash.outputs.sha8 }}"
-        path: out/W08_242499_2020_praca_inżynierska.pdf
+        path: W08_242499_2020_praca_inżynierska.pdf
+    - name: Prepare the publish folder
+      run: "mkdir publish && mv W08_242499_2020_praca_inżynierska.pdf publish/"
     - name: Publish to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
-        publish_dir: out
+        publish_dir: publish

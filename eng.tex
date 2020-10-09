@@ -1,14 +1,14 @@
-\documentclass[polish,engineering]{wizthesis}
+\documentclass[english,engineering]{wizthesis}
 
 \usepackage[utf8]{inputenc}
 \usepackage{float} % H float positioning
 
 % Set up the thesis
 \author{Karol Belina}
-\title{Narzędzie do analizy opisu\par gramatyki w językach formalnych}
+\title{Formal grammar\par production rule parsing tool}
 \supervisor{dr inż. Zdzisław Spławski}
-\fieldofstudy{Informatyka}
-\keywords{}
+\fieldofstudy{Computer Science}
+\keywords{Parser combinators, context-free grammars, Extended Backus-Naur Form}
 \summary{}
 
 % Set up the style of code listings (optional)
@@ -22,23 +22,54 @@
 
 \maketitle
 
-% '\chapter*' removes both abstracts from the table of contents
-\chapter*{Streszczenie}
-
-{\let\clearpage\relax % Keep the english abstract on the same page
-\chapter*{Abstract}}
+% '\chapter*' removes the abstract from the table of contents
+\chapter*{Abstract}
 
 \tableofcontents
 
 \mainmatter % Re-enable page and chapter numbering
 
 {\backmatter % Disable this chapter number
-\chapter{Wstęp}}
+\chapter{Introduction}}
 
-\chapter{Rozdział pierwszy}
+\chapter{Problem analysis}
+
+\section{Description}
+
+\section{Motivation}
+
+\section{Goal}
+
+\section{Scope}
+
+\chapter{Analysis of similar solutions}
+
+\chapter{Theoretical preliminaries}
+
+\section{Context-free grammars}
+
+\section{Parser combinators}
+
+\chapter{Design}
+
+\section{Functional requirements}
+
+\section{Non-functional requirements}
+
+\section{The architecture}
+
+\section{Interface prototype}
+
+\chapter{Implementation}
+
+\section{Used technologies}
+
+\chapter{Testing}
+
+\section{Automated tests}
 
 {\backmatter % Disable this chapter number
-\chapter{Zakończenie}
+\chapter{Summary}}
 
 \bibliography{bibliography.bib}
 
@@ -50,13 +81,13 @@
 
 \begin{appendices}
 
-\chapter{Załącznik pierwszy}
+\chapter{Modified specification}
 
 \begin{listing}[H]
   \inputminted[fontsize=\small]{lexers/ebnf_lexer.py:EbnfLexer -x}
   {listings/specification.ebnf}
-  \caption{Zmodyfikowana przez autora pracy specyfikacja gramatyki języka EBNF
-  zdefiniowanego w \cite{iso-14977}}
+  \caption{Modified version of the EBNF language specification defined in
+  \cite{iso-14977}}
   \label{lst:specification}
 \end{listing}
 

@@ -1,5 +1,5 @@
 {
-    "latex-workshop.latex.outDir": "%DIR%/../out",
+    "latex-workshop.latex.outDir": "%DIR%",
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.latex.clean.fileTypes": [
         "*.acn",
@@ -37,7 +37,7 @@
             "command": "latexmk",
             "args": [
                 "-shell-escape",
-                "-output-directory=../out",
+                "-output-directory=.",
                 "-jobname=W08_242499_2020_praca_inżynierska",
                 "-pdf",
                 "-bibtex",
@@ -56,5 +56,11 @@
             ]
         }
     ],
-    "latex-workshop.latex.recipe.default": "latexmk"
+    "latex-workshop.latex.recipe.default": "latexmk",
+    "cSpell.words": [
+        "EBNF",
+        "Naur",
+        "combinating",
+        "combinators"
+    ]
 }

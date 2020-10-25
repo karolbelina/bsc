@@ -58,8 +58,10 @@
     ],
     "latex-workshop.latex.recipe.default": "latexmk",
     "cSpell.words": [
+        "ANTLR",
         "EBNF",
         "Naur",
+        "Rollup",
         "combinating",
         "combinators"
     ]

@@ -6,6 +6,9 @@
 \usepackage{enumitem} % enumerate
 \usepackage{amsmath, bm}
 \usepackage{mathtools}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{wrapfig}
+\usepackage{tikz}
 
 % Set up the thesis
 \author{Karol Belina}
@@ -142,28 +145,6 @@ distinguished, all of which contribute to the main objective as a whole
 
 \todo{na pewno zakres? czym to się w ogóle różni?}
 
-\chapter{Analysis of similar solutions}
-
-\section{Coco/R}
-
-\todo{\cite{coco/r}}
-
-\section{ANTLR}
-
-\todo{\cite{antlr}}
-
-\section{Lex and Yacc}
-
-\todo{\cite{lex-yacc}}
-
-\section{PLY}
-
-\todo{\cite{ply}}
-
-\section{Regex101}
-
-\todo{\cite{regex101}}
-
 \chapter{Theoretical preliminaries}
 
 \section{Formal grammars}
@@ -226,9 +207,42 @@ Such a system provides us with a notation for describing a given
 language formally. Such a language is a usually infinite set of finite-length
 sequences of terminal symbols from that language.
 
-\subsection{The Chomsky hierarchy}
+\subsection{The Chomsky Hierarchy}
 
-\subsection{Context-free grammars}
+\begin{wrapfigure}{R}{0.45\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=2.5]
+    \draw[color=black](0,0) ellipse (1.25 and 1) node at (0, 0.65) {recursively enumerable};
+    \draw[color=black](0,-0.2) ellipse (1 and 0.75) node at (0, 0.25) {context-sensitive};
+    \draw[color=black](0,-0.4) ellipse (0.75 and 0.5) node at (0, -0.15) {context-free};
+    \draw[color=black](0,-0.6) ellipse (0.5 and 0.25) node {regular};
+  \end{tikzpicture}
+  \caption{The~Chomsky~Hierarchy visualized}
+  \label{fig:chomsky-hierarchy}
+\end{wrapfigure}
+
+In \cite{chomsky-1956} Chomsky divides formal grammars into four classes and
+classifies them in the now called \textit{Chomsky~Hierarchy}. Each class is a
+subset of another, distinguished by the complexity.
+
+Type-3 grammars generate the so-called \textit{regular~languages}. As described
+in \cite{aho-1990}, regular languages can be matched by
+\textit{regular~expressions} and decided by a \textit{finite~state~automaton}.
+They are the most restricting kinds of grammars, with its production rules
+consisting of a single non-terminal on the left-hand side and a single terminal,
+possibly followed by a single non-terminal on the right-hand side. Because of
+their simplicity, regular languages are used for lexical analysis of programming
+languages \cite{johnson-porter-ackley-ross-1968}.
+
+Type-2 grammars produce \textit{context-free~languages} and can be represented
+as a \textit{pushdown~automaton} which is an automaton that can maintain its
+state with the use of a stack. \todo{jak w stosie wygląda pamięć}
+
+\subsection{Parsing Expression Grammars}
+
+\todo{\url{https://en.wikipedia.org/wiki/Parsing_expression_grammar}}
+
+\todo{\cite{ford-2004}}
 
 \section{Why EBNF?}
 
@@ -236,9 +250,18 @@ sequences of terminal symbols from that language.
 
 \todo{analiza i zmodyfikowanie oficjalnej specyfikacji EBNF}
 
+See appendix \ref{ch:modified-spec}.
+
 \section{Grammar definition}
 
-\todo{definicja gramatyki w formie AST w notacji Haskella}
+% \begin{listing}[H]
+%   \inputminted[fontsize=\small]{haskell}
+%   {listings/ast.hs}
+%   \caption{\todo{podpis}}
+%   \label{lst:ast}
+% \end{listing}
+
+\todo{opis}
 
 \section{Lexical analysis}
 
@@ -255,6 +278,41 @@ sequences of terminal symbols from that language.
 \todo{opisanie parser combinatorów w Haskellu \cite{swierstra-2009}
 \cite{leijen-2001} \cite{fokker-1995}}
 
+% \begin{listing}[H]
+%   \begin{minted}{haskell}
+% type Parser a = String -> Maybe (a, String)
+%   \end{minted}
+%   \caption{\todo{podpis}}
+%   \label{lst:parcomb-type}
+% \end{listing}
+
+% \begin{listing}[H]
+%   \begin{minted}{haskell}
+% parse digit "123"
+% -- Just ('1', "23")
+%   \end{minted}
+%   \caption{\todo{podpis}}
+%   \label{lst:parcomb-example1}
+% \end{listing}
+
+% \begin{listing}[H]
+%   \begin{minted}{haskell}
+% parse (char 'a') "bcd"
+% -- Nothing
+%   \end{minted}
+%   \caption{\todo{podpis}}
+%   \label{lst:parcomb-example2}
+% \end{listing}
+
+% \begin{listing}[H]
+%   \begin{minted}{haskell}
+% parse (multiple (digit <|> letter)) "abc123"
+% -- Just ("abc123", "")
+%   \end{minted}
+%   \caption{\todo{podpis}}
+%   \label{lst:parcomb-example3}
+% \end{listing}
+
 \subsection{Parser definitions}
 
 \todo{zdefiniowanie ważnych parserów dla EBNF}
@@ -265,6 +323,22 @@ sequences of terminal symbols from that language.
 
 \todo{przedstawienie algorytmu do usuwania lewej rekurencji i wyjaśnienie po co}
 
+% \begin{algorithm}[H]
+%   \SetAlgoLined
+%   \KwResult{The result}
+%   initialization\;
+%   \While{condition}{
+%     instructions\;
+%     \eIf{condition}{
+%       instruction1\;
+%       instruction2\;
+%     }{
+%       instruction3\;
+%     }
+%   }
+%   \caption{Name of the algorithm}
+% \end{algorithm}
+
 \subsection{Dependency graph reduction}
 
 \todo{przedstawienie algorytmu do wyszukania reguły początkowej}
@@ -273,6 +347,28 @@ sequences of terminal symbols from that language.
 
 \todo{opisanie sposobu na sprawdzenie czy wejście należy do języka generowanego
 przez gramatykę}
+
+\chapter{Analysis of similar solutions}
+
+\section{Coco/R}
+
+\todo{\cite{coco/r}}
+
+\section{ANTLR}
+
+\todo{\cite{antlr}}
+
+\section{Lex and Yacc}
+
+\todo{\cite{lex-yacc}}
+
+\section{PLY}
+
+\todo{\cite{ply}}
+
+\section{Regex101}
+
+\todo{\cite{regex101}}
 
 \chapter{Design}
 
@@ -384,7 +480,7 @@ projektów}
 
 \begin{appendices}
 
-\chapter{Modified specification}
+\chapter{Modified specification} \label{ch:modified-spec}
 
 \begin{listing}[H]
   \inputminted[fontsize=\small]{lexers/ebnf_lexer.py:EbnfLexer -x}

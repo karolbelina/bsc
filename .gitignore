@@ -1,5 +1,6 @@
 *.aux
 *.bbl
+*.bcf
 *.blg
 *.idx
 *.ind
@@ -23,5 +24,6 @@
 *.synctex(busy)
 *.lol
 *.lop
+*.run.xml
 _minted*/
 *.pdf

@@ -57,6 +57,12 @@
         }
     ],
     "latex-workshop.latex.recipe.default": "latexmk",
+    "cSpell.language": "en,pl",
+    "cSpell.ignorePaths": [
+        "*",
+        "!eng.tex",
+        "!bibliography.bib"
+    ],
     "cSpell.words": [
         "ANTLR",
         "EBNF",

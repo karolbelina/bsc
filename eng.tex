@@ -37,7 +37,7 @@ provided to the program with the use of parser combinators.}
 
 \maketitle
 
-% '\chapter*' removes the abstract from the table of contents
+% '\chapter*' removes both abstracts from the table of contents
 \chapter*{Abstract}
 
 The thesis presents the design and implementation of an EBNF-based context-free
@@ -75,6 +75,12 @@ service \todo{service workery}, as well as a cross-platform desktop application
 with the use of Electron. The designed and implemented system gives the
 opportunity to extend it with other grammar specifications.
 \todo{poparafrazować ``The thesis describes...''}
+
+{\let\clearpage\relax % Keep the english abstract on the same page
+\chapter*{Streszczenie}
+
+\todo{streszczenie po polsku}
+}
 
 \tableofcontents
 
@@ -252,21 +258,6 @@ state with the use of a stack. \todo{jak w stosie wygląda pamięć}
 
 See appendix \ref{ch:modified-spec}.
 
-\section{Grammar definition}
-
-% \begin{listing}[H]
-%   \inputminted[fontsize=\small]{haskell}
-%   {listings/ast.hs}
-%   \caption{\todo{podpis}}
-%   \label{lst:ast}
-% \end{listing}
-
-\todo{opis}
-
-\section{Lexical analysis}
-
-\todo{krótko o ``algorytmie'' tokenizacji}
-
 \section{Syntactic analysis} \label{sec:parsing}
 
 \subsection{Methods}
@@ -312,41 +303,6 @@ See appendix \ref{ch:modified-spec}.
 %   \caption{\todo{podpis}}
 %   \label{lst:parcomb-example3}
 % \end{listing}
-
-\subsection{Parser definitions}
-
-\todo{zdefiniowanie ważnych parserów dla EBNF}
-
-\section{Grammar preprocessing}
-
-\subsection{Left recursion handling}
-
-\todo{przedstawienie algorytmu do usuwania lewej rekurencji i wyjaśnienie po co}
-
-% \begin{algorithm}[H]
-%   \SetAlgoLined
-%   \KwResult{The result}
-%   initialization\;
-%   \While{condition}{
-%     instructions\;
-%     \eIf{condition}{
-%       instruction1\;
-%       instruction2\;
-%     }{
-%       instruction3\;
-%     }
-%   }
-%   \caption{Name of the algorithm}
-% \end{algorithm}
-
-\subsection{Dependency graph reduction}
-
-\todo{przedstawienie algorytmu do wyszukania reguły początkowej}
-
-\section{Grammar processing}
-
-\todo{opisanie sposobu na sprawdzenie czy wejście należy do języka generowanego
-przez gramatykę}
 
 \chapter{Analysis of similar solutions}
 
@@ -425,13 +381,53 @@ projektów}
 
 \section{Business logic}
 
-\subsection{Lexer}
+\subsection{Grammar definition}
 
-\subsection{Parser}
+% \begin{listing}[H]
+%   \inputminted[fontsize=\small]{haskell}
+%   {listings/ast.hs}
+%   \caption{\todo{podpis}}
+%   \label{lst:ast}
+% \end{listing}
 
-\subsection{Preprocessor}
+\todo{opis}
 
-\subsection{Checker}
+\subsection{Lexical analyser}
+
+\todo{krótko o ``algorytmie'' tokenizacji}
+
+\subsection{Syntactic analyser}
+
+\todo{zdefiniowanie ważnych parserów dla EBNF}
+
+\subsection{Left recursion handling}
+
+\todo{przedstawienie algorytmu do usuwania lewej rekurencji i wyjaśnienie po co}
+
+% \begin{algorithm}[H]
+%   \SetAlgoLined
+%   \KwResult{The result}
+%   initialization\;
+%   \While{condition}{
+%     instructions\;
+%     \eIf{condition}{
+%       instruction1\;
+%       instruction2\;
+%     }{
+%       instruction3\;
+%     }
+%   }
+%   \caption{Name of the algorithm}
+% \end{algorithm}
+
+\subsection{Dependency graph reduction}
+
+\todo{przedstawienie algorytmu do wyszukania reguły początkowej}
+
+\subsection{Grammar processing}
+
+\todo{opisanie sposobu na sprawdzenie czy wejście należy do języka generowanego
+przez gramatykę}
 
 \section{Command line application}
 
@@ -449,17 +445,17 @@ projektów}
 
 \chapter{Testing}
 
-\section{Automated testing}
+\section{Business logic testing}
 
-\subsection{Business logic testing}
+\subsection{Unit testing}
 
 \todo{Cargo test}
 
-\subsection{UI testing}
+\subsection{Benchmarking}
+
+\section{UI testing}
 
 \todo{Jest}
-
-\section{Manual testing}
 
 \chapter{Deployment}
 

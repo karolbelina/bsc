@@ -9,7 +9,7 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{wrapfig}
 \usepackage{tikz}
-\usepackage{xspace}
+\usepackage{tikz-uml}
 
 % Set up the thesis
 \author{Karol Belina}
@@ -25,8 +25,6 @@ parser can turn a high-level specification of a grammar into a parser itself,
 which in turn is capable of constructing a parse tree from arbitrary input
 provided to the program with the use of parser combinators.}
 
-% Set up the style of code listings (optional)
-\setminted{frame=single,breaklines,linenos}
 % Set up the bibliography style
 \bibliographystyle{acm}
 
@@ -299,6 +297,8 @@ state with the use of a stack. \todo{jak w stosie wygląda pamięć}
 
 \section{Why EBNF?}
 
+\todo{}
+
 \section{Modifying the specification}
 
 \todo{analiza i zmodyfikowanie oficjalnej specyfikacji EBNF}
@@ -309,49 +309,31 @@ See appendix \ref{ch:modified-spec}.
 
 \subsection{Bottom-up parsing}
 
+\todo{}
+
 \subsection{Top-down parsing and parser combination}
 
 \todo{opisanie parser combinatorów (w Haskellu?) \cite{swierstra-2009}
 \cite{leijen-2001} \cite{fokker-1995}}
 
-\begin{equation*}
-  \text{type}\ \text{Parser}\ a = \text{String} \rightarrow \text{Maybe}\ (a, \text{String})
-\end{equation*}
-
-\begin{listing}[H]
-  \begin{minted}{haskell}
+\begin{minted}{haskell}
 type Parser a = String -> Maybe (a, String)
-  \end{minted}
-  \caption{\todo{podpis}}
-  \label{lst:parser-type}
-\end{listing}
+\end{minted}
 
-% \begin{listing}[H]
-%   \begin{minted}{haskell}
+% \begin{minted}{haskell}
 % parse digit "123"
 % -- Just ('1', "23")
-%   \end{minted}
-%   \caption{\todo{podpis}}
-%   \label{lst:parcomb-example1}
-% \end{listing}
+% \end{minted}
 
-% \begin{listing}[H]
-%   \begin{minted}{haskell}
+% \begin{minted}{haskell}
 % parse (char 'a') "bcd"
 % -- Nothing
-%   \end{minted}
-%   \caption{\todo{podpis}}
-%   \label{lst:parcomb-example2}
-% \end{listing}
+% \end{minted}
 
-% \begin{listing}[H]
-%   \begin{minted}{haskell}
+% \begin{minted}{haskell}
 % parse (multiple (digit <|> letter)) "abc123"
 % -- Just ("abc123", "")
-%   \end{minted}
-%   \caption{\todo{podpis}}
-%   \label{lst:parcomb-example3}
-% \end{listing}
+% \end{minted}
 
 \chapter{Analysis of similar solutions}
 
@@ -381,16 +363,75 @@ type Parser a = String -> Maybe (a, String)
 
 \subsection{Functional requirements}
 
+\todo{tabela z potrzebami, cechami i priorytetami}
+
 \subsection{Non-functional requirements}
 
-\section{Use cases}
+\todo{tabela z innymi wymaganiami i ich priorytetami}
 
-\todo{diagram UML}
-\todo{scenariusze przypadków użycia}
+\section{User stories}
 
-\section{The architecture}
+\todo{}
 
-\subsection{Used technologies}
+\section{Use case specification}
+
+\subsection{Use cases}
+
+\todo{diagram UML przypadków użycia}
+
+\begin{figure}[H]
+  \centering
+  
+  \begin{tikzpicture}
+    \tikzumlset{fill usecase=white}
+    \begin{umlsystem}{System}
+      
+      \umlusecase[x=0,y=0,width=1.5cm]{\todo{}}
+    \end{umlsystem}
+    
+    \umlactor[x=-4,y=0]{User}
+    
+    \umlassoc{User}{usecase-1}
+  \end{tikzpicture}
+  \caption{The use case diagram}
+  \label{fig:use-case-diagram}
+\end{figure}
+
+\todo{opisy przypadków użycia}
+
+\todo{requirements traceability graph --- jak łączą się wymagania z historyjkami
+z przypadkami użycia}
+
+\subsection{Use case scenarios}
+
+\todo{opisy scenariuszy przypadków użycia}
+
+\subsection{Activity diagrams}
+
+\todo{diagramy aktywności dla scenariuszów}
+
+% możliwe w tikz-uml (sequence diagrams)
+
+\subsection{Sequence diagrams}
+
+\todo{}
+
+% możliwe w tikz-uml (state-transitions diagrams)
+
+\section{System architecture}
+
+\subsection{Logical architecture}
+
+\todo{diagram pakietów, czyli wydzielenie modułów w projekcie --- widok i model,
+gdzie widok podzielony jest na komponenty a model na moduły}
+
+% możliwe w tikz-uml (component diagrams)
+
+\subsection{Physical architecture}
+
+\todo{użyte technologie i zwizualizowany stack}
+
+% niemożliwe w tikz-uml
 
 \todo{Git}
 \todo{Rust \cite{klabnik-2018}}
@@ -399,9 +440,13 @@ type Parser a = String -> Maybe (a, String)
 \todo{Rollup}
 \todo{WebAssembly}
 
-\subsection{Class diagram}
+\todo{opis technologii}
+
+\section{Class diagram}
 
 \todo{Diagram ``klas''}
+
+% możliwe w tikz-uml (class diagrams)
 
 \section{Interface prototype}
 
@@ -426,7 +471,11 @@ projektów}
 
 \subsection*{npm}
 
+\todo{}
+
 \subsection*{Rollup}
+
+\todo{}
 
 \section{Business logic}
 
@@ -480,6 +529,8 @@ przez gramatykę}
 
 \section{Command line application}
 
+\todo{}
+
 \section{Web-based application}
 
 \subsection{Linking the business logic}
@@ -492,28 +543,49 @@ przez gramatykę}
 
 \subsection{Visualizations}
 
-\chapter{Testing}
+\todo{}
+
+\chapter{Project quality study}
 
 \section{Business logic testing}
 
 \subsection{Unit testing}
 
-\todo{Cargo test}
+\todo{cargo test}
 
-\subsection{Benchmarking}
+\subsection{Integration testing}
+
+\todo{}
 
 \section{UI testing}
 
 \todo{Jest}
 
+\section{Benchmarking}
+
+\todo{}
+
+\section{Complexity analysis}
+
+\todo{clippy}
+
+\todo{liczba linii kodu}
+
 \chapter{Deployment}
 
 \section{GitHub Pages}
 
+\todo{}
+
 \section{Electron}
 
+\todo{}
+
 {\backmatter % Disable this chapter number
-\chapter{Summary}}
+\chapter{Summary}
+
+\todo{}
+}
 
 \bibliography{bibliography.bib}
 
@@ -527,9 +599,11 @@ przez gramatykę}
 
 \chapter{Modified specification} \label{ch:modified-spec}
 
+\todo{}
+
 \begin{listing}[H]
-  \inputminted[fontsize=\small]{lexers/ebnf_lexer.py:EbnfLexer -x}
-  {listings/specification.ebnf}
+  \inputminted[fontsize=\small,frame=single,breaklines,linenos]
+    {lexers/ebnf_lexer.py:EbnfLexer -x}{listings/specification.ebnf}
   \caption{Modified version of the EBNF language specification defined in
   \cite{iso-14977}}
   \label{lst:specification}

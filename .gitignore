@@ -24,6 +24,9 @@
 *.synctex(busy)
 *.lol
 *.lop
+*.pyg
 *.run.xml
 _minted*/
 *.pdf
+*.tbz
+tikz-uml.sty

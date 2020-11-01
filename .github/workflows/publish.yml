@@ -19,10 +19,12 @@ jobs:
         repository: karolbelina/wizthesis
         path: wizthesis
     - run: mv wizthesis/src/wizthesis.cls .
+    - run: make install
     - name: Build
       uses: xu-cheng/latex-action@v2
       with:
         root_file: eng.tex
+        pre_compile: "mktexlsr && updmap-sys --enable Map psfonts.map"
         post_compile: "latexmk -c"
     - name: Get current date
       uses: 1466587594/get-current-time@v1

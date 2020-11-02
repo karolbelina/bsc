@@ -402,9 +402,9 @@ type Parser a = String -> Maybe (a, String)
     editor predicts the identifier of a non-terminal a user is typing by
     providing a list of possible non-terminals, which then can be chosen by the
     user. & low \\
-    \addlinespace[0.5em] \emph{R7} & Definition folding & The editor provides
-    the ability to hide and reveal a definition in the grammar inside the editor
-    window. & low \\
+    \addlinespace[0.5em] \emph{R7} & Production rule folding & The editor
+    provides the ability to hide and reveal a production rule of the grammar
+    inside the editor window. & low \\
     \addlinespace[0.5em] \emph{R8} & Search and replace interface & The user can
     search for any occurrences of a phrase in the editor window and possibly
     replace them with a different phrase. The search and replace functionality
@@ -445,15 +445,54 @@ type Parser a = String -> Maybe (a, String)
     \addlinespace[0.5em] The project should include the documentation necessary
     for extension and maintenance of the system. & high \\
     \addlinespace[0.5em] The system should provide high degree of integrability
-    with future components extending the functionalities of the system. & high
-    \\
+    with future components which extend the functionalities of the system. &
+    high \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
 \section{User stories}
 
-\todo{}
+\begin{description}[align=left,leftmargin=4em,style=multiline]
+  \item[US1] As the user, I want to be able to paste the contents of my
+  clipboard into the editor window in the application.
+  \item[US2] As the user, I want to be able to type in the editor window with
+  my keyboard.
+  \item[US3] As the user, I want to be able to appreciate the multi-colored
+  appearance of the text that represents the syntax that I provided.
+  \item[US4] As the user, I want to be able to select a portion of the text in
+  the editor window and copy it to the clipboard using a keyboard shortcut.
+  \item[US5] As the user, I want to be able to hold the \emph{Alt} key on my
+  keyboard to create multiple cursors in the editor window.
+  \item[US6] As the user, I want to have the ability to autocomplete the
+  non-terminal I am typing that has already been declared elsewhere in the code.
+  \item[US7] As the user, I want to be able to hide any existing production
+  rules that might appear too long, to increase the degree of clarity and
+  readability of the grammar I'm working on.
+  \item[US8] As the user, I want to be able to show any previously hidden
+  production rules of the grammar.
+  \item[US9] As the user, I want to have the ability to press a certain key
+  combination on my keyboard that would allow be to type a specific phrase
+  in the popup window, which would then find all the occurrences of that phrase
+  in the editor window.
+  \item[US10] As the user, I want to be able to provide a regular expression
+  for the \emph{find} functionality that would allow me to find all occurences
+  of phrases that pattern match that specific regular expression. 
+  \item[US11] As the user, I want to be able to replace some of the occurences
+  of phrases found with the \emph{find} functionality with another phrase
+  provided in a popup window.
+  \item[US12] As the user, I want to be able to see errors in the syntax of the
+  provided grammar in the form of underlined text in the location of where the
+  errors actually occur.
+  \item[US13] As the user, I want to have the ability to hover the mouse pointer
+  over the underlined text to read the error message at that location.
+  Alternatively, I want to be able to hover over the error indicator, which
+  appears next to the line number.
+  \item[US14] As the user, I want to be able to see the parse tree of the
+  recognized input string that I provided.
+  \item[US15] As the user, I want to have the ability to collapse any nodes in
+  the visualized parse tree that might appear too long.
+\end{description}
 
 % \begin{table}[H]
 %   \centering
@@ -621,6 +660,7 @@ gdzie widok podzielony jest na komponenty a model na moduły}
 \todo{Svelte \cite{svelte-docs}}
 \todo{Rollup}
 \todo{WebAssembly}
+\todo{pakiety npm i cargo?}
 
 \todo{opis technologii}
 
@@ -771,19 +811,41 @@ przez gramatykę}
 
 \section{Source code}
 
+\todo{}
+
 \section{Web application}
+
+\todo{}
 
 \section{Desktop application}
 
+\todo{}
+
 \section{Command-line tool}
+
+\todo{}
 
 \section{Documentation}
 
-{\backmatter % Disable this chapter number
+\todo{}
+
+\chapter{User manual}
+
+\section{System requirements}
+
+\todo{}
+
+\section{Installation guide}
+
+\todo{}
+
+\section{Usage guide}
+
+\todo{}
+
 \chapter{Summary}
 
 \todo{}
-}
 
 \bibliography{bibliography.bib}
 

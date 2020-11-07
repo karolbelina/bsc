@@ -943,22 +943,133 @@ type Parser a = String -> Maybe (a, String)
 
 \subsubsection*{Visual Studio Code}
 
-\todo{konfiguracja, rozszerzenia}
+Visual Studio Code \cite{vs-code} is a free, open-source text editor made by
+Microsoft for Windows, Linux and macOS. It is designed to write code and
+features syntax highlighting, code completion, snippets, code refactoring, and
+code debugging. The editor can be used with various programming languages, and
+supports extensions, which can be installed through a central repository called
+VS Code Marketplace available in the editor itself. The extensions may provide
+feature additions to the editor, as well as the support for various programming
+languages in the form of code linters, static code analysers, and debuggers. The
+editor is integrated with various version control systems, including Git and
+Subversion
 
-\subsubsection*{Git and GitHub}
+According to the 2019 Developers Survey of Stack Overflow, Visual Studio Code
+ranked \#1 among the top popular developer tools, with $50.7\,\%$ of the 87317
+respondents using it. \cite{stack-overflow-insights-vs-code-2019}
 
-\todo{w jaki sposób używam Gita, GitHuba, jak używam branchy, issues, PR,
-projektów}
+The extensions for the editor are created by the members of Visual Studio Code
+community. Two main extensions used by the author to develop the project were:
+\begin{description}
+  \item[rust-analyzer] \cite{rust-analyzer} An implementation of the Language
+  Server Protocol for the Rust programming language, which provides features
+  such as code completion, messages for syntax and semantic errors, code
+  actions, diagnostics, ``go to definition'' and other editor actions.
+  \item[Svelte for VS Code] \cite{svelte-for-vs-code} An implementation of the
+  Language Server Protocol for the Svelte framework. The extension provides
+  diagnostic messages for warnings and errors, support for Svelte preprocessors
+  that provide source maps, as well as the support for Svelte-specific
+  formatting (via prettier-plugin-svelte). Besides the Svelte language, the
+  extension supports features such as hover info, messages for syntax and lint
+  errors, and autocompletions for HTML, CSS/SCSS/LESS, as well as TypeScript and
+  JavaScript.
+\end{description}
+The extensions has not proven to be crucial for the development of the project,
+but were an excellent addition to the workflow.
+
+Besides the editor extensions, the terminal integrated with Visual Studio Code
+editor has been a valuable feature throughout the development process. The
+command line is a substantial factor in the development of modern applications,
+so a built-in terminal window allows the user to swiftly switch between the code
+editor and the command line.
+
+The support for the Git version control system has also been advantageous when
+it comes to code editing. Every added, modified, or removed line of code is
+highlighted with an appropriate color in the code editor. This greatly improves
+the readability of the code, and allows the users to revert the code to its
+previous state right from the editor without any external tools.
+
+\subsubsection*{Git}
+
+Git \cite{git} is a free and open source distributed version control system. It
+has been a major part of the development process for the project, and has been
+used mainly as a tool for keeping track of the changes made to the source code
+and for integrating features in a smooth, non-disruptive manner.
+
+Git supports branching and merging, which means that several project features
+may be implemented simultaneously and independently on separate \emph{branches}
+and then \emph{merged} into the main project. Every major code change has been
+implemented on a designated branch and was merged into the main branch only
+after a thorough testing process --- this has made parallel development very
+easy, by isolating new development from finished work. This style of a workflow
+is known as GitFlow, made popular by Vincent Driessen \cite{git-flow}, it has
+shown itself to be very effective for projects of any scale. Efficient switching
+between different versions of project files enables developers to work
+effectively on the project. Git includes specific tools for visualizing and
+navigating a non-linear development history. The author used \cite{chacon-2014}
+as a reference for using the tool.
+
+Git is now the most widely used source-code management tool, with $87.2\,\%$ of
+the 74298 repondents of the 2018 Developers Survey of Stack Overflow reporting
+that they use Git as their primary source-control system.
+\cite{stack-overflow-insights-git-2018}.
+
+The main client of Git used in the project was the command-line tool on the
+Ubuntu operating system running on Windows Subsystem for Linux. Figure
+\ref{fig:git} shows an example of GitFlow's \emph{feature branches} and changes
+in the project repository in the Git version control system.
+
+\begin{figure}[h]
+  \centering
+  \frame{\includegraphics[width=\textwidth]{git.png}}
+  \caption{Screenshot of the command-line interface of the Git version control
+  system.}
+  \label{fig:git}
+\end{figure}
+
+\subsubsection*{GitHub}
+
+\todo{w jaki sposób używam GitHuba, jak używam branchy, issues, PR,
+projektów, akcji}
+
+GitHub is a for-profit company owned by Microsoft that offers a cloud-based Git
+repository hosting service. As a company, GitHub makes money by selling hosted
+private code repositories, as well as other business-focused plans that make it
+easier for organizations to manage team members and security. The author used
+the free GitHub plan as the service for hosting the project's Git repository.
+Having the source code on an external server protected the project against data
+loss and allowed the developer to work on the project from any device at any
+convenient time.
+
+\begin{figure}[h]
+  \centering
+  \frame{\includegraphics[width=\textwidth]{github_projects.png}}
+  \caption{Screenshot of one of the project's kanban boards on GitHub.
+  \todo{zaktualizować zrzut}}
+  \label{fig:github-projects}
+\end{figure}
+
+\subsubsection*{Rust}
+
+\todo{}
+
+\subsubsection*{WebAssembly}
+
+\todo{}
 
 \subsubsection*{Cargo}
 
 \todo{konfiguracja Cargo, Clippy}
 
-\subsubsection*{npm}
+\subsubsection*{Svelte}
 
 \todo{}
 
 \subsubsection*{Rollup}
+
+\todo{}
+
+\subsubsection*{npm}
 
 \todo{}
 

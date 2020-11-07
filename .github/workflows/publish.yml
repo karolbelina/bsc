@@ -20,6 +20,13 @@ jobs:
         path: wizthesis
     - run: mv wizthesis/src/wizthesis.cls .
     - run: make install
+    - name: Install Inkscape
+      run: |
+        sudo add-apt-repository ppa:inkscape.dev/stable
+        sudo apt update
+        sudo apt install inkscape
+    - name: Build the images
+      run: make build
     - name: Build
       uses: xu-cheng/latex-action@v2
       with:

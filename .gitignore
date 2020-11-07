@@ -30,3 +30,5 @@ _minted*/
 *.pdf
 *.tbz
 tikz-uml.sty
+*.pdf_tex
+*.vpp*

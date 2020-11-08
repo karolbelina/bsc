@@ -50,6 +50,10 @@ provided to the program with the use of parser combinators.}
   \textcolor{red}{[\textbf{TODO}\ifx&#1&{}\else{ }\fi\emph{#1}]}%
 }
 
+\newcommand{\paraphrase}[1]{#1}
+
+\newcommand{\thisproject}{Parser-parser}
+
 \begin{document}
 
 \selectlanguage{english}
@@ -958,7 +962,7 @@ Subversion
 
 According to the 2019 Developers Survey of Stack Overflow, Visual Studio Code
 ranked \#1 among the top popular developer tools, with $50.7\,\%$ of the 87317
-respondents using it. \cite{stack-overflow-insights-vs-code-2019}
+respondents using it. \cite{stack-overflow-insights-2019}
 
 The extensions for the editor are created by the members of Visual Studio Code
 community. Two main extensions used by the author to develop the project were:
@@ -969,7 +973,7 @@ community. Two main extensions used by the author to develop the project were:
   actions, diagnostics, ``go to definition'' and other editor actions.
   \item[Svelte for VS Code] \cite{svelte-for-vs-code} An implementation of the
   Language Server Protocol for the Svelte framework. The extension provides
-  diagnostic messages for warnings and errors, support for Svelte preprocessors
+  diagnostic messages for warnings and errors, support for Svelte pre-processors
   that provide source maps, as well as the support for Svelte-specific
   formatting (via prettier-plugin-svelte). Besides the Svelte language, the
   extension supports features such as hover info, messages for syntax and lint
@@ -1012,9 +1016,9 @@ navigating a non-linear development history. The author used \cite{chacon-2014}
 as a reference for using the tool.
 
 Git is now the most widely used source-code management tool, with $87.2\,\%$ of
-the 74298 repondents of the 2018 Developers Survey of Stack Overflow reporting
+the 74298 respondents of the 2018 Developers Survey of Stack Overflow reporting
 that they use Git as their primary source-control system.
-\cite{stack-overflow-insights-git-2018}.
+\cite{stack-overflow-insights-2018}.
 
 The main client of Git used in the project was the command-line tool on the
 Ubuntu operating system running on Windows Subsystem for Linux. Figure
@@ -1031,10 +1035,7 @@ in the project repository in the Git version control system.
 
 \subsubsection*{GitHub}
 
-\todo{w jaki sposób używam GitHuba, jak używam branchy, issues, PR,
-projektów, akcji}
-
-GitHub is a for-profit company owned by Microsoft that offers a cloud-based Git
+GitHub \cite{github} is a for-profit company owned by Microsoft that offers a cloud-based Git
 repository hosting service. As a company, GitHub makes money by selling hosted
 private code repositories, as well as other business-focused plans that make it
 easier for organizations to manage team members and security. The author used
@@ -1042,6 +1043,23 @@ the free GitHub plan as the service for hosting the project's Git repository.
 Having the source code on an external server protected the project against data
 loss and allowed the developer to work on the project from any device at any
 convenient time.
+
+In addition to using GitHub as a hosting service, one can also exploit its
+project management features. Developers can create project boards related to the
+project's code repository, which are simple kanban board that can help organize
+and prioritize the work. With projects, the developers have the flexibility to
+manage boards for an entire project, or just for specific features. Figure
+\ref{fig:github-projects} shows an example project board from \thisproject{}.
+
+Project boards contain \emph{issues} and \emph{pull requests}, which can be
+moved from one kanban column to another, indicating that some work is currently
+``to do'', work in progress, or complete. These work ``cards'' contain
+information about the author, assignees, the status, as well as simple textual
+notes. The \emph{issues} are a way of reporting ideas, bugs, enhancements, or
+tasks natively on GitHub. After completing the work on an issue, a developer
+might create a \emph{pull request} to allow other developers on the project to
+review and discuss the changes made to the code, and then deploy the changes by
+``pulling'' the code to the central code repository.
 
 \begin{figure}[h]
   \centering
@@ -1051,21 +1069,170 @@ convenient time.
   \label{fig:github-projects}
 \end{figure}
 
+GitHub supports Continuous integration and Continuous Delivery functionalities
+in form of \emph{Actions} and \emph{Pages}. GitHub Actions are a way to automate
+and execute any software development workflow after any change to the code in
+the repository. The user may set up many various actions for testing the changes
+on many development environments and operating systems at the same time, as well
+as building and deploying the code as a package or an arbitrary artifact. An
+action consists of jobs, which are defined by a list of steps required to
+execute them.
+
+The GitHub Actions are used by the author to automate the testing and build
+process on every change made to the code repository. The built application is
+then deployed to a static site hosting service called GitHub Pages, which
+integrates itself seamlessly with Actions and GitHub repositories. GitHub Pages
+allows the user to host a website directly from a GitHub repository by combining
+static HTML, CSS, JavaScript, and other files straight from a repository into
+a website and publishing it on a \texttt{github.io} domain or a custom one.
+
 \subsubsection*{Rust}
 
-\todo{}
+Rust \cite{rust} is the main programming language used in \thisproject{} --- it
+powers the business logic part of the project. The language has been the most
+loved language for four years in a row in the Stack Overflow's survey
+\cite{stack-overflow-insights-2019}. The core idea of the language is memory
+safety --- the language enforces certain rules checked at compile time, which
+guarantee that the program is safe from bugs like dereferencing null or dangling
+pointers, as well as making it difficult for the programmer to leak memory. Rust
+does this through a system of ownership and borrowing. The language, besides the
+safety, focuses on speed --- its design lets the developer create programs that
+have the performance and control of a low-level language, but with the powerful
+abstractions of a high-level language.
+
+Rust's design borrows heavily from the one of Haskell --- both languages feature
+a rich type system, both are immutable-by-default, avoid mutation of shared
+references et cetera. Many developers tend to write Rust code in a functional
+style and adhere to the principles of functional programming, even though the
+language is multi-paradigm.
+
+Without the need of a garbage collector, Rust projects are well-suited to be
+used as libraries by other programming languages. The language over the last few
+years has manifested itself in several distinct domains, including command line
+tools, networking, and embedded systems. Rust is supported on multiple operating
+systems and targets multiple platforms, has notable documentation, a
+user-friendly compiler with convenient error messages, and excellent tooling and
+ecosystem. For referencing the language, the author used \cite{klabnik-2018},
+which covers many features and concepts of Rust.
 
 \subsubsection*{WebAssembly}
 
-\todo{}
+WebAssembly \cite{webassembly} (abbreviated \emph{Wasm}) is a safe, portable,
+low-level code format designed for efficient execution and compact
+representation. Its main goal is to enable high performance applications on the
+Web, working alongside JavaScript, but not to be a replacement of it.
+\paraphrase{It is designed to be portable, compact, and execute at or near
+native speeds. Although it has currently gathered attention in the JavaScript
+and Web communities in general, Wasm makes no assumptions about its host
+environment.} WebAssembly is supported as a target for many programming
+languages, including C$\sharp$ via Blazor, C++ via EmScripten, and the main
+language used in \thisproject{} --- Rust. The author compiles Rust code to
+WebAssembly to be then used in a web environment for several reasons:
+\begin{itemize}
+  \item \paraphrase{Code size is incredibly important since the \texttt{.wasm}
+  file must be downloaded over the network. Rust lacks a runtime, enabling small
+  Wasm sizes because there is no extra code included, like a garbage collector},
+  \item \paraphrase{Rust and WebAssembly integrates with existing JavaScript
+  tooling. It supports ECMAScript modules and the developer can continue using
+  the tooling their already use, like npm and Webpack},
+  \item \paraphrase{JavaScript Web applications struggle to attain and retain
+  reliable performance.} The code is required to be ran frequently, so Wasm can
+  solve this kind of problem \paraphrase{with better memory and CPU efficiency
+  at a lower level compared to the JavaScript interpreter}.
+  \item The Rust language itself, with a strong package manager, high
+  performance, memory safety, and zero-cost abstractions.
+\end{itemize}
 
 \subsubsection*{Cargo}
 
-\todo{konfiguracja Cargo, Clippy}
+
+Cargo is the Rust's package manager. \paraphrase{It downloads the Rust package's
+dependencies and compiles them, ensuring that the developer will always get a
+repeatable build. To accomplish this goal, Cargo introduces two metadata files
+with various bits of package information, fetches and builds the dependencies,
+invokes the Rust compiler with correct parameters to build the package, and
+introduces conventions to make working with Rust packages easier.}
+
+Rust provides first-class support for unit and integration testing, and Cargo
+allows the developer to execute all tests with a single command. Additionally,
+Cargo allows the developer to install extensions, which enhance the workflow and
+the development process. One of extensions useful for the author was Clippy ---
+a collection of lints to catch common mistakes and improve the Rust code.
+
+\texttt{crates.io} \paraphrase{is the Rust community's central package registry
+that serves as a location to discover and download packages. Cargo is configured
+to use it by default to find requested packages.} The project uses several
+dependencies, the most important of which include:
+\begin{description}
+  \item[nom] \cite{nom} \paraphrase{A parser combinators library for Rust. Its
+  goal is to provide tools to build safe parsers without compromising the speed
+  or memory consumption. To that end, it uses extensively Rust's strong typing
+  and memory safety to produce fast and correct parsers, and provides functions,
+  macros and traits to abstract most of the error prone details.
+  
+  While programming language parsers are usually written manually for more
+  flexibility and performance, nom can be (and has been successfully) used as a
+  prototyping parser for a language. The resulting code is small, and looks like
+  the grammar the developer would have written with other parser approaches. The
+  resulting parsers are small and easy to write, as well as easy to test
+  separately.} \todo{\cite{couprie-2015}}
+  \item[unicode-segmentation] \cite{unicode-segmentation} A library with a set
+  of iterators which split strings on \emph{grapheme clusters}, \emph{words} or
+  \emph{sentence boundaries}, according to the Unicode Standard Annex \#29
+  \cite{unicode-standard-annex-29} rules.
+  \item[wasm-bindgen] \cite{wasm-bindgen} \paraphrase{A Rust library and CLI
+  tool that facilitate high-level interactions between Wasm modules and
+  JavaScript. More specifically, this library allows JavaScript and Wasm to
+  communicate with strings, JS objects, classes, etc, as opposed to purely
+  integers and floats. Notable features of this project include:
+  \begin{itemize}
+    \item Importing JS functionality into Rust such as DOM manipulation, console
+    logging, or performance monitoring.
+    \item Working with rich types like strings, numbers, classes, closures, and
+    objects.
+    \item Automatically generating TypeScript bindings for Rust code being
+    consumed by JS.
+  \end{itemize}
+  Wasm-bindgen only generates bindings and glue for the JavaScript imports that
+  are actually being used and Rust functionality that is being exported.}
+\end{description}
+All of the above dependencies are available under the MIT license.
 
 \subsubsection*{Svelte}
 
-\todo{}
+Svelte \cite{svelte} is a free and open-source front end JavaScript framework.
+Svelte has its own compiler for converting app code into client-side JavaScript
+at build time. \paraphrase{The developer writes the components using HTML, CSS
+and JavaScript and during the build process Svelte compiles them into small
+standalone JavaScript modules. While frameworks like React and Vue do the bulk
+of their work in the user's browser while the app is running, Svelte shifts that
+work into a compile step that happens only when the developer builds their app,
+producing highly-optimized vanilla JavaScript. By statically analysing the
+component template, the compiler can make sure that the browser does as little
+work as possible. The outcome of this approach is not only smaller application
+bundles and better performance, but also a developer experience that is more
+approachable for people that have limited experience of the modern tooling
+ecosystem. Svelte is particularly appropriate to tackle the following
+situations:
+\begin{itemize}
+  \item Web applications intended for low power devices: Applications built with
+  Svelte have smaller bundle sizes, which is ideal for devices with slow network
+  connections and limited processing power. Less code means less KB to download,
+  parse, execute, and keep hanging around in memory.
+  \item Highly interactive pages or complex visualizations: If you are building
+  data-visualizations that need to display a large number of DOM elements, the
+  performance gains that come from a framework with no runtime overhead will
+  ensure that user interactions are snappy and responsive.
+  \item Onboarding people with basic web development knowledge: Svelte has a
+  shallow learning curve. Web developers with basic HTML, CSS, and JavaScript
+  knowledge can easily grasp Svelte specifics in a short time and start building
+  web applications.
+\end{itemize}
+
+Being a compiler, Svelte can extend HTML, CSS, and JavaScript, generating
+optimal JavaScript code without any runtime overhead. To achieve this, Svelte
+extends vanilla web technologies and only intervenes in very specific situations
+and only in the context of Svelte components.}
 
 \subsubsection*{Rollup}
 

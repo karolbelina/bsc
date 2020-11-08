@@ -68,11 +68,15 @@
     "cSpell.words": [
         "ANTLR",
         "Backusa",
+        "Blazor",
+        "Clippy",
+        "Driessen",
         "EBNF",
         "Eval",
         "Naur",
         "Naura",
         "Rollup",
+        "Scripten",
         "analysers",
         "autocompletions",
         "bezkontekstowych",
@@ -80,6 +84,7 @@
         "combinators",
         "inkscape",
         "pushdown",
+        "wasm",
         "wieloplatformowej",
         "xltabular"
     ]

@@ -19,7 +19,6 @@ jobs:
         repository: karolbelina/wizthesis
         path: wizthesis
     - run: mv wizthesis/src/wizthesis.cls .
-    - run: make install
     - name: Install Inkscape
       run: |
         sudo add-apt-repository ppa:inkscape.dev/stable

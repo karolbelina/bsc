@@ -553,27 +553,28 @@ type Parser a = String -> Maybe (a, String)
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.9\textwidth}{!}{%
-    \begin{tikzpicture}
-      \tikzumlset{fill usecase=white}
-      \begin{umlsystem}{System}
-        \umlusecase[x=2,y=3,width=2cm]{Specifying the grammar}
-        \umlusecase[x=-2,y=3,width=2cm]{Specifying the input string}
-        \umlusecase[x=-2,y=0,width=2cm]{Interacting with the visualization}
-        \umlusecase[x=2,y=0,width=2.5cm]{Changing the initial rule}
-      \end{umlsystem}
+  % \resizebox{0.9\textwidth}{!}{%
+  %   \begin{tikzpicture}
+  %     \tikzumlset{fill usecase=white}
+  %     \begin{umlsystem}{System}
+  %       \umlusecase[x=2,y=3,width=2cm]{Specifying the grammar}
+  %       \umlusecase[x=-2,y=3,width=2cm]{Specifying the input string}
+  %       \umlusecase[x=-2,y=0,width=2cm]{Interacting with the visualization}
+  %       \umlusecase[x=2,y=0,width=2.5cm]{Changing the initial rule}
+  %     \end{umlsystem}
 
-      \umlactor[x=-6,y=0]{User}
+  %     \umlactor[x=-6,y=0]{User}
 
-      \umlassoc{User}{usecase-1}
-      \umlassoc{User}{usecase-2}
-      \umlassoc{User}{usecase-3}
-      \umlextend[name=incl]{usecase-1}{usecase-4}
+  %     \umlassoc{User}{usecase-1}
+  %     \umlassoc{User}{usecase-2}
+  %     \umlassoc{User}{usecase-3}
+  %     \umlextend[name=incl]{usecase-1}{usecase-4}
 
-      \umlnote[x=8,fill=white,width=4.5cm]{incl-1}{\emph{condition:} \{user specified at least one production rule\}\\
-      \emph{extension point:} Initial rule specification}
-    \end{tikzpicture}
-  }
+  %     \umlnote[x=8,fill=white,width=4.5cm]{incl-1}{\emph{condition:} \{user specified at least one production rule\}\\
+  %     \emph{extension point:} Initial rule specification}
+  %   \end{tikzpicture}
+  % }
+  \todo{redo this in visual paradigm}
   \caption{The use case diagram}
   \label{fig:use-case-diagram}
 \end{figure}
@@ -860,31 +861,32 @@ type Parser a = String -> Maybe (a, String)
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}
-    \begin{umlseqdiag}
-      \tikzumlset{fill object=white,fill call=white,fill fragment=white}
-      \umlactor[no ddots]{User}
-      \umlobject[no ddots]{Front-end}
-      \umlobject[no ddots]{Business logic}
-      \begin{umlfragment}[type=loop,label=until valid]
-        \begin{umlcall}[op=specify the grammar,type=synchron,dt=7]{User}{Front-end}
-          \begin{umlcall}[op=\texttt{parse(input)},type=synchron,return=\texttt{Result<AST,Error>},padding=3]{Front-end}{Business logic}
-          \end{umlcall}
-          \begin{umlfragment}[type=alt,label=valid,inner xsep=5]
-            \begin{umlcallself}[op=display the icon,type=synchron,fill=white]{Front-end}
-            \end{umlcallself}
-            \begin{umlcall}[type=return,op=ok,dt=-2]{Front-end}{User}
-            \end{umlcall}
-            \umlfpart[invalid]
-            \begin{umlcallself}[op=display the errors,type=synchron,fill=white]{Front-end}
-            \end{umlcallself}
-            \begin{umlcall}[type=return,op=error,dt=-5,padding=-1]{Front-end}{User}
-            \end{umlcall}
-          \end{umlfragment}
-        \end{umlcall}
-      \end{umlfragment}
-    \end{umlseqdiag}
-  \end{tikzpicture}
+  % \begin{tikzpicture}
+  %   \begin{umlseqdiag}
+  %     \tikzumlset{fill object=white,fill call=white,fill fragment=white}
+  %     \umlactor[no ddots]{User}
+  %     \umlobject[no ddots]{Front-end}
+  %     \umlobject[no ddots]{Business logic}
+  %     \begin{umlfragment}[type=loop,label=until valid]
+  %       \begin{umlcall}[op=specify the grammar,type=synchron,dt=7]{User}{Front-end}
+  %         \begin{umlcall}[op=\texttt{parse(input)},type=synchron,return=\texttt{Result<AST,Error>},padding=3]{Front-end}{Business logic}
+  %         \end{umlcall}
+  %         \begin{umlfragment}[type=alt,label=valid,inner xsep=5]
+  %           \begin{umlcallself}[op=display the icon,type=synchron,fill=white]{Front-end}
+  %           \end{umlcallself}
+  %           \begin{umlcall}[type=return,op=ok,dt=-2]{Front-end}{User}
+  %           \end{umlcall}
+  %           \umlfpart[invalid]
+  %           \begin{umlcallself}[op=display the errors,type=synchron,fill=white]{Front-end}
+  %           \end{umlcallself}
+  %           \begin{umlcall}[type=return,op=error,dt=-5,padding=-1]{Front-end}{User}
+  %           \end{umlcall}
+  %         \end{umlfragment}
+  %       \end{umlcall}
+  %     \end{umlfragment}
+  %   \end{umlseqdiag}
+  % \end{tikzpicture}
+  \todo{redo this in visual paradigm}
   \caption{The sequence diagram of \emph{UC1} Specifying the grammar}
   \label{fig:uc1-sequence-diagram}
 \end{figure}

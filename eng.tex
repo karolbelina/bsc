@@ -330,11 +330,46 @@ state with the use of a stack. \todo{jak w stosie wygląda pamięć}
 
 \todo{}
 
-\section{Modifying the specification}
+\section{Modifying the specification} \label{sec:modified-specification}
 
 \todo{analiza i zmodyfikowanie oficjalnej specyfikacji EBNF}
 
 See appendix \ref{ch:modified-spec}.
+
+\section{Lexical analysis} \label{sec:lexing}
+
+\begin{longtable}[c]{@{}ll@{}}
+  \caption{\todo{}}
+  \label{tab:tokens}\\
+  \toprule
+  Token name & Normal representation \\* \midrule
+  \endfirsthead
+  %
+  \endhead
+  %
+  \endfoot
+  %
+  \endlastfoot
+  %
+  Non-terminal & \todo{} \\
+  Terminal & \todo{} surrounded by either ``\texttt{'}''s or ``\texttt{"}''s \\
+  Special & \todo{} \\
+  Integer & \todo{} \\
+  Concatenation & ``\texttt{,}'' \\
+  Definition & ``\texttt{=}'' \\
+  Definition separator & ``\texttt{|}'', ``\texttt{/}'', or ``\texttt{!}'' \\
+  End group & ``\texttt{)}'' \\
+  End option & ``\texttt{]}'' or ``\texttt{/)}'' \\
+  End repeat & ``\texttt{\}}'' or ``\texttt{:)}'' \\
+  Exception & ``\texttt{-}'' \\
+  Repetition & ``\texttt{*}'' \\
+  Start group & ``\texttt{(}'' \\
+  Start option & ``\texttt{[}'' or ``\texttt{(/}'' \\
+  Start repeat & ``\texttt{\{}'' or ``\texttt{(:}'' \\
+  Terminator & ``\texttt{;}'' \\* \bottomrule
+\end{longtable}
+
+\todo{}
 
 \section{Methods of syntactic analysis} \label{sec:parsing}
 
@@ -1347,14 +1382,77 @@ which can be divided into several categories:
 
 \section{Business logic}
 
-\subsection{Grammar definition}
+\subsection{Domain modelling}
 
-% \begin{listing}[H]
-%   \inputminted[fontsize=\small]{haskell}
-%   {listings/ast.hs}
-%   \caption{\todo{podpis}}
-%   \label{lst:ast}
-% \end{listing}
+\paraphrase{Domain Modeling is a way to describe and model entities and the
+relationships between them, which collectively describe the problem domain
+space. Types can be used to represent the domain in a fine-grained way. In many
+cases, types can even be used to encode business rules so that the developer
+cannot create incorrect code. Static type checking can be used as an instant
+unit test --- making sure that the code is correct at compile time. Types are
+the laws that dictate what is allowed to happen in the domain, and could be used
+to prevent anyone else from putting the system in a state invalid to the domain.
+Making illegal states unrepresentable is all about statically proving that all
+runtime values correspond to valid objects in the business domain, and that
+makes the code much easier to reason about --- that gives the developer
+confidence that the business rules are being respected.}
+
+\paraphrase{If the logic is represented by types, it is automatically
+self-documenting, and any changes to the business rules will immediately create
+breaking changes, which is a generally a welcome feature. This way the developer
+can encode business requirements and create a compiler-enforced documentation in
+the development process.}
+
+Using algebraic data types is a powerful technique for designing with types and
+making illegal states unrepresentable. Constructs such as sum types and product
+types provide us with an expressive method of modelling the business rules.
+This method also allows the developer to utilize property-based testing ---
+letting the computer generate test cases.
+
+For modelling the domain, the author will use the Haskell programming language,
+with its expressive data types and highly reusable abstractions, as well as a
+concise syntax. However, modelling based on algebraic data types is also
+practical for other languages with complex enough type systems --- Rust, used as
+the main language in \thisproject{}, is one example of such a language.
+
+\subsubsection*{Token type definition}
+
+The tokenization process, described in section \ref{sec:lexing}, converts a
+stream of characters into a stream of tokens. A set of valid tokens can be
+represented as a sum type of all individual token types, shown in listing
+\ref{lst:token}. Several type constructors carry additional information about
+the token:
+\begin{description}
+  \item[\texttt{Nonterminal}] is specified by the textual form of the
+  meta-identifier represented by the \texttt{String} type,
+  \item[\texttt{Terminal}] is specified by the contents of the terminal in the
+  form of a \texttt{String},
+  \item[\texttt{Special}] carries with it exact contents of the special
+  sequence specified in the grammar, to be processed further,
+  \item[\texttt{Integer}] is specified by an actual numeric value encoded as
+  Haskell's \texttt{Integer} type.
+\end{description}
+
+\begin{listing}[H]
+  \centering
+  \begin{minipage}{0.5\textwidth}%
+    \inputminted[fontsize=\small,frame=lines,breaklines,linenos]{haskell}
+    {listings/token.hs}
+    \caption{Definition of the \texttt{Token} type in Haskell}
+    \label{lst:token}
+  \end{minipage}
+\end{listing}
+
+\todo{}
+
+\subsubsection*{Grammar type definition}
+
+\begin{listing}[H]
+  \inputminted[fontsize=\small,frame=lines,breaklines,linenos]{haskell}
+  {listings/ast.hs}
+  \caption{\todo{podpis}}
+  \label{lst:ast}
+\end{listing}
 
 \todo{opis}
 
@@ -1421,11 +1519,11 @@ przez gramatykę}
 
 \todo{cargo test}
 
-\subsection{Integration testing}
+\subsection{Property-based testing}
 
 \todo{}
 
-\section{UI testing}
+\section{Integration testing}
 
 \todo{Jest}
 
@@ -1508,7 +1606,7 @@ przez gramatykę}
 \todo{}
 
 \begin{listing}[H]
-  \inputminted[fontsize=\small,frame=single,breaklines,linenos]
+  \inputminted[fontsize=\small,frame=lines,breaklines,linenos]
     {lexers/ebnf_lexer.py:EbnfLexer -x}{listings/specification.ebnf}
   \caption{Modified version of the EBNF language specification defined in
   \cite{iso-14977}}

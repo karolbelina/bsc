@@ -1235,11 +1235,115 @@ and only in the context of Svelte components.}
 
 \subsubsection*{Rollup}
 
-\todo{}
+\paraphrase{Rollup \cite{rollup} is a module bundler for JavaScript which
+compiles small pieces of code into a complex library or application. It uses the
+standardized ES module format for code, which lets the developer freely and
+seamlessly combine individual functions and external libraries. Rollup can
+optimize ES modules for faster native loading in modern browsers, or output a
+legacy module format.
+
+By dividing the project into smaller separate pieces, the development process is
+often times more straightforward, since that usually removes unexpected
+interactions and dramatically reduces the complexity of the problems the
+developer needs to solve, and simply writing smaller projects in the first place
+isn't necessarily the answer. Unfortunately, JavaScript has not historically
+included this capability as a core feature in the language. This finally changed
+with the ES6 revision of JavaScript, which includes a syntax for importing and
+exporting functions and data so they can be shared between separate scripts. The
+specification is now fixed, but it is only implemented in modern browsers.
+Rollup allows the user to write code using the new module system, and will then
+compile it back down to existing supported formats such as CommonJS modules, AMD
+modules, and IIFE-style scripts. This means that the developer gets to write
+future-proof code.
+
+In addition to enabling the use of ES modules, Rollup also statically analyzes
+the imported code, and will exclude anything that isn't actually used. This
+allows the user to build on top of existing tools and modules without adding
+extra dependencies or bloating the size of the project. Because Rollup includes
+the bare minimum, it results in lighter, faster, and less complicated libraries
+and applications. Since this approach can utilise explicit \texttt{import} and
+\texttt{export} statements, it is more effective than simply running an
+automated \emph{minifier} to detect unused variables in the compiled output
+code.}
 
 \subsubsection*{npm}
 
-\todo{}
+\paraphrase{Node Package Manager is a package manager for the JavaScript
+programming language. It consists of a command line client, also called npm, and
+an online database of public and paid-for private packages, called the npm
+registry. The registry is accessed via the client, and the available packages
+can be browsed and searched via the npm website.}
+
+Npm provides several built-in scripts and allows users to define their own.
+\paraphrase{An npm script is a convenient way to bundle common shell commands
+for the project. They are typically commands, or a string of commands, which
+would normally be entered at the command line in order to do something with the
+application. Scripts are stored in a project's configuration file, which means
+they're shared amongst everyone using the codebase. They help automate
+repetitive tasks, and mean having to learn fewer tools. Scripts also ensure that
+everyone is using the same command with the same flags. Common use cases for npm
+scripts include building the project, starting a development server, compiling
+CSS, linting, or minifying.}
+
+The project is dependent on several npm packages:
+\begin{description}
+  \item[CodeMirror] \cite{codemirror} \paraphrase{A versatile text editor
+  implemented in JavaScript for the browser. It is specialized for editing code,
+  and comes with a number of language modes and addons that implement more
+  advanced editing functionality. A rich programming API and a CSS theming
+  system are available for customizing CodeMirror to fit the needs, as well as
+  extending it with new functionality. It is the editor used in the dev tools
+  for Firefox, Chrome, and Safari, in Light Table, Adobe Brackets, Bitbucket,
+  and many other projects.}
+
+  CodeMirror supports a wide variety of configurations --- the basic version of
+  the editor without any addons provides the support for over 100 languages,
+  autocompletion, code folding, configurable keybindings, search and replace
+  interface, bracket and tag matching, support for split view, linter
+  integration, various themes, and many more.
+\end{description}
+The configuration file also lists dependencies for the development process,
+which can be divided into several categories:
+\begin{itemize}
+  \item Rollup and its plugins
+  \begin{itemize}[noitemsep,nolistsep]
+    \item \texttt{rollup},
+    \item \texttt{@rollup/plugin-alias},
+    \item \texttt{@rollup/plugin-commonjs},
+    \item \texttt{@rollup/plugin-node-resolve},
+    \item \texttt{@rollup/plugin-typescript},
+    \item \texttt{@wasm-tool/rollup-plugin-rust},
+    \item \texttt{rollup-plugin-copy},
+    \item \texttt{rollup-plugin-css-only},
+    \item \texttt{rollup-plugin-livereload},
+    \item \texttt{rollup-plugin-svelte},
+    \item \texttt{rollup-plugin-terser}
+  \end{itemize}
+  \item Svelte and its plugins
+  \begin{itemize}[noitemsep,nolistsep]
+    \item \texttt{svelte},
+    \item \texttt{svelte-check},
+    \item \texttt{svelte-jester},
+    \item \texttt{svelte-loader},
+    \item \texttt{svelte-preprocess}
+  \end{itemize}
+  \item Dependencies required for UI testing
+  \begin{itemize}[noitemsep,nolistsep]
+    \item \texttt{@babel/core},
+    \item \texttt{@babel/preset-env},
+    \item \texttt{babel-jest},
+    \item \texttt{jest},
+    \item \texttt{jest-transform-svelte}
+  \end{itemize}
+  \item Miscellaneous dependencies
+  \begin{itemize}[noitemsep,nolistsep]
+    \item \texttt{gh-pages},
+    \item \texttt{prettier},
+    \item \texttt{prettier-plugin-svelte},
+    \item \texttt{rimraf},
+    \item \texttt{sirv-cli}
+  \end{itemize}
+\end{itemize}
 
 \section{Business logic}
 

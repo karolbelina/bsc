@@ -12,7 +12,7 @@
 \usepackage{booktabs}
 \usepackage{xltabular}
 \usepackage{array} % \raggedright, \arraybackslash
-\usepackage[polish,english]{babel}
+\usepackage[polish,english,main=english]{babel}
 % Please load this as the very last package for footnotes to link correctly
 \usepackage{hyperref} % Hyperlinks
 
@@ -54,8 +54,6 @@ provided to the program with the use of parser combinators.}
 \newcommand{\thisproject}{Parser-parser}
 
 \begin{document}
-
-\selectlanguage{english}
 
 \frontmatter % Disable page and chapter numbering for this section
 
@@ -423,7 +421,111 @@ type Parser a = String -> Maybe (a, String)
 
 \section*{Regex101}
 
-\todo{\cite{regex101}}
+paraphrase{Regex101 \cite{regex101} is an interactive console that lets the user
+debug regular expressions in real-time. Users can build their expressions and
+see how it affects a live data set all in one screen at the same time. The tool
+was created by Firas Dib, with contributions from many other developers. It is
+said to be the largest regex testing service in the world.
+
+\begin{figure}[ht]
+  \centering
+  \frame{\includegraphics[width=\textwidth]{regex101_matching.png}}
+  \caption{Screenshot of the Regex101's matching functionality. The user
+  provided the ``\texttt{\textbackslash{}s\textbackslash{}s+}'' regular
+  expression, which matched every occurrence of two or more consecutive space
+  characters in the test string.}
+  \label{fig:regex101-matching}
+\end{figure}
+
+The tool is available to users in the form of a web application and can be
+accessed from \url{https://regex101.com/}. It lets users build expressions fast
+and debug them along the way, for example by pasting in a set of data and then,
+through trial and error, building an expression with desired behavior.
+Figure~\ref{fig:regex101-matching} shows a typical usage of Regex101 ---
+matching a pasted test string to a regular expression. The tool makes it clear
+if data is matching the expression or not, it even notifies users when the
+expression is broken, and gives some explanation of why it is not working, as
+seen in figure \ref{fig:regex101-error}.
+
+\begin{figure}[ht]
+  \centering
+  \frame{\includegraphics[width=\textwidth]{regex101_error.png}}
+  \caption{Screenshot of a basic error in the regular expression reported by
+  Regex101.}
+  \label{fig:regex101-error}
+\end{figure}
+
+These two feedback mechanisms are really helpful if the user is not accustomed
+with the regular expression language, or just does not know how to build the
+right expression yet. Being able to trace each step of the expression is a true
+lifesaver when users are not able to figure out why something is not working, or
+even if they are simply interested in learning more about regular expressions.
+Getting this instant feedback without Regex101 would have required users to
+write their expressions in a text editor and then run the code separately,
+without getting much feedback about why it is or isn’t working. Regex101.com
+eliminates this mystery.
+
+Not only does Regex101.com make it easy to build expressions, find errors, and
+even learn the syntax, it makes looking up a token or character in regular
+expressions very easy. Always present, unless users minimize it, the ``Quick
+Reference'' tool lets them look up any token or character they need.
+
+Finally, Regex101 lets users switch which ``flavor'' or version of regular
+expressions they wish to use, as they might need to integrate a regular
+expression expression into any number of other programming languages such as
+Python, JavaScript, Golang, etc. Regex101 has the ability to change the version
+of the testing environment and will generate the code in that language for the
+user to use in other projects.}
+
+\todo{porównać ze swoją aplikacją}
+
+\section*{Pest}
+
+Pest \cite{pest} is a general purpose parser for the Rust programming language.
+It uses its own dialect of \emph{parsing expression grammars} as input,
+similarly to \thisproject{}. Pest addresses the problem of hand-written parsers
+in Rust, which in some circumstances can become hard to maintain by their
+developers. Writing a specialized, domain-specific parser for a language can
+become tedious, so developers usually gravitate towards using a
+grammar-generated parser. This allows the developers to focus on the definition
+of the language, rather than on the implementation of the parser.
+\paraphrase{Grammars which define the language offer better correctness
+guarantees, and issues can be solved declaratively in the grammar itself. Rust's
+memory safety further limits the amount of damage bugs can do. High-level static
+analysis and careful low-level implementation build a solid foundation on which
+serious performance tuning is possible.}
+
+Developers of Pest, in spite of focusing mainly on the functionalities in the
+Rust programming language, also provide an online editor available from the
+browser on the Pest's homepage (\url{https://pest.rs/#editor}). The online
+editor allows potential future users of Pest to experience the syntactic
+characteristics of the Pest's dialect of PEGs and its error reporting
+capabilities. The editor will inform the user about any syntactic errors, as
+well as errors of semantic nature, such as undefined or left-recursive
+production rules (seen in figure \ref{fig:pest-error}).
+
+\begin{figure}[ht]
+  \centering
+  \frame{\includegraphics[width=\textwidth]{pest_error.png}}
+  \caption{Screenshot of Pest's online editor example error report.}
+  \label{fig:pest-error}
+\end{figure}
+
+Pest parser the grammar and provides a window, which acts as an input console,
+where users can type string that may or may not be parsed by the parser
+generated by Pest. Additionally, users can choose the initial production rule
+from a dropdown menu. The output window presents the parse tree, or the errors
+encountered in the input string in case there are any. These features can be
+seen in figure \ref{fig:pest-output}.
+
+\begin{figure}[ht]
+  \centering
+  \frame{\includegraphics[width=\textwidth]{pest_output.png}}
+  \caption{Screenshot of the input and output windows in Pest's online editor.}
+  \label{fig:pest-output}
+\end{figure}
+
+\todo{porównać ze swoją aplikacją}
 
 \chapter{Design of the project}
 
@@ -946,7 +1048,7 @@ type Parser a = String -> Maybe (a, String)
 \begin{figure}[H]
   \centering
   \resizebox{\textwidth}{!}{\footnotesize\input{images/physical_architecture.pdf_tex}}
-  \label{fig:logical-architecture}
+  \label{fig:physical-architecture}
   \caption{The physical architecture of the system represented with a UML
   deployment diagram}
 \end{figure}
@@ -965,21 +1067,7 @@ type Parser a = String -> Maybe (a, String)
 
 \section{Software environment}
 
-\subsection{Technology infrastructure}
-
-\todo{użyte technologie i zwizualizowany stack}
-
-\todo{Git}
-\todo{Rust \cite{klabnik-2018}}
-\todo{nom \cite{couprie-2015}}
-\todo{Svelte \cite{svelte-docs}}
-\todo{Rollup}
-\todo{WebAssembly}
-\todo{pakiety npm i cargo?}
-
-\todo{opis technologii}
-
-\subsection{Software}
+\subsection{Used technologies}
 
 \subsubsection*{Visual Studio Code}
 
@@ -1251,12 +1339,11 @@ situations:
 \begin{itemize}
   \item Web applications intended for low power devices: Applications built with
   Svelte have smaller bundle sizes, which is ideal for devices with slow network
-  connections and limited processing power. Less code means less KB to download,
-  parse, execute, and keep hanging around in memory.
-  \item Highly interactive pages or complex visualizations: If you are building
-  data-visualizations that need to display a large number of DOM elements, the
-  performance gains that come from a framework with no runtime overhead will
-  ensure that user interactions are snappy and responsive.
+  connections and limited processing power.
+  \item Highly interactive pages or complex visualizations: If the user is
+  building data-visualizations that need to display a large number of DOM
+  elements, the performance gains that come from a framework with no runtime
+  overhead will ensure that user interactions are responsive.
   \item Onboarding people with basic web development knowledge: Svelte has a
   shallow learning curve. Web developers with basic HTML, CSS, and JavaScript
   knowledge can easily grasp Svelte specifics in a short time and start building
@@ -1380,6 +1467,14 @@ which can be divided into several categories:
   \end{itemize}
 \end{itemize}
 
+\subsection{Technology infrastructure}
+
+\todo{użyte technologie i zwizualizowany stack}
+
+\subsection{Project structure}
+
+
+
 \section{Business logic}
 
 \subsection{Domain modelling}
@@ -1443,7 +1538,32 @@ the token:
   \end{minipage}
 \end{listing}
 
-\todo{}
+% \todo{}
+
+% test
+
+% \begin{minted}[fontsize=\small]{text}
+% integer = "0" | [ "-" ], natural number;
+% \end{minted}
+
+% \begin{listing}[H]
+%   \centering
+%   \begin{minipage}{0.5\textwidth}%
+%     \begin{minted}[fontsize=\small]{haskell}
+% [ Nonterminal "integer"
+% , Definition
+% , Terminal "0"
+% , DefinitionSeparator
+% , StartOption
+% , Terminal "-"
+% , EndOption
+% , Concatenation
+% , Nonterminal "naturalnumber"
+% , Terminator
+% ]
+%     \end{minted}
+%   \end{minipage}
+% \end{listing}
 
 \subsubsection*{Grammar type definition}
 

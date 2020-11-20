@@ -9,6 +9,7 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{wrapfig}
 \usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
 \usepackage{booktabs}
 \usepackage{xltabular}
 \usepackage{array} % \raggedright, \arraybackslash
@@ -1048,7 +1049,7 @@ graphical representations of use case scenarios defined in subsection
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/uc1_activity_diagram.pdf_tex}}
+  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/uc2_activity_diagram.pdf_tex}}
   \caption{The activity diagram of \emph{UC2} Specifying the input string.}
   \label{fig:uc2-activity-diagram}
 \end{figure}
@@ -1679,7 +1680,89 @@ the token:
 
 \subsection{Lexical analyser}
 
-\todo{krótko o ``algorytmie'' tokenizacji}
+% What you're describing here is implementing a generated scanner by hand.
+% That's not how you do it. Just write a loop containing a large switch
+% statement whose cases are the initial letters of each token type, and each
+% case is a loop to consume the rest of the token and return its type. The
+% whitespace case is identical except that it doesn't return. The case for
+% identifiers also needs to lookup a keyword table.
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}
+    \tikzset{
+      ->, % makes the edges directed
+      node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+      every state/.style={thick, fill=white}, % sets the properties for each ’state’ node
+      initial text=$ $, % sets the text that appears on the start arrow
+    }
+
+    \node[state, initial] (1) {$1$};
+    \node[state, above of=1, accepting] (2) {$2$};
+    \node[state, above left of=2] (3) {$3$};
+    \node[state, above left of=1] (5) {$5$};
+    \node[state, left of=3] (4) {$4$};
+    \node[state, above of=2, accepting] (6) {$6$};
+    \node[state, above right of=2, accepting] (7) {$7$};
+    \node[state, above right of=6] (8) {$8$};
+    \node[state, right of=2] (9) {$9$};
+    \node[state, right of=9] (10) {$10$};
+    \node[state, above right of=9] (11) {$11$};
+    \node[state, above right of=10] (12) {$12$};
+    \node[state, above of=12, accepting] (13) {$13$};
+    \node[state, below of=10] (14) {$14$};
+    \node[state, above right of=14, accepting] (15) {$15$};
+    \node[state, below left of=1, accepting] (18) {$18$};
+    \node[state, below of=14, accepting] (19) {$19$};
+    \node[state, above right of=19, accepting] (20) {$20$};
+    \node[state, below of=19, accepting] (21) {$21$};
+    \node[state, above right of=21] (22) {$22$};
+    \node[state, left of=21, accepting] (16) {$16$};
+    \node[state, below right of=18, accepting] (17) {$17$};
+
+    \draw (1) edge[right] node{\texttt{(}} (2)
+          (2) edge[right] node{\texttt{*}} (3)
+          (3) edge[above] node{$\Sigma - \{\texttt{)}\}$} (4)
+          (4) edge[loop above] node{$\Sigma - \{\texttt{*}\}$} (4)
+          (4) edge[left, bend right] node{\texttt{*}} (5)
+          (5) edge[right, bend right] node{$\Sigma - \{\texttt{)}\}$} (4)
+          (5) edge[above] node{\texttt{)}} (1)
+          
+          (2) edge[right] node{\texttt{/}} (6)
+          (2) edge[above] node{\texttt{:}} (7)
+          (6) edge[above] node{\texttt{)}} (8)
+          (7) edge[right] node{\texttt{)}} (8)
+          
+          (1) edge[above] node{\texttt{"}} (9)
+          (1) edge[above, bend right=14] node{\texttt{'}} (10)
+          (9) edge[left] node{$\Sigma - \{\texttt{"}\}$} (11)
+          (10) edge[left] node{$\Sigma - \{\texttt{'}\}$} (12)
+          (11) edge[loop above] node{$\Sigma - \{\texttt{"}\}$} (11)
+          (12) edge[loop below] node{$\Sigma - \{\texttt{'}\}$} (12)
+          (11) edge[above] node{\texttt{"}} (13)
+          (12) edge[right] node{\texttt{'}} (13)
+          
+          (1) edge[right, bend right=14] node{\texttt{?}} (14)
+          (14) edge[loop below] node{$\Sigma - \{\texttt{?}\}$} (14)
+          (14) edge[above] node{\texttt{?}} (15)
+          
+          (1) edge[right] node{$D$} (16)
+          (16) edge[loop left] node{$D \cup W$} (16)
+          
+          (1) edge[right] node{$A$} (17)
+          (17) edge[loop left] node{$A \cup N \cup W$} (17)
+          
+          (1) edge[left] node{\texttt{\{}, \texttt{\}}, \texttt{[}, \texttt{]}, \texttt{)}, \texttt{,}, \texttt{;}, \texttt{=}, \texttt{-}, \texttt{*}, \texttt{|}, \texttt{!}} (18)
+          (1) edge[above] node{\texttt{/}} (19)
+          (19) edge[right] node{\texttt{)}} (20)
+          (1) edge[above] node{\texttt{:}} (21)
+          (21) edge[right] node{\texttt{)}} (22);
+  \end{tikzpicture}
+  }
+  \caption{\todo{}}
+  \label{fig:lexer-dfa}
+\end{figure}
 
 \subsection{Syntactic analyser}
 

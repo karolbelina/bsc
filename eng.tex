@@ -1056,7 +1056,7 @@ graphical representations of use case scenarios defined in subsection
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/uc1_activity_diagram.pdf_tex}}
+  \todo{}
   \caption{The activity diagram of \emph{UC3} Interacting with the
   \label{fig:uc3-activity-diagram}
   visualization.}
@@ -1064,7 +1064,7 @@ graphical representations of use case scenarios defined in subsection
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/uc1_activity_diagram.pdf_tex}}
+  \resizebox{\textwidth}{!}{\footnotesize\input{images/uc4_activity_diagram.pdf_tex}}
   \caption{The activity diagram of \emph{UC4} Changing the initial rule.}
   \label{fig:uc4-activity-diagram}
 \end{figure}
@@ -1079,33 +1079,8 @@ interactions from every use case, all of which were defined in subsection
 
 \begin{figure}[H]
   \centering
-  % \begin{tikzpicture}
-  %   \begin{umlseqdiag}
-  %     \tikzumlset{fill object=white,fill call=white,fill fragment=white}
-  %     \umlactor[no ddots]{User}
-  %     \umlobject[no ddots]{Front-end}
-  %     \umlobject[no ddots]{Business logic}
-  %     \begin{umlfragment}[type=loop,label=until valid]
-  %       \begin{umlcall}[op=specify the grammar,type=synchron,dt=7]{User}{Front-end}
-  %         \begin{umlcall}[op=\texttt{parse(input)},type=synchron,return=\texttt{Result<AST,Error>},padding=3]{Front-end}{Business logic}
-  %         \end{umlcall}
-  %         \begin{umlfragment}[type=alt,label=valid,inner xsep=5]
-  %           \begin{umlcallself}[op=display the icon,type=synchron,fill=white]{Front-end}
-  %           \end{umlcallself}
-  %           \begin{umlcall}[type=return,op=ok,dt=-2]{Front-end}{User}
-  %           \end{umlcall}
-  %           \umlfpart[invalid]
-  %           \begin{umlcallself}[op=display the errors,type=synchron,fill=white]{Front-end}
-  %           \end{umlcallself}
-  %           \begin{umlcall}[type=return,op=error,dt=-5,padding=-1]{Front-end}{User}
-  %           \end{umlcall}
-  %         \end{umlfragment}
-  %       \end{umlcall}
-  %     \end{umlfragment}
-  %   \end{umlseqdiag}
-  % \end{tikzpicture}
-  \todo{redo this in visual paradigm}
-  \caption{The sequence diagram of \emph{UC1} Specifying the grammar.}
+  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/sequence_diagram_1.pdf_tex}}
+  \caption{\todo{}}
   \label{fig:sequence-diagram}
 \end{figure}
 
@@ -1693,9 +1668,9 @@ the token:
   \begin{tikzpicture}
     \tikzset{
       ->, % makes the edges directed
-      node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
-      every state/.style={thick, fill=white}, % sets the properties for each ’state’ node
-      initial text=$ $, % sets the text that appears on the start arrow
+      node distance=3cm,
+      every state/.style={thick, fill=white},
+      initial text=$ $,
     }
 
     \node[state, initial] (1) {$1$};
@@ -1753,7 +1728,9 @@ the token:
           (1) edge[right] node{$A$} (17)
           (17) edge[loop left] node{$A \cup N \cup W$} (17)
           
-          (1) edge[left] node{\texttt{\{}, \texttt{\}}, \texttt{[}, \texttt{]}, \texttt{)}, \texttt{,}, \texttt{;}, \texttt{=}, \texttt{-}, \texttt{*}, \texttt{|}, \texttt{!}} (18)
+          (1) edge[left] node{\texttt{\{}, \texttt{\}}, \texttt{[}, \texttt{]},
+          \texttt{)}, \texttt{,}, \texttt{;}, \texttt{=}, \texttt{-},
+          \texttt{*}, \texttt{|}, \texttt{!}} (18)
           (1) edge[above] node{\texttt{/}} (19)
           (19) edge[right] node{\texttt{)}} (20)
           (1) edge[above] node{\texttt{:}} (21)

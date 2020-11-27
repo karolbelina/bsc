@@ -219,6 +219,7 @@ Electron framework.
   \item[EBNF] Extended Backus-Naur Form --- \todo{},
   \item[parser] \todo{},
   \item[REPL] Read-Eval-Print loop --- \todo{}.
+  \item[DFA] \todo{}. 
   \item \todo{}
 \end{description}
 
@@ -1655,12 +1656,48 @@ the token:
 
 \subsection{Lexical analyser}
 
-% What you're describing here is implementing a generated scanner by hand.
-% That's not how you do it. Just write a loop containing a large switch
-% statement whose cases are the initial letters of each token type, and each
-% case is a loop to consume the rest of the token and return its type. The
-% whitespace case is identical except that it doesn't return. The case for
-% identifiers also needs to lookup a keyword table.
+The lexical analyser, also known as \emph{the lexer} or \emph{the tokenizer},
+performs the tokenization described in section \ref{sec:lexing}. A simplified
+version of the EBNF tokenizer could be modelled as a Deterministic Finite-state
+Automaton (DFA) (see figure \ref{fig:lexer-dfa}). This version, however, would
+not support nested comments defined in the specification --- any nested
+structure cannot be tokenized with the use of regular languages, and those are,
+in fact, equivalent to DFAs.
+
+The implementation does not follow the pure DFA approach. Instead, the lexer
+stores the current state of the tokenization process in various forms. For the
+purpose of tokenizing comments, the lexer remembers the \emph{nest level}, which
+essentially counts the number of recursively-nested comments, and ends the
+comment only when the nest level reaches zero.
+
+The lexer's main control flow is a simple infinite loop followed by a pattern
+match, whose cases are the initial characters of each token type, and each
+case may be a loop to consume the rest of the token and return its type.
+Every token is preceded by the ``whitespace-comment-whitespace'' search, which
+skips any whitespace characters and (possibly nested) comments. Any whitespace
+inside integers or meta-identifiers is handled in the corresponding token loop.
+
+The header of the \texttt{lex} function is
+\begin{minted}[fontsize=\small,breaklines]{rust}
+fn lex(string: &str) -> Result<Vec<Spanned<Token>>, Spanned<Error>>
+\end{minted}
+Please note the return type of the function, which is either a \texttt{Vec} of
+\texttt{Spanned} \texttt{Token}s in case the tokenizer succeeded, or an
+\texttt{Error}, which is defined as
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,breaklines]{rust}
+enum Error {
+  InvalidSymbol(String),
+  UnterminatedSpecial,
+  UnterminatedComment,
+  UnterminatedTerminal,
+  EmptyTerminal,
+}
+  \end{minted}
+\end{listing}
+which encodes every possible error the tokenizer can report. The
+\texttt{InvalidSymbol} case contains the additional information about the actual
+invalid symbol.
 
 \begin{figure}[ht]
   \centering
@@ -1718,7 +1755,7 @@ the token:
           (11) edge[above] node{\texttt{"}} (13)
           (12) edge[right] node{\texttt{'}} (13)
           
-          (1) edge[right, bend right=14] node{\texttt{?}} (14)
+          (1) edge[above, bend right=14] node{\texttt{?}} (14)
           (14) edge[loop below] node{$\Sigma - \{\texttt{?}\}$} (14)
           (14) edge[above] node{\texttt{?}} (15)
           
@@ -1737,9 +1774,21 @@ the token:
           (21) edge[right] node{\texttt{)}} (22);
   \end{tikzpicture}
   }
-  \caption{\todo{}}
+  \caption{The DFA representation of the lexer. Note that this DFA does not
+  support nested comments. $\Sigma$ is the set of all characters, $A$ is the set
+  of all alphabetic characters, $N$ is the set of all numeric characters, $D$ is
+  the set of all ten decimal digits, and $W$ is the set off all whitespace
+  characters. Set notation on the transitions is omitted.}
   \label{fig:lexer-dfa}
 \end{figure}
+
+The whole tokenization process is preceded by the procedure of splitting the
+input string into individual Unicode graphemes according to the Unicode Standard
+Annex \#29 \cite{unicode-standard-annex-29} rules with the use of the
+unicode-segmentation crate. As each grapeme may consist of several characters,
+it is encoded a string, which means the lexer cannot use native functions for
+checking if a character is whitespace, alphabetic, alphanumeric, or a digit ---
+these functions have to be defined separately with graphemes in mind.
 
 \subsection{Syntactic analyser}
 

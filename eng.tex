@@ -165,6 +165,8 @@ will document the entire process of creating such a project.
 
 \todo{jak projekt pomoże w powyższych problemach?}
 
+\todo{wspomnieć o nazwie \thisproject{} gdzieś}
+
 In order to achieve the general goal, several sub-goals have been
 distinguished, all of which contribute to the main objective as a whole
 \begin{itemize}
@@ -2054,6 +2056,122 @@ processes the input differently depending on the type of the AST node:
 \section{Business logic testing} \label{sec:testing}
 
 \subsection{Unit testing}
+
+Unit testing is a type of software testing where individual units or components
+of a software are tested. The purpose is to validate that each unit of the
+software code performs as expected. Unit tests help to fix bugs early in the
+development cycle, and help to understand the code base and make changes to the
+code quickly. Good unit tests also serve as project documentation. Unit testing
+allows the programmer to refactor code at a later date, and make sure the module
+still works correctly (i.e. Regression testing). The procedure is to write test
+cases for all functions and methods so that whenever a change causes a fault, it
+can be quickly identified and fixed. Unit testing, however, can't be expected to
+catch every error in a program. It is not possible to evaluate all execution
+paths even in the most trivial programs. Unit testing by its very nature focuses
+on a unit of code. Hence it can't catch integration errors or broad system level
+errors.
+
+A developer writes a section of code in the application just to test the
+function. Isolating the tested code helps in revealing unnecessary dependencies
+between the code being tested and other units in the project --- testing should
+be focused on only one piece of code at a time. Unit Test cases should be
+independent. In case of any enhancements or change in requirements, unit test
+cases should not be affected. If units are made less interdependent to make unit
+testing possible, the unintended impact of changes to any code is less.
+
+Unit tests in \thisproject{} focus on testing the individual components of the
+EBNF parser, that is: the lexer, the parser, and the preprocessor. If the
+developer is sure that all of these components work correctly in isolation, the
+same thing can be said about the whole system, because there are no hidden
+dependencies between these components.
+
+Tests related to the lexer test the functionality of the lexer, that is, test
+the ability of the lexer to turn the textual representation of EBNF into
+individual tokens. An typical unit test related to the lexer can be seen in
+listing~\ref{lst:lexer-unit-test}, where it makes an assertion that the result
+of the \texttt{lex} function on input ``\verb*| abc \n = 'def' |'' is a success
+(the \texttt{Ok} case), and it's a vector of three certain tokens.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\scriptsize,frame=lines,breaklines,linenos]{rust}
+#[test]
+fn test_multiline() {
+  assert_eq!(
+    lex(" abc \n = 'def' "),
+    Ok(vec![
+      Token::Nonterminal("abc".to_owned()).spanning(Span::from(((1, 0), (4, 0)))),
+      Token::Definition.spanning(Span::from(((1, 1), (2, 1)))),
+      Token::Terminal("def".to_owned()).spanning(Span::from(((3, 1), (8, 1))))
+    ])
+  );
+}
+  \end{minted}
+  \caption{\todo{podpis}}
+  \label{lst:lexer-unit-test}
+\end{listing}
+
+% \begin{table}[]
+%   \caption{}
+%   \label{tab:my-table}
+%   \begin{tabular}{@{}lll@{}}
+%   \toprule
+%   1 & 2 & 3 \\ \midrule
+%   a & b & c \\
+%   d & e & f \\ \bottomrule
+%   \end{tabular}
+%   \end{table}
+
+% \begin{table}[H]
+%   \centering
+%   \caption{}
+%   \label{tab:my-table}
+%   \begin{tabular}{@{}ll@{}}
+%     \toprule
+%     Test case & Result \\ \midrule
+%     \verb*@,@                    & success \\
+%     \verb*@| /!@                 & success \\
+%     \verb*@abc = b;@             & success \\
+%     \verb*@ (/ [ /) ]@           & success \\
+%     \verb*@ (/) @                & failure \\
+%     \verb*@ /@                   & success \\
+%     \verb*@(::) { } @            & success \\
+%     \verb*@ (:) @                & failure \\
+%     \verb*@ "ab c " @            & success \\
+%     \verb*@  '"aba' @            & success \\
+%     \verb*@ ' a "@               & failure \\
+%     \verb*@"bbb'   @             & failure \\
+%     \verb*@""@                   & failure \\
+%     \verb*@''@                   & failure \\
+%     \verb*@ ? test ?@            & success \\
+%     \verb*@?a\nbc?  @            & success \\
+%     \verb*@ ?bbb  @              & failure \\
+%     \verb*@??@                   & success \\
+%     \verb*@ 123 @                & success \\ \bottomrule
+%   \end{tabular}
+%   \hspace{1cm}
+%   \begin{tabular}{@{}ll@{}}
+%     \toprule
+%     Test case & Result \\ \midrule
+%     \verb*@ 1 2  3  @            & success \\
+%     \verb*@ 01234 5@"            & success \\
+%     \verb*@ 0 @                  & success \\
+%     \verb*@ abc @                & success \\
+%     \verb*@a  bc @               & success \\
+%     \verb*@abc12 3 @             & success \\
+%     \verb*@ x @                  & success \\
+%     \verb*@ + @                  & failure \\
+%     \verb*@  , \n,@              & success \\
+%     \verb*@ (* test *) @         & success \\
+%     \verb*@ (* test * @          & failure \\
+%     \verb*@ (* (@                & failure \\
+%     \verb*@, (*, *) , @          & success \\
+%     \verb*@ ,(*, (* ,*) ,*) , ,@ & success \\
+%     \verb*@ (* (* *) @           & failure \\
+%     \verb*@ (*) @                & failure \\
+%     \verb*@ abc \n = 'def' @     & success \\
+%     \verb*@aéf = abc;@           & success \\ \bottomrule
+%   \end{tabular}
+% \end{table}
 
 \todo{cargo test}
 

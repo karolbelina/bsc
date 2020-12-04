@@ -51,6 +51,23 @@ provided to the program with the use of parser combinators.}
 \newcommand\mycommfont[1]{\footnotesize\ttfamily#1}
 \SetCommentSty{mycommfont}
 
+\makeatletter
+\def\@BTrule[#1]{%
+  \ifx\longtable\undefined
+    \let\@BTswitch\@BTnormal
+  \else\ifx\hline\LT@hline
+    \nobreak
+    \let\@BTswitch\@BLTrule
+  \else
+     \let\@BTswitch\@BTnormal
+  \fi\fi
+  \global\@thisrulewidth=#1\relax
+  \ifnum\@thisruleclass=\tw@\vskip\@aboverulesep\else
+  \ifnum\@lastruleclass=\z@\vskip\@aboverulesep\else
+  \ifnum\@lastruleclass=\@ne\vskip\doublerulesep\fi\fi\fi
+  \@BTswitch}
+\makeatother
+
 \newcommand{\todo}[1]{%
   \textcolor{red}{[\textbf{TODO}\ifx&#1&{}\else{ }\fi\emph{#1}]}%
 }
@@ -2110,70 +2127,108 @@ fn test_multiline() {
   \label{lst:lexer-unit-test}
 \end{listing}
 
-% \begin{table}[]
-%   \caption{}
-%   \label{tab:my-table}
-%   \begin{tabular}{@{}lll@{}}
-%   \toprule
-%   1 & 2 & 3 \\ \midrule
-%   a & b & c \\
-%   d & e & f \\ \bottomrule
-%   \end{tabular}
-%   \end{table}
+All test cases related to the lexer are listed in
+table~\ref{tab:lexer-test-cases} in a simplified format, where the result can
+either be a success case or a failure case, but does not provide information
+about the lexed tokens for simplicity. The actual test cases for the lexer
+are located in the file \texttt{ebnf/src/lexer/tests.rs}.
 
-% \begin{table}[H]
-%   \centering
-%   \caption{}
-%   \label{tab:my-table}
-%   \begin{tabular}{@{}ll@{}}
-%     \toprule
-%     Test case & Result \\ \midrule
-%     \verb*@,@                    & success \\
-%     \verb*@| /!@                 & success \\
-%     \verb*@abc = b;@             & success \\
-%     \verb*@ (/ [ /) ]@           & success \\
-%     \verb*@ (/) @                & failure \\
-%     \verb*@ /@                   & success \\
-%     \verb*@(::) { } @            & success \\
-%     \verb*@ (:) @                & failure \\
-%     \verb*@ "ab c " @            & success \\
-%     \verb*@  '"aba' @            & success \\
-%     \verb*@ ' a "@               & failure \\
-%     \verb*@"bbb'   @             & failure \\
-%     \verb*@""@                   & failure \\
-%     \verb*@''@                   & failure \\
-%     \verb*@ ? test ?@            & success \\
-%     \verb*@?a\nbc?  @            & success \\
-%     \verb*@ ?bbb  @              & failure \\
-%     \verb*@??@                   & success \\
-%     \verb*@ 123 @                & success \\ \bottomrule
-%   \end{tabular}
-%   \hspace{1cm}
-%   \begin{tabular}{@{}ll@{}}
-%     \toprule
-%     Test case & Result \\ \midrule
-%     \verb*@ 1 2  3  @            & success \\
-%     \verb*@ 01234 5@"            & success \\
-%     \verb*@ 0 @                  & success \\
-%     \verb*@ abc @                & success \\
-%     \verb*@a  bc @               & success \\
-%     \verb*@abc12 3 @             & success \\
-%     \verb*@ x @                  & success \\
-%     \verb*@ + @                  & failure \\
-%     \verb*@  , \n,@              & success \\
-%     \verb*@ (* test *) @         & success \\
-%     \verb*@ (* test * @          & failure \\
-%     \verb*@ (* (@                & failure \\
-%     \verb*@, (*, *) , @          & success \\
-%     \verb*@ ,(*, (* ,*) ,*) , ,@ & success \\
-%     \verb*@ (* (* *) @           & failure \\
-%     \verb*@ (*) @                & failure \\
-%     \verb*@ abc \n = 'def' @     & success \\
-%     \verb*@aéf = abc;@           & success \\ \bottomrule
-%   \end{tabular}
-% \end{table}
+\begin{table}[H]
+  \centering
+  \caption{\todo{}}
+  \label{tab:lexer-test-cases}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    Test case & Result \\ \midrule
+    \verb*@,@                    & success \\
+    \verb*@| /!@                 & success \\
+    \verb*@abc = b;@             & success \\
+    \verb*@ (/ [ /) ]@           & success \\
+    \verb*@ (/) @                & failure \\
+    \verb*@ /@                   & success \\
+    \verb*@(::) { } @            & success \\
+    \verb*@ (:) @                & failure \\
+    \verb*@ "ab c " @            & success \\
+    \verb*@  '"aba' @            & success \\
+    \verb*@ ' a "@               & failure \\
+    \verb*@"bbb'   @             & failure \\ \bottomrule
+  \end{tabular}
+  \hspace{0.5cm}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    Test case & Result \\ \midrule
+    \verb*@""@                   & failure \\
+    \verb*@''@                   & failure \\
+    \verb*@ ? test ?@            & success \\
+    \verb*@?a\nbc?  @            & success \\
+    \verb*@ ?bbb  @              & failure \\
+    \verb*@??@                   & success \\
+    \verb*@ 123 @                & success \\
+    \verb*@ 1 2  3  @            & success \\
+    \verb*@ 01234 5@"            & success \\
+    \verb*@ 0 @                  & success \\
+    \verb*@ abc @                & success \\
+    \verb*@a  bc @               & success \\ \bottomrule
+  \end{tabular}
+  \hspace{0.5cm}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    Test case & Result \\ \midrule
+    \verb*@abc12 3 @             & success \\
+    \verb*@ x @                  & success \\
+    \verb*@ + @                  & failure \\
+    \verb*@  , \n,@              & success \\
+    \verb*@ (* test *) @         & success \\
+    \verb*@ (* test * @          & failure \\
+    \verb*@ (* (@                & failure \\
+    \verb*@, (*, *) , @          & success \\
+    \verb*@ ,(*, (* ,*) ,*) , ,@ & success \\
+    \verb*@ (* (* *) @           & failure \\
+    \verb*@ (*) @                & failure \\
+    \verb*@ abc \n = 'def' @     & success \\ \bottomrule
+  \end{tabular}
+\end{table}
 
-\todo{cargo test}
+Tests related to the parser test the functionality of the parser, that is, test
+the ability to transform a list of tokens into an AST. To make the unit tests of
+the parser independent from the implementation of the lexer, the input to the
+\texttt{parse} function is a vector of tokens, rather than a result of the
+\texttt{lex} function. An example test case related to the parser is seen in
+listing~\ref{lst:parser-unit-test}, where the \texttt{ok\_case} macro represents
+a test case that, after testing the \texttt{factor} parser, should result in a
+success, parse 3 tokens, and return a \texttt{Factor} AST node. In the same
+file, that is \texttt{ebnf/src/parser/tests.rs} one can also find the
+\texttt{error\_case} macro, which represents a test case that should fail with a
+specific error.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\scriptsize,frame=lines,breaklines,linenos]{rust}
+ok_case!(
+  factor,
+  &vec![
+      Token::Integer(2).spanning(Span::from(((0, 0), (1, 0)))),
+      Token::Repetition.spanning(Span::from(((2, 0), (3, 0)))),
+      Token::Terminal("terminal".to_owned()).spanning(Span::from(((4, 0), (14, 0))))
+  ],
+  3,
+  Expression::Factor {
+      count: 2.spanning(Span::from(((0, 0), (1, 0)))),
+      primary: Box::new(
+          Expression::Terminal("terminal".to_owned()).spanning(Span::from(((4, 0), (14, 0))))
+      )
+  }
+  .spanning(Span::from(((0, 0), (14, 0))))
+);
+  \end{minted}
+  \caption{\todo{podpis}}
+  \label{lst:parser-unit-test}
+\end{listing}
+
+\todo{preprocessor}
+
+All tests related to business logic are written in Rust, as the business logic
+is also written in Rust. All unit tests in the project can be ran with the use
+of Cargo with the \texttt{cargo test} command in the terminal.
 
 \subsection{Property-based testing}
 

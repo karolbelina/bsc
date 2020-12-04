@@ -129,6 +129,10 @@ daje możliwość rozszerzenia go o~inne specyfikacje gramatyk.
 
 \tableofcontents
 
+\chapter*{Thesis structure}
+
+\todo{}
+
 \mainmatter % Re-enable page and chapter numbering
 
 \chapter{Problem analysis} \label{ch:problem-analysis}
@@ -2074,19 +2078,19 @@ processes the input differently depending on the type of the AST node:
 
 \subsection{Unit testing}
 
-Unit testing is a type of software testing where individual units or components
-of a software are tested. The purpose is to validate that each unit of the
-software code performs as expected. Unit tests help to fix bugs early in the
-development cycle, and help to understand the code base and make changes to the
-code quickly. Good unit tests also serve as project documentation. Unit testing
-allows the programmer to refactor code at a later date, and make sure the module
-still works correctly (i.e. Regression testing). The procedure is to write test
-cases for all functions and methods so that whenever a change causes a fault, it
-can be quickly identified and fixed. Unit testing, however, can't be expected to
-catch every error in a program. It is not possible to evaluate all execution
-paths even in the most trivial programs. Unit testing by its very nature focuses
-on a unit of code. Hence it can't catch integration errors or broad system level
-errors.
+\paraphrase{Unit testing is a type of software testing where individual units or
+components of a software are tested. The purpose is to validate that each unit
+of the software code performs as expected. Unit tests help to fix bugs early in
+the development cycle, and help to understand the code base and make changes to
+the code quickly. Good unit tests also serve as project documentation. Unit
+testing allows the programmer to refactor code at a later date, and make sure
+the module still works correctly (i.e. Regression testing). The procedure is to
+write test cases for all functions and methods so that whenever a change causes
+a fault, it can be quickly identified and fixed. Unit testing, however, can't be
+expected to catch every error in a program. It is not possible to evaluate all
+execution paths even in the most trivial programs. Unit testing by its very
+nature focuses on a unit of code. Hence it can't catch integration errors or
+broad system level errors.
 
 A developer writes a section of code in the application just to test the
 function. Isolating the tested code helps in revealing unnecessary dependencies
@@ -2094,7 +2098,7 @@ between the code being tested and other units in the project --- testing should
 be focused on only one piece of code at a time. Unit Test cases should be
 independent. In case of any enhancements or change in requirements, unit test
 cases should not be affected. If units are made less interdependent to make unit
-testing possible, the unintended impact of changes to any code is less.
+testing possible, the unintended impact of changes to any code is less.}
 
 Unit tests in \thisproject{} focus on testing the individual components of the
 EBNF parser, that is: the lexer, the parser, and the preprocessor. If the
@@ -2257,6 +2261,13 @@ of Cargo with the \texttt{cargo test} command in the terminal.
 \section{GitHub Pages}
 
 \todo{}
+
+\begin{listing}[H]
+  \inputminted[fontsize=\footnotesize,frame=lines,breaklines,linenos]{yaml}
+    {listings/cd.yaml}
+  \caption{\todo{}}
+  \label{lst:cd}
+\end{listing}
 
 \chapter{Artifacts}
 

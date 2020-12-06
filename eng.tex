@@ -14,6 +14,7 @@
 \usepackage{xltabular}
 \usepackage{array} % \raggedright, \arraybackslash
 \usepackage[polish,english,main=english]{babel}
+\usepackage{siunitx}
 % Please load this as the very last package for footnotes to link correctly
 \usepackage{hyperref} % Hyperlinks
 
@@ -1419,6 +1420,18 @@ dependencies, the most important of which include:
   \end{itemize}
   Wasm-bindgen only generates bindings and glue for the JavaScript imports that
   are actually being used and Rust functionality that is being exported.}
+  \item[quickcheck] A property-based testing framework inspired by the
+  QuickCheck framework for Haskell. The crate comes with the ability to randomly
+  generate and shrink integers, floats, tuples, booleans, lists, strings,
+  options and results. All QuickCheck needs is a property function --- it will
+  then randomly generate inputs to that function and call the property for each
+  set of inputs. If the property fails (whether by a runtime error like index
+  out-of-bounds or by not satisfying the property), the inputs are "shrunk" to
+  find a smaller counter-example.
+  \item[criterion] This library provides a powerful but simple way to measure
+  software performance. It provides both a framework for executing and analysing
+  benchmarks and a set of driver functions that makes it easy to build and run
+  benchmarks, and to analyse their results.
 \end{description}
 All of the above dependencies are available under the MIT license.
 
@@ -2006,7 +2019,7 @@ process of detecting left recursion can be seen in algorithm
   \ForEach{$(i, e) \in R$}{
     \FCheckExpr{e, R}\;
   }
-  \caption{Detecting left recursion in production rules $R$ of a grammar}
+  \caption{Detecting left recursion in production rules $R$ of a grammar.}
   \label{alg:detecting-left-recursion}
 \end{algorithm}
 
@@ -2127,7 +2140,8 @@ fn test_multiline() {
   );
 }
   \end{minted}
-  \caption{\todo{podpis}}
+  \caption{A unit test related to the lexer testing the proper tokenization of
+  the input string.}
   \label{lst:lexer-unit-test}
 \end{listing}
 
@@ -2139,7 +2153,7 @@ are located in the file \texttt{ebnf/src/lexer/tests.rs}.
 
 \begin{table}[H]
   \centering
-  \caption{\todo{}}
+  \caption{Tests cases related to the lexer along with the expected results.}
   \label{tab:lexer-test-cases}
   \begin{tabular}{@{}ll@{}}
     \toprule
@@ -2210,25 +2224,69 @@ specific error.
 ok_case!(
   factor,
   &vec![
-      Token::Integer(2).spanning(Span::from(((0, 0), (1, 0)))),
-      Token::Repetition.spanning(Span::from(((2, 0), (3, 0)))),
-      Token::Terminal("terminal".to_owned()).spanning(Span::from(((4, 0), (14, 0))))
+    Token::Integer(2).spanning(Span::from(((0, 0), (1, 0)))),
+    Token::Repetition.spanning(Span::from(((2, 0), (3, 0)))),
+    Token::Terminal("terminal".to_owned()).spanning(Span::from(((4, 0), (14, 0))))
   ],
   3,
   Expression::Factor {
-      count: 2.spanning(Span::from(((0, 0), (1, 0)))),
-      primary: Box::new(
-          Expression::Terminal("terminal".to_owned()).spanning(Span::from(((4, 0), (14, 0))))
-      )
+    count: 2.spanning(Span::from(((0, 0), (1, 0)))),
+    primary: Box::new(
+      Expression::Terminal("terminal".to_owned()).spanning(Span::from(((4, 0), (14, 0))))
+    )
   }
   .spanning(Span::from(((0, 0), (14, 0))))
 );
   \end{minted}
-  \caption{\todo{podpis}}
+  \caption{A unit test related to the parser, where the ability to turn a string
+  of tokens into an AST is tested.}
   \label{lst:parser-unit-test}
 \end{listing}
 
-\todo{preprocessor}
+Tests related to the preprocessor test the functionality of the preprocessor,
+that is, test the ability to detect undefined rules and left recursion. Test
+case in listing~\ref{lst:preprocessor-unit-test} tests the grammar
+\begin{minted}[fontsize=\small]{lexers/ebnf_lexer.py:EbnfLexer -x}
+a = b;
+b = a;
+\end{minted}
+and the detection of indirect left recursion $b \rightarrow a \rightarrow b$.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\scriptsize,frame=lines,breaklines,linenos]{rust}
+#[test]
+fn test_indirect_left_recursion() {
+  assert_eq!(
+    preprocess(
+      Grammar {
+        productions: vec![
+          Production {
+            lhs: "a".to_owned().spanning(Span::from(((0, 0), (1, 0)))),
+            rhs: Expression::Nonterminal("b".to_owned())
+              .spanning(Span::from(((4, 0), (5, 0))))
+          }
+          .spanning(Span::from(((0, 0), (6, 0)))),
+          Production {
+            lhs: "b".to_owned().spanning(Span::from(((0, 1), (1, 1)))),
+            rhs: Expression::Nonterminal("a".to_owned())
+              .spanning(Span::from(((4, 1), (5, 1))))
+          }
+          .spanning(Span::from(((0, 1), (6, 1))))
+        ]
+      }
+      .spanning(Span::from(((0, 0), (6, 1))))
+    ),
+    Err(
+      Error::LeftRecursion(vec!["b".to_owned(), "a".to_owned(), "b".to_owned()])
+        .spanning(Span::from(((4, 0), (5, 0))))
+    )
+  );
+}
+  \end{minted}
+  \caption{A preprocessor unit test testing the left recursion detection in an
+  AST.}
+  \label{lst:preprocessor-unit-test}
+\end{listing}
 
 All tests related to business logic are written in Rust, as the business logic
 is also written in Rust. All unit tests in the project can be ran with the use
@@ -2236,19 +2294,226 @@ of Cargo with the \texttt{cargo test} command in the terminal.
 
 \subsection{Property-based testing}
 
-\todo{}
+Test engineers write mostly example-based tests where only one input scenario is
+tested. Property-based testing is a useful addition to a test suite because it
+runs one statement hundreds of times with different inputs. Property-based
+testing frameworks use almost every conceivable input that could break the
+code, such as empty lists, negative numbers, and really long lists or strings.
+Property based testing has become quite famous in the functional world. Mainly
+introduced by QuickCheck framework in Haskell, it suggests another way to test
+software.
+
+Property-based tests are designed to test the aspects of a property that should
+always be true. They allow for a range of inputs to be programmed and tested
+within a single test, rather than having to write a different test for every
+value that the programmer wants to test. These tests are useful when a range of
+inputs needs to be tested on a given aspect of a software property, or if the
+developer is concerned about finding missed edge cases.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{rust}
+use quickcheck_macros::quickcheck;
+
+#[quickcheck]
+fn test_arbitrary_input(input: String) {
+  let _ = lex(&input);
+}
+  \end{minted}
+  \caption{A QuickCheck test testing arbitrary inputs on the lexer.}
+  \label{lst:lexer-quickcheck-test}
+\end{listing}
+
+\thisproject{} uses the \texttt{quickcheck} crate for Rust, which is a
+property-based testing framework inspired by Haskell's QuickCheck and has been
+described in section~\ref{sbs:used-technologies}. \texttt{quickcheck} tests the
+``correctness'' of \texttt{lex} and \texttt{parse}, i.e. it checks if these
+functions do not emit a \emph{panic} for an arbitrary input, whether it's a
+random string of characters for the case of \texttt{lex}, or a random string of
+tokens for \texttt{parse}. Example \texttt{quickcheck} tests can be seen in
+listings~\ref{lst:lexer-quickcheck-test} and \ref{lst:parser-quickcheck-test},
+where the \texttt{quickcheck} macro is used to streamline the usage of the
+library. \texttt{quickcheck} catches any panics that may occur in \texttt{lex}
+and \texttt{parse} functions and reports them to the user along with the input
+provided to these functions. In the case of \texttt{parse}, to generate an
+arbitrary string of \texttt{Token}s, it was necessary to implement the
+\texttt{Arbitrary} trait provided by \texttt{quickcheck} for \texttt{Token}.
+\texttt{Spanned<T>}, \texttt{Span}, and \texttt{Location} types (most of this
+has been omitted in listing \ref{lst:parser-quickcheck-test}).
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{rust}
+// ...
+impl<T: Arbitrary> Arbitrary for Spanned<T> {
+  fn arbitrary<G: Gen>(g: &mut G) -> Spanned<T> {
+    Spanned {
+      node: T::arbitrary(g),
+      span: Span::arbitrary(g),
+    }
+  }
+}
+
+#[quickcheck]
+fn test_arbitrary_input(tokens: Vec<Spanned<Token>>) {
+    use super::parse;
+    let _ = parse(tokens.as_slice());
+}
+  \end{minted}
+  \caption{A QuickCheck test related to the parser, testing strings of arbitraty
+  tokens.}
+  \label{lst:parser-quickcheck-test}
+\end{listing}
 
 \section{Integration testing}
 
-\todo{Jest}
+Integration testing is defined as a type of testing where software modules are
+integrated logically and tested as a group. A typical software project consists
+of multiple software modules, coded by different programmers. The purpose of
+this level of testing is to expose defects in the interaction between these
+software modules when they are integrated.
+
+\thisproject{} utilizes integration testing thanks to \emph{wasm-pack}. This
+tool allows the developer you build rust-generated WebAssembly packages, as well
+as test them in a headless web browser via the wasm-pack test command. A tool
+used to define the integration tests is the wasm-bindgen-test crate --- an
+experimental test harness for Rust programs compiled to wasm using wasm-bindgen
+and the wasm32-unknown-unknown target. The \texttt{wasm-pack test} command wraps
+the wasm-bindgen-test-runner CLI allowing the developer to run wasm tests in
+different browsers without needing to install the different webdrivers. An
+example integration test ran with wasm-bindgen-test can be seen in
+listing~\ref{lst:ebnf-integration-tests}.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{rust}
+use ebnf::parse;
+use wasm_bindgen_test::*;
+
+#[wasm_bindgen_test]
+fn test_ebnf() {
+  assert!(parse(" abc = 'def'; ").is_ok());
+  assert!(parse(" (* test *) ").is_err());
+  assert!(parse(" (* test *").is_err());
+  assert!(parse("a = b;").is_err());
+  assert!(parse("a = 'a';;").is_err());
+  assert!(parse("a = ;").is_ok());
+  assert!(parse("a = a;").is_err());
+}
+  \end{minted}
+  \caption{An integration test ran in a headless browser, which tests various
+  grammars in a textual form.}
+  \label{lst:ebnf-integration-tests}
+\end{listing}
 
 \section{Benchmarking}
 
-\todo{cargo bench}
+Benchmarks check the performance of the code. \thisproject{}'s benchmark tool of
+choice is Criterion.rs --- a statistics-driven micro-benchmarking tool. It is a
+Rust port of Haskell's Criterion library. Criterion.rs benchmarks collect and
+store statistical information from run to run and can automatically detect
+performance regressions as well as measuring optimizations.
+Listing~\ref{lst:benchmark} shows a Criterion.rs benchmark that parses a sample
+input grammar multiple times.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\footnotesize,frame=lines,breaklines,linenos]{rust}
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ebnf::parse;
+
+const GRAMMAR: &str = "
+expression = term, { ('+' | '-'), term };
+term       = factor, { ('*' | '/'), factor };
+factor     = constant | variable | '(', expression, ')';
+variable   = 'x' | 'y' | 'z';
+constant   = digit, { digit };
+digit      = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+";
+
+fn criterion_benchmark(c: &mut Criterion) {
+  c.bench_function("parse", |b| b.iter(|| parse(black_box(GRAMMAR))));
+}
+
+criterion_group!(benches, criterion_benchmark);
+criterion_main!(benches);
+  \end{minted}
+  \caption{A benchmark testing the speed of parsing a sample grammar.}
+  \label{lst:benchmark}
+\end{listing}
+
+Criterion.rs can generate a number of useful charts and graphs which the
+developer can check to get a better understanding of the behavior of the
+benchmark. These charts will be generated with \emph{gnuplot} by default, and
+the examples below were generated using the gnuplot backend.
+
+\begin{figure}[H]
+  \centering
+  \resizebox{\textwidth}{!}{\footnotesize\input{images/pdf_bench.pdf_tex}}
+  \caption{Probability Distribution Function chart generated by Criterion.rs.}
+  \label{fig:pdf-benchmark}
+\end{figure}
+
+The \emph{PDF chart} in figure~\ref{fig:pdf-benchmark} shows the
+\emph{probability distribution function} for the samples. It also shows the
+ranges used to classify samples as outliers. In this example we can see that the
+performance trend does not change noticeably across the whole benchmark and
+stays around \SI{55}{\micro\second}
+
+\begin{figure}[H]
+  \centering
+  \resizebox{\textwidth}{!}{\footnotesize\input{images/regression_bench.pdf_tex}}
+  \caption{Regression plot generated by Criterion.rs.}
+  \label{fig:regression-benchmark}
+\end{figure}
+
+The \emph{regression plot}, shown in figure~\ref{fig:regression-benchmark},
+shows each data point plotted on an X-Y plane showing the number of iterations
+versus the time taken. It also shows the line representing Criterion.rs' best
+guess at the time per iteration. A good benchmark will show the data points all
+closely following the line. If the data points are scattered widely, this
+indicates that there is a lot of noise in the data and that the benchmark may
+not be reliable. If the data points follow a consistent trend but don't match
+the line (eg. if they follow a curved pattern or show several discrete line
+segments) this indicates that the benchmark is doing different amounts of work
+depending on the number of iterations, which prevents Criterion.rs from
+generating accurate statistics and means that the benchmark may need to be
+reworked.
+
+The graphics that Criterion.rs generates are perfect for contributors of the
+project as there is no dearth of info. Criterion generates graphics that break
+down mean, median, standard deviation, MAD, etc., which are invaluable when
+trying to pinpoint areas of improvement.
 
 \section{Auditing}
 
-\todo{Google Lighthouse}
+A software audit is an internal or external review of a software program to
+check its quality, progress or adherence to plans, standards and regulations.
+\thisproject{} utilizes Google Lighthouse --- an open-source, automated tool for
+improving the quality of web pages. Developers can run it against any web page,
+public or requiring authentication. It has audits for performance,
+accessibility, progressive web apps, SEO and more.
+Figure~\ref{fig:lighthouse-summary} shows a short summary of Lighthouse ran
+against the deployed web application.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{lighthouse_summary.png}
+  \caption{Google Lighthouse summary.}
+  \label{fig:lighthouse-summary}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Performance metrics generated by Lighthouse.}
+  \label{tab:my-table}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    Metric                   & Value                 \\ \midrule
+    First Contentful Paint   & \SI{0.2}{\second}     \\
+    Speed Index              & \SI{0.4}{\second}     \\
+    Largest Contentful Paint & \SI{0.4}{\second}     \\
+    Time to Interactive      & \SI{0.4}{\second}     \\
+    Total Blocking Time      & \SI{0}{\milli\second} \\
+    Cumulative Layout Shift  & 0                     \\ \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Complexity analysis}
 

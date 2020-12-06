@@ -100,6 +100,7 @@
         "performant",
         "preprocess",
         "pushdown",
+        "quickcheck",
         "rimraf",
         "sirv",
         "textbackslash",

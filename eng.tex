@@ -1140,7 +1140,7 @@ figure~\ref{fig:interface-prototype}), which is made out of several components.
   \label{fig:interface-prototype}
 \end{figure}
 
-\chapter{Implementation of the project}
+\chapter{Implementation of the project} \label{ch:implementation-of-the-project}
 
 \section{Software environment}
 
@@ -2052,7 +2052,7 @@ processes the input differently depending on the type of the AST node:
 
 \todo{}
 
-\chapter{Project quality study}
+\chapter{Project quality study} \label{ch:project-quality-study}
 
 \section{Business logic testing} \label{sec:testing}
 
@@ -2668,26 +2668,64 @@ introduced in October 2018, launched in beta in August 2019, and finally
 distributed in November 2019. GitHub Actions is also paid, although it has a
 free version with some limitations.
 
-\todo{Actions}
+To set up a GitHub Action workflow, the developer creates an appropriate file
+--- in the case of CI/CD (Continuous integration and continuous deployment),
+which is the only workflow in the project, the file is named \texttt{ci.yml} and
+sits in the \texttt{.github} directory at the root of the repository. The format
+of the workflow file is YAML --- a human-readable data-serialization language
+that is commonly used for configuration files. A part of the file can be seen in
+listing~\ref{lst:cd}. With the \texttt{on} keyword it lists the events that
+invoke the workflow --- in this case, any push or pull request to the
+\emph{master} branch.
 
-\todo{npm run deploy}
+Each workflow is made up of one or more jobs. The \texttt{runs-on} parameter
+contains the type of virtual machine in which the code will be executed. In this
+case, the workflow uses \texttt{ubuntu-latest} --- the latest supported version
+of the Ubuntu operating system. The \texttt{steps} parameter is a sequence of
+tasks --- in the example of CI/CD, the first step is to check the repository so
+the workflow can access it. Then, the workflow sets up the toolchain: it
+installs Node.js, Rust, and wasm-pack, to finally install the npm dependencies
+via \texttt{npm ci} (which is usually faster than \texttt{npm install}), build
+the project with \texttt{npm run build}, and deploy it to GitHub Pages using the
+\texttt{npm run deploy} command. The deployment is preceded with an appropriate
+Git setup, where the workflow configures Git username and e-mail to ``fake''
+credentials of a GitHub Actions bot, as well as a GitHub token to authorize the
+push to the \texttt{gh-pages} branch. The token is stored in the repository via
+\emph{the secrets}, which allow the developers to store sensitive information in
+the repository or organization, and are available to use in GitHub Actions
+workflows. GitHub uses a \emph{libsodium sealed box} to help ensure that secrets
+are encrypted before they reach GitHub, and remain encrypted until the developer
+uses them in a workflow. Only people with access to the repository can view the
+secrets.
 
-\todo{npm install vs npm ci}
+The workflow uses third party GitHub Actions to set up the toolchain. The
+\verb|setup-node@v1| action installs an appropriate version of Node.js along
+with npm. The \verb|actions-rs/toolchain@v1| sets up the nightly version of
+the Rust compiler and the Cargo dependency manager. Finally,
+\verb|jetli/wasm-pack-action@v0.3.0| installs the latest version of wasm-pack
+for the Web\-Assembly compilation.
 
-\begin{listing}[b]
+\begin{listing}[H]
   \inputminted[fontsize=\footnotesize,frame=lines,breaklines,linenos]{yaml}
     {listings/cd.yaml}
-  \caption{\todo{}}
+  \caption{The deployment part of the GitHub Action workflow file related to
+  CI/CD.}
   \label{lst:cd}
 \end{listing}
 
-\todo{}
-
 \chapter{Artifacts}
+
+Artifacts described in this chapter are by-products of the implementation and
+testing phases described in chapters~\ref{ch:implementation-of-the-project} and
+\ref{ch:project-quality-study}, which are the core of the software development
+part of the project.
 
 \section{Source code}
 
-\todo{}
+The source code of the application was created throughout the whole development
+period. It encapsulates the functionalities of the application defined in the
+design document, as well as test suites --- coded test to run against the
+program in order to make sure a certain process is working.
 
 \section{Web application}
 

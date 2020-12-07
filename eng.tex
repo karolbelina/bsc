@@ -26,7 +26,6 @@
 % Set up the thesis
 \author{Karol Belina}
 \title{Formal grammar\par production rule parsing tool}
-\supervisor{dr inż. Zdzisław Spławski}
 \fieldofstudy{Computer Science}
 \keywords{Parser combinators, context-free grammars, Extended Backus-Naur Form}
 \summary{The thesis documents the process of designing and implementing a tool
@@ -1405,7 +1404,7 @@ dependencies, the most important of which include:
   out-of-bounds or by not satisfying the property), the inputs are "shrunk" to
   find a smaller counter-example.
   \item[criterion] This library provides a powerful but simple way to measure
-  software performance. It provides both a framework for executing and analysing
+  software performance. It provides both a framework for executing and analyzing
   benchmarks and a set of driver functions that makes it easy to build and run
   benchmarks, and to analyse their results.
 \end{description}
@@ -2328,7 +2327,7 @@ fn test_arbitrary_input(tokens: Vec<Spanned<Token>>) {
     let _ = parse(tokens.as_slice());
 }
   \end{minted}
-  \caption{A QuickCheck test related to the parser, testing strings of arbitraty
+  \caption{A QuickCheck test related to the parser, testing strings of arbitrary
   tokens.}
   \label{lst:parser-quickcheck-test}
 \end{listing}
@@ -2527,7 +2526,7 @@ These audits were not the main focus of the project, however they provide useful
 information about possible future improvements. Lighthouse informs that
 background and foreground colors do not have a sufficient contrast ratio and
 that low-contrast text is difficult or impossible for many users to read, which
-is a valid concern that should be taken into consideration. The accessbility
+is a valid concern that should be taken into consideration. The accessibility
 audit also suggests providing labels for associated form elements, which most
 likely relates to \texttt{textarea} grammar and input string fields. In terms of
 Progressive Web App audits, Lighthouse suggests using a service worker, which
@@ -2543,7 +2542,7 @@ Software complexity is a way to describe a specific set of characteristics of
 the code. These characteristics all focus on how the code interacts with other
 pieces of code.
 
-A popular metrix for measuring code complexity is \emph{cyclomatic complexity}.
+A popular metric for measuring code complexity is \emph{cyclomatic complexity}.
 Cyclomatic complexity uses a mathematical model to assess methods, producing
 accurate measurements of the effort required to test them, but inaccurate
 measurements of the effort required to understand them.

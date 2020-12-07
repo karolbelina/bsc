@@ -229,7 +229,6 @@ input. The scope of the thesis includes the implementation of a simple command
 line REPL program for interfacing with the grammar parser and checker.
 
 \todo{\begin{itemize}[noitemsep,nolistsep]
-  \item service workers
   \item wizualizacje, edytor tekstowy i kolorowanie składni
   \item wyjaśnienia zwracane przez checker?
   \item wyrażenia regularne w specjalnych sekwencjach?
@@ -432,22 +431,6 @@ type Parser a = String -> Maybe (a, String)
 % \end{minted}
 
 \chapter{Analysis of similar solutions}
-
-% \section*{Coco/R}
-
-% \todo{\cite{coco/r}}
-
-% \section*{ANTLR}
-
-% \todo{\cite{antlr}}
-
-% \section*{Bison}
-
-% \todo{\cite{bison}}
-
-% \section*{PLY}
-
-% \todo{\cite{ply}}
 
 \section*{Regex101}
 
@@ -684,9 +667,6 @@ availability, and compatibility of the system.
     \item Edge version 86 or later,
     \item Firefox version 82 or later,
     \item Opera version 71 or later. \end{itemize} & high \\
-  \addlinespace[0.5em] Usability \todo{} % This focuses on the appearance of
-  % the user interface and how people interact with it. What colour are the
-  % screens? How big are the buttons?
   & medium \\
   \addlinespace[0.5em] The source code of the product should be open source
   and freely available for possible modification and redistribution. & high \\
@@ -1148,10 +1128,6 @@ the architecture for \thisproject{}.
   \label{fig:physical-architecture}
 \end{figure}
 
-% \section{Class diagram}
-
-% \todo{Diagram ``klas''}
-
 \section{Interface prototype} \label{sec:interface-prototype}
 
 Because of the visual nature of the web application, a prototype of the user
@@ -1389,7 +1365,7 @@ that serves as a location to discover and download packages. Cargo is configured
 to use it by default to find requested packages.} The project uses several
 dependencies, the most important of which include:
 \begin{description}
-  \item[nom] \cite{nom} \paraphrase{A parser combinators library for Rust. Its
+  \item[nom] \cite{nom,couprie-2015} \paraphrase{A parser combinators library for Rust. Its
   goal is to provide tools to build safe parsers without compromising the speed
   or memory consumption. To that end, it uses extensively Rust's strong typing
   and memory safety to produce fast and correct parsers, and provides functions,
@@ -1400,7 +1376,7 @@ dependencies, the most important of which include:
   prototyping parser for a language. The resulting code is small, and looks like
   the grammar the developer would have written with other parser approaches. The
   resulting parsers are small and easy to write, as well as easy to test
-  separately.} \todo{\cite{couprie-2015}}
+  separately.}
   \item[unicode-segmentation] \cite{unicode-segmentation} A library with a set
   of iterators which split strings on \emph{grapheme clusters}, \emph{words} or
   \emph{sentence boundaries}, according to the Unicode Standard Annex \#29
@@ -1434,6 +1410,10 @@ dependencies, the most important of which include:
   benchmarks, and to analyse their results.
 \end{description}
 All of the above dependencies are available under the MIT license.
+
+\subsubsection*{Wasm-pack}
+
+\todo{}
 
 \subsubsection*{Svelte}
 
@@ -1538,6 +1518,11 @@ The project is dependent on several npm packages:
   autocompletion, code folding, configurable keybindings, search and replace
   interface, bracket and tag matching, support for split view, linter
   integration, various themes, and many more.
+  \item[svelte-tree] A tree-like view component for Svelte. The component has
+  the ability to display a collapsable tree structure based on a provided tree
+  of JavaScript objects with custom \texttt{name} and \texttt{children}
+  properties. The component provides a slot space to display custom nodes, which
+  will give the tree node DOM/components the access to the nodes being rendered.
 \end{description}
 The configuration file also lists dependencies for the development process,
 which can be divided into several categories:
@@ -1560,17 +1545,8 @@ which can be divided into several categories:
   \begin{itemize}[noitemsep,nolistsep]
     \item \texttt{svelte},
     \item \texttt{svelte-check},
-    \item \texttt{svelte-jester},
     \item \texttt{svelte-loader},
     \item \texttt{svelte-preprocess}
-  \end{itemize}
-  \item Dependencies required for UI testing
-  \begin{itemize}[noitemsep,nolistsep]
-    \item \texttt{@babel/core},
-    \item \texttt{@babel/preset-env},
-    \item \texttt{babel-jest},
-    \item \texttt{jest},
-    \item \texttt{jest-transform-svelte}
   \end{itemize}
   \item Miscellaneous dependencies
   \begin{itemize}[noitemsep,nolistsep]
@@ -1653,10 +1629,6 @@ about the token:
   \end{minipage}
 \end{listing}
 
-% \todo{}
-
-% test
-
 % \begin{minted}[fontsize=\small]{text}
 % integer = "0" | [ "-" ], natural number;
 % \end{minted}
@@ -1685,7 +1657,7 @@ about the token:
 \begin{listing}[H]
   \inputminted[fontsize=\small,frame=lines,breaklines,linenos]{haskell}
   {listings/ast.hs}
-  \caption{\todo{podpis}}
+  \caption{Definition of the types related to the AST in Haskell.}
   \label{lst:ast}
 \end{listing}
 
@@ -1863,7 +1835,7 @@ in a similar fashion.
 \begin{listing}[H]
   \inputminted[fontsize=\small,frame=lines,breaklines,linenos]{rust}
   {listings/parser.rs}
-  \caption{\todo{podpis}}
+  \caption{The \texttt{sequence} parser.}
   \label{lst:parser}
 \end{listing}
 
@@ -1881,7 +1853,7 @@ high extensibility, can parse any type as long as that type implements certain
 traits. This resulted in the definition of the \texttt{Tokens} data structure,
 which encapsulates the \texttt{\&[Spanned<Token>]} type --- a slice of a sequence
 of (spanned) tokens. \texttt{Tokens} implements such traits as
-\begin{itemize}[noitemsep,nolistsep]
+\begin{itemize}[noitemsep]
   \item \verb|InputLength|
   \item \verb|InputIter|
   \item \verb|InputTake|
@@ -1933,8 +1905,6 @@ can be made itself by some sequence of substitutions (in the case of indirect
 left recursion). A PEG is called \emph{well-formed} if it contains no
 left-recursive rules, i.e., rules that allow a non-terminal to expand to an
 expression in which the same non-terminal occurs as the leftmost symbol.}
-
-\newpage
 
 Consider the following example:
 \begin{minted}[fontsize=\small]
@@ -2614,9 +2584,17 @@ it comes to maintenance.
 
 \chapter{Deployment}
 
-\section{Deployment environment}
+\section{Application building}
+
+Deployment involves packaging up the web application and putting it in a
+production environment that can run the app. This section is related to the
+``packaging'' process of the application.
 
 \todo{}
+
+\section{Production environment}
+
+\thisproject{} uses a \todo{}
 
 \section{Continuous deployment}
 

@@ -119,6 +119,7 @@
         "sirv",
         "structopt",
         "subcommand",
+        "subcommands",
         "textbackslash",
         "theming",
         "thisruleclass",

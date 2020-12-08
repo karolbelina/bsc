@@ -560,7 +560,7 @@ of Pest and requires them to learn a new, non-standard language just for the
 purpose of parsing grammars, where other, already established languages may have
 sufficed.
 
-\chapter{Design of the project}
+\chapter{Design of the project} \label{ch:design-of-the-project}
 
 This chapter introduces a specification for the application described in
 chapter~\ref{ch:problem-analysis}. The specification is presented in forms of a
@@ -1559,7 +1559,7 @@ which can be divided into several categories:
 
 \todo{użyte technologie i zwizualizowany stack}
 
-\subsection{Project structure}
+\subsection{Project structure} \label{sbs:project-structure}
 
 \todo{}
 
@@ -2713,45 +2713,118 @@ for the Web\-Assembly compilation.
   \label{lst:cd}
 \end{listing}
 
-\chapter{Artifacts}
+\chapter{Software artifacts}
 
-Artifacts described in this chapter are by-products of the implementation and
-testing phases described in chapters~\ref{ch:implementation-of-the-project} and
-\ref{ch:project-quality-study}, which are the core of the software development
-part of the project.
+Artifacts described in this chapter are by-products of the design,
+implementation, and testing phases described in
+chapters~\ref{ch:design-of-the-project}, \ref{ch:implementation-of-the-project},
+and \ref{ch:project-quality-study}, which are the core of the software
+development part of the project.
 
-\section{Source code}
+The software artifact provides a template to build on to allow continuity
+instead of starting from scratch or terminating the software --- every program
+requires a constant update for continuity, lest they become redundant. The need
+to continually do software updates can become a significant source of work
+overload if the developer has to begin the developmental process all over again.
+However, using artifacts allow developers to have a stored template to fall back
+on when they need to update or upgrade their programs.
+
+\subsection*{Design document}
+
+This thesis serves as the design document of the project. It describes the use
+cases --- descriptions of how users are meant to perform tasks on the website.
+These relate directly to the function of the site, making them important
+artifacts. UML diagrams are a way of visualizing and plotting out the way a
+piece of software works. It works to map out links, processes, etc. Like use
+cases, UML doesn't directly help software run, but it's a key step in designing
+and programming a piece of software. Sequence diagrams are a way to map out the
+structure of the application --- they are used to map out links and processes
+that happen between clicks in a more visual way. Diagrams are a great way to
+visualize the internal processes of a given program. These will be created
+throughout the coding process, particularly in the preliminary stages
+
+\subsection*{Source code}
 
 The source code of the application was created throughout the whole development
 period. It encapsulates the functionalities of the application defined in the
 design document, as well as test suites --- coded test to run against the
-program in order to make sure a certain process is working.
+program in order to make sure a certain process is working. The project is
+open-source and is availabile on a public GitHub repository at
+\begin{center}
+  \url{https://github.com/karolbelina/parser-parser}
+\end{center}
 
-\section{Web application}
+The source code consists of three Rust crates and one npm package, as seen in
+section~\ref{sbs:project-structure}. Most of these work together to compose the
+single web application, with the npm package providing the tool chain necessary
+to build the project. The Rollup configuration provides the build tool necessary
+to bundle the source code in the form of Rust projects and Svelte files into a
+compiled web application.
 
-\todo{}
+The source code provides the testing infrastructure for the \texttt{ebnf} crate,
+with unit tests defined for major components of the system, along with
+integration tests which focus on the whole functionality compiled to a
+WebAssembly module. With a code artifact, a software programmer can test the
+program in detail and perfect things before launching the software. It defines
+benchmarks for the parsing and checking functionality of the \texttt{ebnf} crate
+with the use of Criterion.rs.
 
-\section{Command-line application}
+The definition of the GitHub Actions workflow in the \text{ci.yml} file along
+with the \texttt{Dockerfile} show the build process for the web application that
+may be utilized by deploying the final product in production, as well as to
+ascertain the compatibility of each developed program with a specific machine.
 
-\todo{}
+\subsection*{Compiled applications}
 
-\section{Documentation}
+The web application is the source code compiled into a usable application. This
+is the final artifact, and one of the only ones a typical user will care about.
+The compiled application will let the user access it on their machine, and use
+it as its meant to be used. The command-line application is an auxilliary
+compiled artifact of the project, that may also be used by the user by
+downloading the binary of the program and using it on their own machine.
 
-\todo{}
+\subsection*{Documentation}
 
-\chapter{User manual}
+The standard Rust distribution ships with a tool called \texttt{rustdoc}. Its
+job is to generate documentation for Rust projects. On a fundamental level,
+Rustdoc takes as an argument either a crate root or a Markdown file, and
+produces HTML, CSS, and JavaScript. The documentation can be built for all
+crates that are specified in the Cargo.toml by using the \texttt{cargo doc}
+command. This compiles into documentation the \emph{doc comments} in functions
+or modules, which are very useful for big projects that require documentation.
+They are denoted by a ``///'', and support Markdown. The compiled documentation
+is put into the generated HTML documentation in the \texttt{target/doc}
+directory. For convenience, running \texttt{cargo doc --open} will build the
+HTML for the current crate's documentation (as well as the documentation for
+all of your crate's dependencies) and open the result in a web browser.
 
-\section{System requirements}
+% \chapter{User manual}
 
-\todo{}
+% \section{Installation guide}
 
-\section{Installation guide}
+% The development process gives the user much flexibility when it comes to the
+% choice of an operating system. Any tool in the project's toolchain is available
+% on all major operating systems, whether it's Windows, GNU/Linux or macOS.
 
-\todo{}
+% To install Rust along with Cargo please follow the official installation guide
+% for your operating system available at
+% \begin{center}
+%   \url{https://www.rust-lang.org/tools/install}
+% \end{center}
+% Node.js and npm can be downloaded through
+% \begin{center}
+%   \url{https://www.npmjs.com/get-npm}
+% \end{center}
+% Wasm-pack's installer and installation guide can be found at
+% \begin{center}
+%   \url{https://rustwasm.github.io/wasm-pack/installer/}
+% \end{center}
+% All three tools must be installed on the machine of the user in order to run the
+% application locally. To clone the official Git repository of the project from GitHub 
 
-\section{Usage guide}
+% \section{Usage guide}
 
-\todo{}
+% \todo{}
 
 \chapter{Summary}
 

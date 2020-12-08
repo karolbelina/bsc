@@ -1658,6 +1658,8 @@ about the token:
   \label{lst:ast}
 \end{listing}
 
+\todo{}
+
 \todo{opis}
 
 \subsection{Lexical analyser}
@@ -1683,29 +1685,7 @@ Every token is preceded by the ``whitespace-comment-whitespace'' search, which
 skips any whitespace characters and (possibly nested) comments. Any whitespace
 inside integers or meta-identifiers is handled in the corresponding token loop.
 
-The header of the \texttt{lex} function is
-\begin{minted}[fontsize=\small,breaklines]{rust}
-fn lex(string: &str) -> Result<Vec<Spanned<Token>>, Spanned<Error>>
-\end{minted}
-Please note the return type of the function, which is either a \texttt{Vec} of
-\texttt{Spanned} \texttt{Token}s in case the tokenizer succeeded, or an
-\texttt{Error}, which is defined as
-\begin{listing}[H]
-  \begin{minted}[fontsize=\small,breaklines]{rust}
-enum Error {
-  InvalidSymbol(String),
-  UnterminatedSpecial,
-  UnterminatedComment,
-  UnterminatedTerminal,
-  EmptyTerminal,
-}
-  \end{minted}
-\end{listing}
-which encodes every possible error the tokenizer can report. The
-\texttt{InvalidSymbol} case contains the additional information about the actual
-invalid symbol.
-
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}
@@ -1787,6 +1767,28 @@ invalid symbol.
   characters. Set notation on the transitions is omitted.}
   \label{fig:lexer-dfa}
 \end{figure}
+
+The header of the \texttt{lex} function is
+\begin{minted}[fontsize=\small,breaklines]{rust}
+fn lex(string: &str) -> Result<Vec<Spanned<Token>>, Spanned<Error>>
+\end{minted}
+Please note the return type of the function, which is either a \texttt{Vec} of
+\texttt{Spanned} \texttt{Token}s in case the tokenizer succeeded, or an
+\texttt{Error}, which is defined as
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,breaklines]{rust}
+enum Error {
+  InvalidSymbol(String),
+  UnterminatedSpecial,
+  UnterminatedComment,
+  UnterminatedTerminal,
+  EmptyTerminal,
+}
+  \end{minted}
+\end{listing}
+which encodes every possible error the tokenizer can report. The
+\texttt{InvalidSymbol} case contains the additional information about the actual
+invalid symbol.
 
 The whole tokenization process is preceded by the procedure of splitting the
 input string into individual Unicode graphemes according to the Unicode Standard
@@ -1885,16 +1887,29 @@ module. It is divided among several files:
   \item[\texttt{tokens.rs}] holds the definition of the \texttt{Tokens}
   type and its trait implementations,
   \item[\texttt{error.rs}] contains the definition of the \texttt{parser::Error}
-  type
+  type,
   \item[\texttt{utils.rs}] defines the utility functions and \emph{literal}
   parsers, 
   \item[\texttt{tests.rs}] contains unit tests related to syntactic analysis,
   which are going to be discussed in section~\ref{sec:testing}.
 \end{description}
 
-\subsection{Preprocessing and detecting left recursion}
+\subsection{Semantic analyser}
 
-\todo{wykrywanie niepoprawnych non-terminali}
+Grammar preprocessing is a phase that tries to detect semantic errors in the
+AST. This phase does not \emph{produce} anything from the AST, and serves only
+as a \emph{guard} for any semantic inaccuracies, which include undefined
+production rules, or direct or indirect left recursion.
+
+Before checking for left recursion, the algorithm checks for any non-terminals
+in the AST that do not have a definition. These non-terminals are invalid and
+any occurence of such a non-terminal should be reported as an error. The basic
+principle of detecting undefined non-terminals, and so --- production rules ---
+is a recursive walk of the AST in search of any undefined non-terminals. A
+non-terminal is undefined if there is no \texttt{Production} in the
+\texttt{Grammar} with an appropriate identifier in the \texttt{lhs} (left-hand
+side). When such a non-terminal is found, the algorithm reports an
+\texttt{UndefinedRule} error at the position of the non-terminal.
 
 \paraphrase{In the formal language theory, a production rule is left-recursive
 if the leftmost symbol of it is itself (in the case of direct left recursion) or
@@ -1925,7 +1940,7 @@ presence of direct or indirect left recursion in the provided grammar. The
 process of detecting left recursion can be seen in algorithm
 \ref{alg:detecting-left-recursion}.
 
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
   \DontPrintSemicolon
   \LinesNumbered
   \SetKwFunction{FCheckExpr}{CheckExpr}
@@ -1990,7 +2005,17 @@ process of detecting left recursion can be seen in algorithm
   \label{alg:detecting-left-recursion}
 \end{algorithm}
 
-\todo{struktura plików}
+The code related to preprocessing, or the syntactic analysis, can be found in
+the \texttt{preprocessor} module of the crate. The module is divided into
+several separate files:
+\begin{description}
+  \item[\texttt{mod.rs}] contains the algorithms for undefined rule and left
+  recursion detection, as well as the main \texttt{preprocess} function, 
+  \item[\texttt{error.rs}] defines the \texttt{preprocessor::Error}
+  type,
+  \item[\texttt{tests.rs}] contains unit tests related to preprocessing,
+  which are further mentioned in section~\ref{sec:testing}.
+\end{description}
 
 \subsection{Grammar processing}
 
@@ -2792,7 +2817,7 @@ produces HTML, CSS, and JavaScript. The documentation can be built for all
 crates that are specified in the Cargo.toml by using the \texttt{cargo doc}
 command. This compiles into documentation the \emph{doc comments} in functions
 or modules, which are very useful for big projects that require documentation.
-They are denoted by a ``///'', and support Markdown. The compiled documentation
+They are denoted by a ``\texttt{///}'', and support Markdown. The compiled documentation
 is put into the generated HTML documentation in the \texttt{target/doc}
 directory. For convenience, running \texttt{cargo doc --open} will build the
 HTML for the current crate's documentation (as well as the documentation for

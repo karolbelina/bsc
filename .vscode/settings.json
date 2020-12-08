@@ -112,6 +112,7 @@
         "pushdown",
         "quickcheck",
         "rimraf",
+        "rustdoc",
         "rustup",
         "sirv",
         "subcommand",

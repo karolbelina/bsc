@@ -2397,11 +2397,65 @@ way:
 
 \subsection{Text editor}
 
-\todo{CodeMirror}
 
-\subsection{Visualizations}
 
-\todo{}
+\subsection{Parse tree visualizations}
+
+\begin{wrapfigure}{l}{0.3\textwidth}
+  \centering
+  \includegraphics[width=5cm]{parse_tree.png}
+  \caption{A screenshot of the visualized parse tree.}
+  \label{fig:front-end-parse-tree}
+\end{wrapfigure}
+
+Section~\ref{sbs:grammar-processing} described the \texttt{Node} structure,
+which represents the parse tree returned from the checker. This structure is
+utilized in the visualization of the parse tree on the front-end. Each
+\texttt{Node} converted to JavaScript objects is composed of a \texttt{name}
+parameter, and, in the case of branch nodes, a \texttt{children} parameter with
+an array of all children nodes. This structure is compatible with
+\emph{svelte-tree} package --- a tree-like view component for Svelte. The
+component is used on the front-end to display a collapsable tree based on the
+structure described above. An example of the visualized parse tree is presented
+in figure~\ref{fig:front-end-parse-tree}.
+
+Svelte-tree allows the user to associate a node with an identifier via the
+\texttt{let:node} construct, and this way access the names of nodes being
+rendered at appropriate DOM elements.
+
+The Svelte-tree is abstracted away into its own Svelte component responsible for
+visualizing the parse tree, which can be seen in
+listing~\ref{lst:svelte-parse-tree}. In the \texttt{<script>} section it imports
+the \texttt{Tree} components from the Svelte-tree package, and exposes the
+\texttt{tree} parameter as its input. Each node in the tree is marked with a
+\texttt{node} class, which, in the \texttt{<style>} section, is getting an
+appropriate styling with CSS.
+
+\begin{listing}[H]
+  \begin{minted}[fontsize=\footnotesize,frame=lines,breaklines,linenos]{html}
+<script>
+  import Tree from "svelte-tree";
+  export let tree;
+</script>
+
+<main>
+  <Tree tree={[tree]} let:node>
+    <div class="node">{node.name}</div>
+  </Tree>
+</main>
+
+<style>
+  .node {
+    float: left;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    color: #928374;
+    padding-left: 24px;
+  }
+</style>
+  \end{minted}
+  \caption{Contents of \texttt{ParseTree.svelte}, the parse tree component.}
+  \label{lst:svelte-parse-tree}
+\end{listing}
 
 \chapter{Project quality study} \label{ch:project-quality-study}
 

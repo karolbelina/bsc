@@ -9,7 +9,7 @@
 \usepackage[ruled,vlined,algochapter]{algorithm2e}
 \usepackage{wrapfig}
 \usepackage{tikz}
-\usetikzlibrary{automata, positioning, arrows}
+\usetikzlibrary{automata,positioning,arrows,trees}
 \usepackage{booktabs}
 \usepackage{xltabular}
 \usepackage{array} % \raggedright, \arraybackslash
@@ -241,7 +241,7 @@ static sites.
   \item[EBNF] Extended Backus-Naur Form --- \todo{},
   \item[parser] \todo{},
   \item[REPL] Read-Eval-Print loop --- \todo{}.
-  \item[DFA] \todo{}. 
+  \item[DFA] \todo{}.
   \item \todo{}
 \end{description}
 
@@ -830,7 +830,7 @@ one user story and vice versa.
       \node at (1.5,1)  (fr6) {\emph{FR6}};
       \node at (2.5,1)  (fr7) {\emph{FR7}};
       \node at (3.5,1)  (fr8) {\emph{FR8}};
-      
+
       \begin{pgfonlayer}{bg}
         \draw (fr1) -- (us1);
         \draw (fr1) -- (us2);
@@ -1367,7 +1367,7 @@ dependencies, the most important of which include:
   or memory consumption. To that end, it uses extensively Rust's strong typing
   and memory safety to produce fast and correct parsers, and provides functions,
   macros and traits to abstract most of the error prone details.
-  
+
   While programming language parsers are usually written manually for more
   flexibility and performance, nom can be (and has been successfully) used as a
   prototyping parser for a language. The resulting code is small, and looks like
@@ -1410,7 +1410,18 @@ All of the above dependencies are available under the MIT license.
 
 \subsubsection*{Wasm-pack}
 
-\todo{}
+Wasm-pack is a tool for building and working with Rust-generated WebAssembly
+that the developer would like to interop with JavaScript, in the browser or with
+Node.js. The generated WebAssembly packages than could be published to the npm
+registry, or otherwise used alongside any JavaScript packages in workflows that
+the developer already uses, such as Webpack or Rollup. The tool interoperates
+and utilizes the wasm-bindgen, another tool, to provide a bridge between the
+types of JavaScript and Rust. It allows JavaScript to call a Rust API with a
+string, or a Rust function to catch a JavaScript exception. wasm-pack wraps the
+CLI portion of the wasm-bindgen tool. This results in wrapping the WebAssembly
+module in JS wrappers which make it easier to interact with the module.
+Wasm-bindgen supports both ES6 modules and CommonJS and the developer can use
+wasm-pack to produce either type of package.
 
 \subsubsection*{Svelte}
 
@@ -1555,13 +1566,63 @@ which can be divided into several categories:
   \end{itemize}
 \end{itemize}
 
-\subsection{Technology infrastructure}
-
-\todo{użyte technologie i zwizualizowany stack}
+\newpage
 
 \subsection{Project structure} \label{sbs:project-structure}
 
-\todo{}
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[%
+    grow via three points={one child at (0.5,-0.7) and
+    two children at (0.5,-0.7) and (0.5,-1.4)},
+    edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+    \tikzstyle{every node}=[draw=black,thick,anchor=west]
+    \node {parser-parser}
+      child { node {base}
+        child { node {checker}}
+        child { node {ast}}
+      }
+      child [missing] {}
+      child [missing] {}
+      child { node {cli}}
+      child { node {ebnf}
+        child { node {lexer}}
+        child { node {parser}}
+        child { node {preprocessor}}
+      }
+      child [missing] {}
+      child [missing] {}
+      child [missing] {}
+      child { node {app}
+        child { node {editor}}
+        child { node {wasm}}
+      }
+      child [missing] {}
+      child [missing] {};
+  \end{tikzpicture}
+  \caption{The approximate directory tree of the \thisproject{} project.}
+  \label{fig:file-tree}
+\end{figure}
+
+The project structure of \thisproject{}, visualized in
+figure~\ref{fig:file-tree}, consists of several components:
+\begin{description}
+  \item[base] Rust crate containing the definition of the AST along with the
+  \emph{checker} module, which will be described in detail in
+  section~\ref{sbs:grammar-processing},
+  \item[cli] The auxillary command-line application written in Rust, explored
+  further in section~\ref{sec:command-line-application},
+  \item[ebnf] The core business logic of the application in the form of a Rust
+  crate. This crate is further divided into modules: the lexical, syntactic, and
+  semantic analysers, all of which will be discussed in
+  sections~\ref{sbs:lexical-analyser}, \ref{sbs:syntactic-analyser}, and
+  \ref{sbs:semantic-analyser},
+  \item[app] An npm package containing the web application written primarily
+  with Svelte. The component also defines a simple Rust crate, which acts as a
+  link between the \emph{base} and \emph{ebnf} crates and compiles them to
+  WebAssembly. The structure of the web application is described in detail in
+  section~\ref{sec:web-based-application}.
+\end{description}
 
 \section{Business logic}
 
@@ -1662,7 +1723,7 @@ about the token:
 
 \todo{opis}
 
-\subsection{Lexical analyser}
+\subsection{Lexical analyser} \label{sbs:lexical-analyser}
 
 The lexical analyser, also known as \emph{the lexer} or \emph{the tokenizer},
 performs the tokenization described in section~\ref{sec:lexing}. A simplified
@@ -1726,12 +1787,12 @@ inside integers or meta-identifiers is handled in the corresponding token loop.
           (4) edge[left, bend right] node{\texttt{*}} (5)
           (5) edge[right, bend right] node{$\Sigma - \{\texttt{)}\}$} (4)
           (5) edge[above] node{\texttt{)}} (1)
-          
+
           (2) edge[right] node{\texttt{/}} (6)
           (2) edge[above] node{\texttt{:}} (7)
           (6) edge[above] node{\texttt{)}} (8)
           (7) edge[right] node{\texttt{)}} (8)
-          
+
           (1) edge[above] node{\texttt{"}} (9)
           (1) edge[above, bend right=14] node{\texttt{'}} (10)
           (9) edge[left] node{$\Sigma - \{\texttt{"}\}$} (11)
@@ -1740,17 +1801,17 @@ inside integers or meta-identifiers is handled in the corresponding token loop.
           (12) edge[loop below] node{$\Sigma - \{\texttt{'}\}$} (12)
           (11) edge[above] node{\texttt{"}} (13)
           (12) edge[right] node{\texttt{'}} (13)
-          
+
           (1) edge[above, bend right=14] node{\texttt{?}} (14)
           (14) edge[loop below] node{$\Sigma - \{\texttt{?}\}$} (14)
           (14) edge[above] node{\texttt{?}} (15)
-          
+
           (1) edge[right] node{$D$} (16)
           (16) edge[loop left] node{$D \cup W$} (16)
-          
+
           (1) edge[right] node{$A$} (17)
           (17) edge[loop left] node{$A \cup N \cup W$} (17)
-          
+
           (1) edge[left] node{\texttt{\{}, \texttt{\}}, \texttt{[}, \texttt{]},
           \texttt{)}, \texttt{,}, \texttt{;}, \texttt{=}, \texttt{-},
           \texttt{*}, \texttt{|}, \texttt{!}} (18)
@@ -1811,7 +1872,7 @@ split into several files:
   will be later discussed in section~\ref{sec:testing}.
 \end{description}
 
-\subsection{Syntactic analyser}
+\subsection{Syntactic analyser} \label{sbs:syntactic-analyser}
 
 The syntactic analysis phase, also known as the parsing phase (described in
 section~\ref{sec:parsing}) is conducted by the parser module. The goal of this
@@ -1889,12 +1950,12 @@ module. It is divided among several files:
   \item[\texttt{error.rs}] contains the definition of the \texttt{parser::Error}
   type,
   \item[\texttt{utils.rs}] defines the utility functions and \emph{literal}
-  parsers, 
+  parsers,
   \item[\texttt{tests.rs}] contains unit tests related to syntactic analysis,
   which are going to be discussed in section~\ref{sec:testing}.
 \end{description}
 
-\subsection{Semantic analyser}
+\subsection{Semantic analyser} \label{sbs:semantic-analyser}
 
 Grammar preprocessing is a phase that tries to detect semantic errors in the
 AST. This phase does not \emph{produce} anything from the AST, and serves only
@@ -1927,7 +1988,7 @@ product = expr, {('*' | '/'), expr}
 sum     = expr, {('+' | '-'), expr}
 expr    = product | sum | value
 \end{minted}
-\paraphrase{In this grammar, matching an \texttt{expr} requires testing if a  
+\paraphrase{In this grammar, matching an \texttt{expr} requires testing if a
 \texttt{product} matches while matching a \texttt{product} requires testing if
 an \texttt{expr} matches. Because the term appears in the leftmost position,
 these rules make up a circular definition that cannot be resolved.}
@@ -1962,7 +2023,7 @@ process of detecting left recursion can be seen in algorithm
       }
       \Case{Sequence$((s_1, s_2, \dots, s_n))$}{
         \tcc{Skip the last expression}
-        \ForEach{$s \in (s_1, s_2, \dots, s_{n-1})$} { 
+        \ForEach{$s \in (s_1, s_2, \dots, s_{n-1})$} {
           \tcc{check if $s$ can be an empty expression (e.g. Optional)}
           \If{$s \neq \varepsilon$}{
             \FCheckExpr{s, t}
@@ -2010,14 +2071,14 @@ the \texttt{preprocessor} module of the crate. The module is divided into
 several separate files:
 \begin{description}
   \item[\texttt{mod.rs}] contains the algorithms for undefined rule and left
-  recursion detection, as well as the main \texttt{preprocess} function, 
+  recursion detection, as well as the main \texttt{preprocess} function,
   \item[\texttt{error.rs}] defines the \texttt{preprocessor::Error}
   type,
   \item[\texttt{tests.rs}] contains unit tests related to preprocessing,
   which are further mentioned in section~\ref{sec:testing}.
 \end{description}
 
-\subsection{Grammar processing}
+\subsection{Grammar processing} \label{sbs:grammar-processing}
 
 After creating the AST of a grammar, it can be analysed along with an input
 string to check if that input string belongs to the language generated by the
@@ -2056,14 +2117,14 @@ processes the input differently depending on the type of the AST node:
   \item[Special] Currently, the program always returns \emph{failure} for any
   special sequence,
   \item[Empty] The program always returns \emph{success} without processing the
-  input string. 
+  input string.
 \end{description}
 
-\section{Command line application}
+\section{Command line application} \label{sec:command-line-application}
 
 \todo{}
 
-\section{Web-based application}
+\section{Web-based application} \label{sec:web-based-application}
 
 \subsection{Linking the business logic}
 
@@ -2845,7 +2906,7 @@ all of your crate's dependencies) and open the result in a web browser.
 %   \url{https://rustwasm.github.io/wasm-pack/installer/}
 % \end{center}
 % All three tools must be installed on the machine of the user in order to run the
-% application locally. To clone the official Git repository of the project from GitHub 
+% application locally. To clone the official Git repository of the project from GitHub
 
 % \section{Usage guide}
 

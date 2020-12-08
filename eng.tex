@@ -1661,6 +1661,14 @@ the main language in \thisproject{}, is one example of such a language.
 
 \subsubsection*{Token type definition}
 
+\begin{wraplisting}{l}{0.4\textwidth}
+  \inputminted[fontsize=\small,frame=lines,breaklines,linenos]{haskell}
+  {listings/token.hs}
+  \caption{Definition of the \texttt{Token} type in Haskell.}
+  \label{lst:token}
+  \vspace{-2cm}
+\end{wraplisting}
+
 The tokenization process, described in section~\ref{sec:lexing}, converts a
 stream of characters into a stream of tokens. A set of valid tokens can be
 represented as a sum type of all individual token types, shown in
@@ -1677,15 +1685,15 @@ about the token:
   Haskell's \texttt{Integer} type.
 \end{description}
 
-\begin{listing}[H]
-  \centering
-  \begin{minipage}{0.5\textwidth}%
-    \inputminted[fontsize=\small,frame=lines,breaklines,linenos]{haskell}
-    {listings/token.hs}
-    \caption{Definition of the \texttt{Token} type in Haskell.}
-    \label{lst:token}
-  \end{minipage}
-\end{listing}
+An equivalent of such a type in Rust could be defined as an \emph{enumeration},
+also referred to as an \emph{enum}. Enums allow the developer to define a type
+by enumerating its possible variants. Enums variants in Rust, besides the kind
+of a variant, can also carry additional data, either in the form of a tuple, or
+a record. This way, the \texttt{Nonterminal}, \texttt{Terminal},
+\texttt{Special}, and \texttt{Integer} variants can have an associated value
+built right into the type system.
+
+\newpage
 
 % \begin{minted}[fontsize=\small]{text}
 % integer = "0" | [ "-" ], natural number;
@@ -1718,8 +1726,6 @@ about the token:
   \caption{Definition of the types related to the AST in Haskell.}
   \label{lst:ast}
 \end{listing}
-
-\todo{}
 
 \todo{opis}
 

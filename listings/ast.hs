@@ -1,5 +1,4 @@
-type Grammar = [Production]
-type Production = (String, Expression)
+type Grammar = HashMap String Expression
 data Expression
   = Alternative Expression Expression [Expression]
   | Sequence Expression Expression [Expression]

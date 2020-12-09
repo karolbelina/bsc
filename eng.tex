@@ -2397,7 +2397,59 @@ way:
 
 \subsection{Text editor}
 
+\thisproject{} utilizes CodeMirror as its text and code editor. CodeMirror is a
+code editor component that can be embedded in web pages. The core library
+provides only the editor component, no accompanying buttons, auto-completion, or
+other IDE functionality. It does provide a rich API on top of which such
+functionality can be straightforwardly implemented. The distribution includes
+addons, which are reusable implementations of extra features. CodeMirror works
+with language-specific modes, which are JavaScript programs that help color (and
+optionally indent) text written in a given language. The distribution comes with
+a number of modes, including the EBNF mode, which is used in \thisproject{}.
 
+To integrate CodeMirror with Svelte, the author implemented a wrapper Svelte
+component on top of the native CodeMirror component. The implemented component
+utilizes the state-driven approach of Svelte, and exposes callbacks for
+associating functionality with events of the editor. CodeMirror works on top of
+a \texttt{<textarea>} HTML element of the web document:
+\begin{minted}[fontsize=\small]{html}
+<textarea bind:this="{textAreaRef}" readonly></textarea>
+\end{minted}
+The \texttt{<textarea>} is bound to a \texttt{textAreaRef} variable with the use
+of the \texttt{bind:this} construct. Through JavaScript, the editor is created
+in the \texttt{onMount} event of the component by invoking the
+\texttt{fromTextArea} function with an appropriate binding. This will, among
+other things, ensure that the \texttt{textarea}'s value is updated with the
+editor's contents when the form is submitted.
+\begin{minted}[fontsize=\small]{javascript}
+editor = CodeMirror.fromTextArea(textAreaRef, opts);
+\end{minted}
+where \texttt{opts} is a dictionary of configuration options provided by Svelte.
+Any option not supplied like this will be taken from
+\texttt{CodeMirror.defaults}, an object containing the default options. Options
+are not checked in any way, so setting undefined option values is bound to lead
+to odd errors. Some more notable options include:
+\begin{description}
+  \item[\texttt{mode}] The mode to use. When not given, this will default to the
+  first mode that was loaded. It may be a string, which either simply names the
+  mode or is a MIME type associated with the mode. Alternatively, it may be an
+  object containing configuration options for the mode, with a name property
+  that names the mode (for example \texttt{{name: "javascript", json: true}}).
+  The value \texttt{null} indicates no highlighting should be applied.
+  \item[\texttt{theme}] The theme to style the editor with. The developer must
+  make sure the CSS file defining the corresponding \texttt{.cm-s-[name]} styles
+  is loaded from the theme directory in the distribution. The default is
+  ``\texttt{default}'', for which colors are included in
+  \texttt{codemirror.css}.
+  \item[\texttt{tabSize}] The width of a tab character. Defaults to 4.
+  \item[\texttt{extraKeys}] Can be used to specify extra key bindings for the
+  editor, alongside the ones defined by \texttt{keyMap}. Should be either null,
+  or a dictionary of key bindings.
+  \item[\texttt{lint}] Available after loading the Lint addon, which defines an
+  interface component for showing linting warnings, with pluggable warning
+  sources. The \texttt{lint} option can be set to a warning source, which is a
+  validator function that returns a list of errors from the provided string.
+\end{description}
 
 \subsection{Parse tree visualizations}
 
@@ -2414,7 +2466,7 @@ utilized in the visualization of the parse tree on the front-end. Each
 \texttt{Node} converted to JavaScript objects is composed of a \texttt{name}
 parameter, and, in the case of branch nodes, a \texttt{children} parameter with
 an array of all children nodes. This structure is compatible with
-\emph{svelte-tree} package --- a tree-like view component for Svelte. The
+\emph{Svelte-tree} package --- a tree-like view component for Svelte. The
 component is used on the front-end to display a collapsable tree based on the
 structure described above. An example of the visualized parse tree is presented
 in figure~\ref{fig:front-end-parse-tree}.
@@ -2426,7 +2478,7 @@ rendered at appropriate DOM elements.
 The Svelte-tree is abstracted away into its own Svelte component responsible for
 visualizing the parse tree, which can be seen in
 listing~\ref{lst:svelte-parse-tree}. In the \texttt{<script>} section it imports
-the \texttt{Tree} components from the Svelte-tree package, and exposes the
+the \texttt{Tree} component from the Svelte-tree package, and exposes the
 \texttt{tree} parameter as its input. Each node in the tree is marked with a
 \texttt{node} class, which, in the \texttt{<style>} section, is getting an
 appropriate styling with CSS.
@@ -2453,7 +2505,8 @@ appropriate styling with CSS.
   }
 </style>
   \end{minted}
-  \caption{Contents of \texttt{ParseTree.svelte}, the parse tree component.}
+  \caption{Contents of \texttt{ParseTree.svelte}, the parse tree visualization
+  component.}
   \label{lst:svelte-parse-tree}
 \end{listing}
 
@@ -3087,21 +3140,21 @@ Each workflow is made up of one or more jobs. The \texttt{runs-on} parameter
 contains the type of virtual machine in which the code will be executed. In this
 case, the workflow uses \texttt{ubuntu-latest} --- the latest supported version
 of the Ubuntu operating system. The \texttt{steps} parameter is a sequence of
-tasks --- in the example of CI/CD, the first step is to check the repository so
-the workflow can access it. Then, the workflow sets up the toolchain: it
-installs Node.js, Rust, and wasm-pack, to finally install the npm dependencies
-via \texttt{npm ci} (which is usually faster than \texttt{npm install}), build
-the project with \texttt{npm run build}, and deploy it to GitHub Pages using the
-\texttt{npm run deploy} command. The deployment is preceded with an appropriate
-Git setup, where the workflow configures Git username and e-mail to ``fake''
-credentials of a GitHub Actions bot, as well as a GitHub token to authorize the
-push to the \texttt{gh-pages} branch. The token is stored in the repository via
-\emph{the secrets}, which allow the developers to store sensitive information in
-the repository or organization, and are available to use in GitHub Actions
-workflows. GitHub uses a \emph{libsodium sealed box} to help ensure that secrets
-are encrypted before they reach GitHub, and remain encrypted until the developer
-uses them in a workflow. Only people with access to the repository can view the
-secrets.
+tasks --- in the example of CI/CD, the first step is to \emph{checkout} the
+repository so the workflow can access it. Then, the workflow sets up the
+toolchain: it installs Node.js, Rust, and wasm-pack, to finally install the npm
+dependencies via \texttt{npm ci} (which is usually faster than \texttt{npm
+install}), build the project with \texttt{npm run build}, and deploy it to
+GitHub Pages using the \texttt{npm run deploy} command. The deployment is
+preceded with an appropriate Git setup, where the workflow configures Git
+username and e-mail to ``fake'' credentials of a GitHub Actions bot, as well as
+a GitHub token to authorize the push to the \texttt{gh-pages} branch. The token
+is stored in the repository via \emph{the secrets}, which allow the developers
+to store sensitive information in the repository or organization, and are
+available to use in GitHub Actions workflows. GitHub uses a \emph{libsodium
+sealed box} to help ensure that secrets are encrypted before they reach GitHub,
+and remain encrypted until the developer uses them in a workflow. Only people
+with access to the repository can view the secrets.
 
 The workflow uses third party GitHub Actions to set up the toolchain. The
 \verb|setup-node@v1| action installs an appropriate version of Node.js along

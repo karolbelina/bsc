@@ -385,7 +385,55 @@ constraints on the structure of the production rules.
 
 \subsection{Parsing Expression Grammars}
 
-\todo{\cite{ford-2004}}
+Chomsky's generative system of grammars, particularly context-free grammars and
+regular expressions, has been used to express the syntax of programming
+languages and protocols. Their original purpose is modelling natural languages,
+and the ability to express ambiguous constructs reflects that. This, however,
+makes it difficult to express deterministic, machine-oriented languages using
+context-free grammars. Parsing expression grammars (PEGs), introduced by Ford in
+\cite{ford-2004} are an alternative to context-free grammars for formally
+specifying syntax. Syntactically, PEGs also look similar to context-free
+grammars, but they have a different interpretation: the choice operator selects
+the first match in PEG, while it is ambiguous in CFG --- in PEGs, if a string
+parses, it has exactly one valid parse tree. Ordered choice in PEGs is analogous
+to \emph{soft cut} operators available in some logic programming languages.
+
+PEGs address limitations of expressiveness of context-free grammars and regular
+expressions by simplifying syntax definitions. Each parsing rule in a PEG has
+the form $A \leftarrow e$, where A is a non-terminal symbol, and $e$ is a
+\emph{parsing expression}. An \texttt{atomic} parsing expression is either a
+terminal symbol, a non-terminal symbol, or the empty string $\varepsilon$. A
+parsing expression consisting of a single terminal succeeds if the first
+character of the input string matches that terminal, and in that case consumes
+the input character; otherwise the expression yields a \emph{failure} result. A
+parsing expression consisting of the empty string always succeeds without
+consuming any input. A parsing expression consisting of a non-terminal $A$
+represents a recursive call to the production rule $A$. 
+
+Terminals, non-terminals, and empty strings may be combined to construct more
+complex parsing expression using the following operators:
+\begin{itemize}[noitemsep]
+  \item Sequence $e_1\ e_2$, which first invokes $e_1$, and if $e_1$ succeeds,
+  subsequently invokes $e_2$ on the remainder of the input string left
+  unconsumed by $e_1$, and returns the result. If either $e_1$ or $e_2$ fails,
+  then the sequence expression $e_1\ e_2$ fails consuming no input.
+  \item Ordered choice $e_1\ /\ e_2$, which first invokes $e_1$, and if $e_1$
+  succeeds, returns its result immediately. Otherwise, if $e_1$ fails, then the
+  choice operator backtracks to the original input position at which it invoked
+  $e_1$, but then calls $e_2$ instead, returning $e_2$'s result.
+  \item Zero-or-more $e*$, which consumes zero or more consecutive repetitions
+  of the sub-expression $e$.
+  \item One-or-more $e+$, which consumes one or more consecutive repetitions of
+  the sub-expression $e$.
+  \item Optional $e?$, which consumes zero or one occurrence of the
+  sub-expression $e$.
+  \item And-predicate $\&e$, which invokes the sub-expression $e$, and then
+  succeeds if $e$ succeeds and fails if $e$ fails, but in either case never
+  consumes any input.
+  \item Not-predicate $!e$, which succeeds if $e$ fails and fails if $e$
+  succeeds, consuming no input in either case.
+\end{itemize}
+where $e$, $e_1$, and $e_2$ are parsing expressions. 
 
 \section{Why EBNF?} \label{sec:why-ebnf}
 

@@ -332,7 +332,8 @@ sequences of terminal symbols from that language.
 
 In~\cite{chomsky-1956} Chomsky divides formal grammars into four classes and
 classifies them in the now called \emph{Chomsky~Hierarchy}. Each class is a
-subset of another, distinguished by the complexity.
+subset of another, distinguished by the complexity. The hierarchy is visualized
+in figure~\ref{fig:chomsky-hierarchy}.
 
 Type-3 grammars generate the so-called \emph{regular~languages}. As described
 in~\cite{aho-1990}, regular languages can be matched by
@@ -343,15 +344,46 @@ possibly followed by a single non-terminal on the right-hand side. Because of
 their simplicity, regular languages are used for lexical analysis of programming
 languages~\cite{johnson-1968}.
 
-Type-2 grammars produce \emph{context-free~languages} and can be represented
-as a \emph{pushdown~automaton} which is an automaton that can maintain its
-state with the use of a stack. \todo{jak w stosie wygląda pamięć}
+Type-2 grammars produce \emph{context-free~languages} and can be represented as
+a \emph{pushdown~automaton} which is an automaton that can maintain its state
+with the use of a stack. A pushdown automaton (PDA) differs from a finite state
+machine in two ways:
+\paraphrase{\begin{itemize}[noitemsep]
+  \item It can use the top of the stack to decide which transition to take,
+  \item It can manipulate the stack as part of performing a transition.
+\end{itemize}
+A pushdown automaton reads a given input string from left to right. In each
+step, it chooses a transition by indexing a table by input symbol, current
+state, and the symbol at the top of the stack. A pushdown automaton can also
+manipulate the stack, as part of performing a transition. The manipulation can
+be to push a particular symbol to the top of the stack, or to pop off the top of
+the stack. The automaton can alternatively ignore the stack, and leave it as it
+is.} Context-free languages are defined by rules of the form of a single
+non-terminal on the left-hand side with a string of terminals or non-terminals
+on the right-hand side. They are the theoretical basis for the phrase structure
+of most programming languages, though their syntax also includes
+context-sensitive name resolution due to declarations and scope
+\cite{hopcroft-2005}.
 
-\todo{\cite{hopcroft-2005,sipser-2009}, \ref{fig:chomsky-hierarchy}}
+Type-1 grammars generate context-sensitive languages. The languages described by
+these grammars are exactly all languages that can be recognized by a
+\emph{linear bounded automaton} (LBA) --- a Turing machine whose tape size is
+finite, and it can predicted based on the length of the input. This limitation
+makes an LBA a somewhat more accurate model of a real-world computer than a
+Turing machine, whose definition assumes unlimited tape. Because of the ability
+to perform random access on its memory, LBAs can generate languages based on an
+arbitrary context, hence the name of languages these grammars generate.
+Context-sensitive languages have much more restrictive rules than type-2 and
+type-3 grammars --- these come in the form of $\alpha A \beta \rightarrow \alpha
+\gamma \beta$, where $A$ is a non-terminal, $\alpha$, $\beta$, and $\gamma$ are
+strings of terminals, and $\alpha$ and $\beta$ may be empty.
+
+Type-0 grammars include all formal grammars. They generate exactly all languages
+that can be recognized by a Turing machine. These languages are also known as
+the recursively enumerable or Turing-recognizable languages. They have no
+constraints on the structure of the production rules.
 
 \subsection{Parsing Expression Grammars}
-
-\todo{\url{https://en.wikipedia.org/wiki/Parsing_expression_grammar}}
 
 \todo{\cite{ford-2004}}
 
@@ -400,9 +432,13 @@ See appendix~\ref{ch:modified-spec}.
 
 \todo{\ref{tab:tokens}}
 
+\todo{\cite{sipser-2009}}
+
 \section{Methods of syntactic analysis} \label{sec:parsing}
 
 \todo{\cite{aho-2019}}
+
+\todo{\cite{sipser-2009}}
 
 \subsection{Bottom-up parsing}
 

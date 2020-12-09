@@ -175,16 +175,14 @@ The main goal of this thesis is to design and implement a specialized tool, that
 serves teachers, programmers and other kinds of enthusiasts of the theory of
 formal languages in the field of discrete mathematics and computer science, in
 order to formulate and visualize context-free grammars in the form of the
-Extended Backus-Naur Form. In order to \todo{}, the tool must provide a
-graphical user interface. Additionally, to ensure the hightest degree of
-accessibility, the tool must be available in the form of an easily accessible
-web-based application that is accessed through a web page and can run in a
-browser without the need of installation on the user's device. The thesis itself
-will document the entire process of creating such a project.
+Extended Backus-Naur Form. In order to make it more approachable to users, the
+tool must provide a graphical user interface. Additionally, to ensure the
+hightest degree of accessibility, the tool must be available in the form of an
+easily accessible web-based application that is accessed through a web page and
+can run in a browser without the need of installation on the user's device. The
+thesis itself will document the entire process of creating such a project.
 
 \todo{jak projekt pomoże w powyższych problemach?}
-
-\todo{wspomnieć o nazwie \thisproject{} gdzieś}
 
 In order to achieve the general goal, several sub-goals have been
 distinguished, all of which contribute to the main objective as a whole
@@ -221,21 +219,18 @@ definition of an algorithm for detecting left recursion in the resulting
 grammar, as well as catching any undefined production rules referenced in
 non-terminals. Up to this stage, any errors encountered in the textual form of a
 grammar are going to be reported to the user in a friendly format with exact
-locations of the errors in the input. The scope of the thesis includes the
-implementation of a simple command-line REPL program for interfacing with the
-grammar parser and checker.
-
-\todo{\begin{itemize}[noitemsep,nolistsep]
-  \item wizualizacje, edytor tekstowy i kolorowanie składni
-  \item wyjaśnienia zwracane przez checker?
-\end{itemize}}
+locations of the errors in the input. \todo{wizualizacje, edytor tekstowy i
+kolorowanie składni} The scope of the thesis includes the implementation of a
+simple command-line REPL program for interfacing with the grammar parser and
+checker.
 
 The web application will be deployed on the GitHub Pages hosting service for
 static sites.
 
 \section{Glossary}
 
-\begin{description}[leftmargin=!,labelwidth=2cm]
+\begin{description}[leftmargin=!,labelwidth=2.5cm]
+  \item[\thisproject{}] The codename of the project,
   \item[AST] Abstract syntax tree --- \todo{},
   \item[EBNF] Extended Backus-Naur Form --- \todo{},
   \item[parser] \todo{},
@@ -995,9 +990,10 @@ and a list of steps made by the system or the user required to complete it.
   \addlinespace[0.5em] Post-conditions & None. \\
   \addlinespace[0.5em] Main scenario &
   \begin{enumerate}[noitemsep,nolistsep,labelindent=0.5cm,align=right]
-    \item [1.] \todo{}
-    \item [2.] \todo{}
-    \item [3.] \todo{}
+    \item [1.] The system shows the result of a checker in the form of a
+    visualized parse tree.
+    \item [2.] The user clicks the nodes of the parse tree to collapse or
+    expand them.
     \item [] End of scenario.
   \end{enumerate} \\* \bottomrule
 \end{xltabular}
@@ -1047,21 +1043,21 @@ graphical representations of use case scenarios defined in subsection
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/uc1_activity_diagram.pdf_tex}}
+  \resizebox{!}{5cm}{\footnotesize\input{images/uc1_activity_diagram.pdf_tex}}
   \caption{The activity diagram of \emph{UC1} Specifying the grammar.}
   \label{fig:uc1-activity-diagram}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/uc2_activity_diagram.pdf_tex}}
+  \resizebox{!}{5cm}{\footnotesize\input{images/uc2_activity_diagram.pdf_tex}}
   \caption{The activity diagram of \emph{UC2} Specifying the input string.}
   \label{fig:uc2-activity-diagram}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \todo{}
+  \resizebox{!}{5cm}{\footnotesize\input{images/uc3_activity_diagram.pdf_tex}}
   \caption{The activity diagram of \emph{UC3} Interacting with the
   \label{fig:uc3-activity-diagram}
   visualization.}
@@ -1069,7 +1065,7 @@ graphical representations of use case scenarios defined in subsection
 
 \begin{figure}[H]
   \centering
-  \resizebox{\textwidth}{!}{\footnotesize\input{images/uc4_activity_diagram.pdf_tex}}
+  \resizebox{!}{5cm}{\footnotesize\input{images/uc4_activity_diagram.pdf_tex}}
   \caption{The activity diagram of \emph{UC4} Changing the initial rule.}
   \label{fig:uc4-activity-diagram}
 \end{figure}
@@ -1084,10 +1080,12 @@ subsection~\ref{sbs:use-cases}.
 
 \begin{figure}[H]
   \centering
-  \resizebox{0.75\textwidth}{!}{\footnotesize\input{images/sequence_diagram_1.pdf_tex}}
-  \caption{\todo{}}
+  \resizebox{0.65\textwidth}{!}{\footnotesize\input{images/sequence_diagram_1.pdf_tex}}
+  \caption{The sequence diagram representing the specification of the grammar.}
   \label{fig:sequence-diagram}
 \end{figure}
+
+\newpage
 
 \section{System architecture} \label{sec:system-architecture}
 
@@ -1136,7 +1134,9 @@ figure~\ref{fig:interface-prototype}), which is made out of several components.
 
 \begin{figure}[H]
   \centering
-  \todo{}
+  \begin{tikzpicture}
+    \draw (0,0) rectangle (12,9) node[pos=.5] {\todo{}};
+  \end{tikzpicture}
   \caption{The user interface sketch.}
   \label{fig:interface-prototype}
 \end{figure}
@@ -3252,34 +3252,6 @@ is put into the generated HTML documentation in the \texttt{target/doc}
 directory. For convenience, running \texttt{cargo doc --open} will build the
 HTML for the current crate's documentation (as well as the documentation for
 all of your crate's dependencies) and open the result in a web browser.
-
-% \chapter{User manual}
-
-% \section{Installation guide}
-
-% The development process gives the user much flexibility when it comes to the
-% choice of an operating system. Any tool in the project's toolchain is available
-% on all major operating systems, whether it's Windows, GNU/Linux or macOS.
-
-% To install Rust along with Cargo please follow the official installation guide
-% for your operating system available at
-% \begin{center}
-%   \url{https://www.rust-lang.org/tools/install}
-% \end{center}
-% Node.js and npm can be downloaded through
-% \begin{center}
-%   \url{https://www.npmjs.com/get-npm}
-% \end{center}
-% Wasm-pack's installer and installation guide can be found at
-% \begin{center}
-%   \url{https://rustwasm.github.io/wasm-pack/installer/}
-% \end{center}
-% All three tools must be installed on the machine of the user in order to run the
-% application locally. To clone the official Git repository of the project from GitHub
-
-% \section{Usage guide}
-
-% \todo{}
 
 \chapter{Summary}
 

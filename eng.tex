@@ -48,7 +48,7 @@ provided to the program with the use of parser combinators.}
 % Set up the comment style for algorithm2e
 \newcommand\mycommfont[1]{\footnotesize\ttfamily#1}
 \SetCommentSty{mycommfont}
-
+% booktabs and xltabular bug fix
 \makeatletter
 \def\@BTrule[#1]{%
   \ifx\longtable\undefined
@@ -217,18 +217,17 @@ previously-defined abstract syntax tree with a technique called \emph{parser
 combination}. Several smaller helper parsers will be defined, all of which then
 will be combined into more sophisticated parsers capable of parsing entire
 terms, productions, and grammars. The implementation phase will also include the
-definition of an algorithm for detecting left recursion in the resulting grammar
-\todo{na pewno?}, as well as a dependency graph reduction algorithm for
-determining the starting rule of a grammar \todo{na pewno?}. Up to this stage,
-any errors encountered in the textual form of a grammar are going to be reported
-to the user in a friendly format with exact locations of the errors in the
-input. The scope of the thesis includes the implementation of a simple
-command-line REPL program for interfacing with the grammar parser and checker.
+definition of an algorithm for detecting left recursion in the resulting
+grammar, as well as catching any undefined production rules referenced in
+non-terminals. Up to this stage, any errors encountered in the textual form of a
+grammar are going to be reported to the user in a friendly format with exact
+locations of the errors in the input. The scope of the thesis includes the
+implementation of a simple command-line REPL program for interfacing with the
+grammar parser and checker.
 
 \todo{\begin{itemize}[noitemsep,nolistsep]
   \item wizualizacje, edytor tekstowy i kolorowanie składni
   \item wyjaśnienia zwracane przez checker?
-  \item wyrażenia regularne w specjalnych sekwencjach?
 \end{itemize}}
 
 The web application will be deployed on the GitHub Pages hosting service for
@@ -342,7 +341,7 @@ Type-2 grammars produce \emph{context-free~languages} and can be represented
 as a \emph{pushdown~automaton} which is an automaton that can maintain its
 state with the use of a stack. \todo{jak w stosie wygląda pamięć}
 
-\todo{\cite{hopcroft-2005,sipser-2009}}
+\todo{\cite{hopcroft-2005,sipser-2009}, \ref{fig:chomsky-hierarchy}}
 
 \subsection{Parsing Expression Grammars}
 
@@ -393,7 +392,7 @@ See appendix~\ref{ch:modified-spec}.
   Terminator & ``\texttt{;}'' \\* \bottomrule
 \end{longtable}
 
-\todo{}
+\todo{\ref{tab:tokens}}
 
 \section{Methods of syntactic analysis} \label{sec:parsing}
 
@@ -427,8 +426,7 @@ type Parser a = String -> Maybe (a, String)
 % -- Just ("abc123", "")
 % \end{minted}
 
-\subsection{Abstract Syntax Tree}
-\label{sbs:ast}
+\subsection{Abstract Syntax Tree} \label{sbs:ast}
 
 \chapter{Analysis of similar solutions}
 
@@ -2001,11 +1999,10 @@ these rules make up a circular definition that cannot be resolved.}
 
 \paraphrase{Left recursion often poses problems for parsers because it leads
 them into infinite recursion. As left-recursive rules can always be rewritten, a
-grammar is often preprocessed to eliminate them.} \thisproject{},
-however, does not attempt to do any rewrites. Instead, it only detects the
-presence of direct or indirect left recursion in the provided grammar. The
-process of detecting left recursion can be seen in algorithm
-\ref{alg:detecting-left-recursion}.
+grammar is often preprocessed to eliminate them.} \thisproject{}, however, does
+not attempt to do any rewrites. Instead, it only detects the presence of direct
+or indirect left recursion in the provided grammar. The process of detecting
+left recursion can be seen in algorithm~\ref{alg:detecting-left-recursion}.
 
 The code related to preprocessing, or the syntactic analysis, can be found in
 the \texttt{preprocessor} module of the crate. The module is divided into
@@ -2205,8 +2202,8 @@ argument for passing a file containing the test input string denoted with the
 the program parses the grammar, and then checks the provided input from a file.
 However, if the test string is not provided, the program, after parsing the
 grammar, enters the REPL mode. The program provides the \texttt{--help} and
-\texttt{--version} flags for displaying the help menu and the current version of
-the program respectively.
+\texttt{--version} flags for displaying the help menu
+(figure~\ref{lst:cli-help}) and the current version of the program respectively.
 
 For parsing command-line arguments, in its core \thisproject{} uses the
 \emph{Clap} crate for Rust --- a Command Line Argument Parser. It is a
@@ -2364,15 +2361,15 @@ impl EbnfParserParser {
 
 Since the \texttt{Grammar} struct does not to be exported directly to
 JavaScript, Wasm-bindgen exposes the \texttt{EbnfParserParser} struct
-encapsulating the \texttt{Grammar}, which JavaScript treats as a regular class.
-Wasm-bindgen allows to mark the \texttt{new} function as a class constructor, so
-the construction of the \texttt{EbnfParserParser} object can be done via the
-\texttt{new} keyword. Besides the constructor, Wasm-bindgen marks the
-\texttt{get\_production\_rules} method as a regular getter, which will be
-exposed as a JavaScript property, instead of a method. Finally, after
-generation, the class will also contain the \texttt{check} method, which will
-check the provided \texttt{input} against the encapsulated grammar, starting
-with the \texttt{initial\_rule}.
+encapsulating the \texttt{Grammar} (listing~\ref{lst:wasm-glue-parser}), which
+JavaScript treats as a regular class. Wasm-bindgen allows to mark the
+\texttt{new} function as a class constructor, so the construction of the
+\texttt{EbnfParserParser} object can be done via the \texttt{new} keyword.
+Besides the constructor, Wasm-bindgen marks the \texttt{get\_production\_rules}
+method as a regular getter, which will be exposed as a JavaScript property,
+instead of a method. Finally, after generation, the class will also contain the
+\texttt{check} method, which will check the provided \texttt{input} against the
+encapsulated grammar, starting with the \texttt{initial\_rule}.
 
 The return types of these functions get exposed to JavaScript in the following
 way:
@@ -3300,7 +3297,7 @@ all of your crate's dependencies) and open the result in a web browser.
 
 \chapter{Modified specification} \label{ch:modified-spec}
 
-\todo{}
+\todo{\ref{lst:specification}}
 
 \begin{listing}[H]
   \inputminted[fontsize=\small,frame=lines,breaklines,linenos]

@@ -383,7 +383,7 @@ that can be recognized by a Turing machine. These languages are also known as
 the recursively enumerable or Turing-recognizable languages. They have no
 constraints on the structure of the production rules.
 
-\subsection{Parsing Expression Grammars}
+\subsection{Parsing expression grammars} \label{sbs:pegs}
 
 Chomsky's generative system of grammars, particularly context-free grammars and
 regular expressions, has been used to express the syntax of programming
@@ -437,13 +437,99 @@ where $e$, $e_1$, and $e_2$ are parsing expressions.
 
 \section{Why EBNF?} \label{sec:why-ebnf}
 
-\todo{}
+\emph{Backus-Naur form} or \emph{Backus normal form} (BNF) is a metasyntax
+notation for context-free grammars, often used similarly to Parsing expression
+grammars discussed in section \ref{sbs:pegs} to describe the syntax of languages
+used in computing, such as computer programming languages, document formats,
+instruction sets and communication protocols. They are applied wherever exact
+descriptions of languages are needed: for instance, in official language
+specifications, in manuals, and in textbooks on programming language theory.
+
+\begin{wraplisting}{l}{0.5\textwidth}
+  \begin{minted}[fontsize=\small,frame=lines,breaklines]{bnf}
+<expr> ::= <term> "+" <expr> | <term>
+<term> ::= <factor> "*" <term> | <factor>
+<factor> ::= "(" <expr> ")" | <const>
+<const> ::= "0" | "1" | ... | "9"
+  \end{minted}
+  \caption{Example expression grammar in BNF.}
+  \label{lst:bnf}
+\end{wraplisting}
+
+BNF was proposed by John Backus, a programming language designer at IBM. He
+proposed a metalanguage of ``metalinguistic formulas'' to describe the syntax of
+the new programming language IAL, known today as ALGOL 58. His notation was
+first used in the ALGOL 60 report. BNF is a notation for Chomsky's context-free
+grammars.
+
+A BNF specification is a set of production rules, written as \texttt{A ::= e},
+where \texttt{A} is a non-terminal, and \texttt{e} consists of one or more
+sequences of symbols; more sequences are separated by the vertical bar
+``\texttt{|}'', indicating a choice, the whole being a possible substitution for
+the symbol on the left. Symbols that never appear on a left side are terminals.
+On the other hand, symbols that appear on a left side are non-terminals and are
+always enclosed between the pair ``\texttt{<>}'', as seen in
+listing~\ref{lst:bnf}.
+
+Extended Backus-Naur form (EBNF) is a collection of extensions to Backus-Naur
+form. Not all of these are strictly a superset and there's not one single EBNF
+--- each author or program define their own variant that's slightly different.
+Any grammar defined in EBNF can also be represented in BNF, though
+representations in the latter are generally lengthier. Options and repetitions
+cannot be directly expressed in BNF and require the use of an intermediate rule
+or alternative production defined to be either nothing or the optional
+production for option, or either the repeated production of itself, recursively,
+for repetition. The same constructs can still be used in EBNF. The BNF uses the
+symbols ``\texttt{<}'', ``\texttt{>}'', ``\texttt{|}'', and ``\texttt{::=}'' for
+itself, but does not include quotes around terminal strings. This prevents these
+characters from being used in the languages, and requires a special symbol for
+the empty string. In EBNF, terminals are strictly enclosed within quotation
+marks (\texttt{"}...\texttt{"} or \texttt{'}...\texttt{'}). The angle brackets
+(``\texttt{<}...\texttt{>}'') for nonterminals can be omitted. BNF syntax can
+only represent a rule in one line, whereas in EBNF a terminating character, the
+semicolon character ``\texttt{;}'' marks the end of a rule. Furthermore, EBNF
+includes mechanisms for enhancements, defining the number of repetitions,
+excluding alternatives, comments, etc.
+
+The earliest EBNF was developed by Niklaus Wirth incorporating some of the
+concepts (with a different syntax and notation) from \emph{Wirth syntax
+notation}. However, many variants of EBNF are in use. The International
+Organization for Standardization adopted an EBNF standard (ISO/IEC 14977) in
+1996 \cite{iso-14977}. \thisproject{} uses EBNF as specified by the ISO. Other
+EBNF variants use somewhat different syntactic conventions.
 
 \section{Modifying the specification} \label{sec:modified-specification}
 
-\todo{analiza i zmodyfikowanie oficjalnej specyfikacji EBNF}
+There are many concerns regarding the modern use of the ISO/IEC 14977 standard
+\cite{wheeler-2019}. The use of the standard in \thisproject{} comes mostly from
+its popularity among other notations, however, some considerations regarding the
+official specification of the botation should be taken into account. Although
+\thisproject{} conforms to the majority of the EBNF specification, there are
+some deviations introduced to facilitate the use of the specifiation in a modern
+environment.
 
-See appendix~\ref{ch:modified-spec}.
+First of all, ISO/IEC 14977 is unable to indicate International/Unicode
+characters, code points, or byte values. ISO/IEC 14977 only supports ISO/IEC 646
+characters. It does have a special syntax notation to informally describe a
+character, but that is not the same as having proper support. Thus, it cannot
+directly represent the full range of code points allowed by ISO/IEC 10646 or
+Unicode when processing text, and it’s also inadequate for describing binary
+formats. It has no way to indicate code points by value, nor any support for
+including Unicode characters as terminal symbols in the grammar surrounded by
+single or double quotes. \thisproject{} extends the ISO/IEC 14977 specification
+by taking into account Unicode characters in place of \texttt{letter} and
+\texttt{decimal digit} definitions in the ISO/IEC 14977 EBNF specification
+\cite{iso-14977}.
+
+Secondly, the ISO/IEC 14977 specification is challenging to understand and many
+key terms are undefined. It is abstract, and that may be partly necessary given
+the subject matter. The \texttt{syntax} production rule in the specification is
+defined ambiguously in multiple sections of the specification.
+
+This led to an eventual modification of the ISO/IEC 14977 specification for the
+final implementation of the EBNF parser. The modified specification can be seen
+in appendix~\ref{ch:modified-spec}. It addresses the problem of Unicode
+characters and unambiguously defines the grammar.
 
 \section{Lexical analysis} \label{sec:lexing}
 

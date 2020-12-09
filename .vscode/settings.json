@@ -110,6 +110,7 @@
         "lexer's",
         "libsodium",
         "livereload",
+        "metasyntax",
         "minifier",
         "monospace",
         "naturalnumber",

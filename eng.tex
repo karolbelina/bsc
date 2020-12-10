@@ -563,7 +563,7 @@ are listed in table~\ref{tab:tokens}.
   \caption{Tokens types from the modified EBNF notation.}
   \label{tab:tokens}\\
   \toprule
-  Token name & Normal representation \\* \midrule
+  Token name           & Normal representation \\* \midrule
   \endfirsthead
   %
   \endhead
@@ -572,26 +572,26 @@ are listed in table~\ref{tab:tokens}.
   %
   \endlastfoot
   %
-  Non-terminal & a string of alphanumeric characters or whitespaces beginning
-  with an alphabetic character \\
-  Terminal & a string of at least one character surrounded by either
+  Non-terminal         & a string of alphanumeric characters or whitespaces
+  beginning with an alphabetic character \\
+  Terminal             & a string of at least one character surrounded by either
   ``\texttt{'}''s or ``\texttt{"}''s \\
-  Special & a string of characters surrounded by question marks (``\texttt{?}'')
-  \\
-  Integer & a string of at least one decimal digit with optional whitespace
-  in-between \\
-  Concatenation & ``\texttt{,}'' \\
-  Definition & ``\texttt{=}'' \\
+  Special              & a string of characters surrounded by question marks
+  (``\texttt{?}'') \\
+  Integer              & a string of at least one decimal digit with optional
+  whitespace in-between \\
+  Concatenation        & ``\texttt{,}'' \\
+  Definition           & ``\texttt{=}'' \\
   Definition separator & ``\texttt{|}'', ``\texttt{/}'', or ``\texttt{!}'' \\
-  End group & ``\texttt{)}'' \\
-  End option & ``\texttt{]}'' or ``\texttt{/)}'' \\
-  End repeat & ``\texttt{\}}'' or ``\texttt{:)}'' \\
-  Exception & ``\texttt{-}'' \\
-  Repetition & ``\texttt{*}'' \\
-  Start group & ``\texttt{(}'' \\
-  Start option & ``\texttt{[}'' or ``\texttt{(/}'' \\
-  Start repeat & ``\texttt{\{}'' or ``\texttt{(:}'' \\
-  Terminator & ``\texttt{;}'' \\* \bottomrule
+  End group            & ``\texttt{)}'' \\
+  End option           & ``\texttt{]}'' or ``\texttt{/)}'' \\
+  End repeat           & ``\texttt{\}}'' or ``\texttt{:)}'' \\
+  Exception            & ``\texttt{-}'' \\
+  Repetition           & ``\texttt{*}'' \\
+  Start group          & ``\texttt{(}'' \\
+  Start option         & ``\texttt{[}'' or ``\texttt{(/}'' \\
+  Start repeat         & ``\texttt{\{}'' or ``\texttt{(:}'' \\
+  Terminator           & ``\texttt{;}'' \\* \bottomrule
 \end{longtable}
 
 Several of these tokens must carry an additional token value to distinguish it
@@ -706,11 +706,49 @@ for arithmetic expressions could be created. This is the idea of parser
 combinators --- parsers are basically functions. The user defines a library with
 some basic ``building blocks'' or primitives and some combining forms that let
 them put these things together. Parsers wrote in this fashion look very similar
-to the grammars that are written to describe languages \cite{leijen-2001,fokker-1995}.
+to the grammars that are written to describe languages
+\cite{leijen-2001,fokker-1995}.
 
-\subsection{Abstract Syntax Tree} \label{sbs:ast}
+\subsection{Abstract syntax tree} \label{sbs:ast}
 
-\todo{}
+\emph{Abstract syntax trees} (AST) are data structures that represent the
+structure of program code, and are the result of the syntax analysis phase of a
+program. The design of an AST is often closely linked with the design of a
+parser and its expected features.
+
+The definition of an abstract syntax tree for EBNF is closely related to the
+definition of Parsing expression grammars discussed in section~\ref{sbs:pegs}.
+Like PEGs, EBNF provides such constructs as sequences, alternatives, optionals,
+and repeated expressions. Additionally, EBNF can represent \emph{factors}, which
+are repeated expressions with a number of repetitions specified, as well as
+\emph{exceptions}, which are excluding alternatives that impose certain
+restrictions on expressions. All EBNF constructs can be represented as the nodes
+of the AST, which are listed in table~\ref{tab:ast-nodes}.
+
+\begin{longtable}[c]{@{}lm{9cm}@{}}
+  \caption{Node types for the abstract syntax tree of EBNF.}
+  \label{tab:ast-nodes}\\
+  \toprule
+  Node name           & Normal representation \\* \midrule
+  \endfirsthead
+  %
+  \endhead
+  %
+  \endfoot
+  %
+  \endlastfoot
+  %
+  Alternative  & ``\texttt{$e_1$ | $e_2$ | $\dots$ | $e_n$}'', where $e_i$ is an AST node \\
+  Sequence     & ``\texttt{$e_1$, $e_2$, $\dots$, $e_n$}'', where $e_i$ is an AST node \\
+  Optional     & ``\texttt{[ $e$ ]}'', where $e$ is an AST node \\
+  Repeated     & ``\texttt{\{ $e$ \}}'', where $e$ is an AST node \\
+  Factor       & ``\texttt{$n$ * $e$}'', where $n$ is an integer and $e$ is an AST node \\
+  Exception    & ``\texttt{$e_1$ * $e_2$}'', where $e_1$ and $e_2$ are AST nodes \\
+  Non-terminal & A non-terminal token \\
+  Terminal     & A terminal token \\
+  Special      & A special token \\
+  Empty        & The empty string $\varepsilon$ \\* \bottomrule
+\end{longtable}
 
 \chapter{Analysis of similar solutions}
 
@@ -1994,7 +2032,7 @@ built right into the type system.
 
 \subsubsection*{Grammar type definition}
 
-The definition of the Abstract Syntax Tree for EBNF in section \ref{sbs:ast}
+The definition of the abstract Syntax Tree for EBNF in section \ref{sbs:ast}
 gives an intuition for the definition of types related to grammars. The
 definition of the \texttt{Expression} type, shown is listing~\ref{lst:ast}, is
 recursive, meaning it has another instance of the enumeration as the associated

@@ -3622,13 +3622,13 @@ all of your crate's dependencies) and open the result in a web browser.
 
 The thesis described the process of designing and implementing a tool for
 formulating and visualizing context-free grammars in the Extended Backus-Naur
-Form. First, it provided a basic analysis of advantages of the Extended
+Form. First, it provided a basic analysis of the advantages of the Extended
 Backus-Naur Form notation over its predecessor --- Backus-Naur Form. It
 transformed the official specification of the ISO/IEC 14977 standard by removing
 inaccuracies and ambiguities, as well as to make it more suitable for modern
-software environments by providing a support for Unicode as the base character
-set of the specification. A definition of tokens, as well as the grammar in the
-form of an abstract syntax tree was proposed to specify the structure of the
+software environments by providing support for Unicode as the base character set
+of the specification. A definition of tokens, as well as the grammar in the form
+of an abstract syntax tree, was proposed to specify the structure of the
 Extended Backus-Naur Form in the implementation phase of the project.
 
 The design process carried out by the author was a key step in designing and
@@ -3638,7 +3638,7 @@ tasks by the user, which related directly to the functionalities of the product.
 The thesis defined various UML diagrams to facilitate the design phase ---
 diagrams such as activity and sequence diagrams have been used to map out links
 and processes that happen between user interactions in a more visual manner.
-Sequence diagrams provided a way of visualizing internal processes of the
+Sequence diagrams provided a way of visualizing the internal processes of the
 application.
 
 The implementation phase of the thesis described the process of implementing the
@@ -3652,12 +3652,12 @@ together in the form of a command-line application as a most basic method of
 interfacing with the implemented library. To fully address the issue of
 accessibility of the application, a web-based application with a graphical user
 interface was implemented and deployed on a web page and can run in a browser
-without the need of installation on the user's device. The web application was
+without the need for installation on the user's device. The web application was
 implemented in the Svelte framework, which incorporated the markup of the site,
 the CSS styling, as well as JavaScript scripts used for user interaction.
 
 The phase described the process of tokenization and proposed it in the form of a
-Deterministic Finite Automaton. The lexer takes into account proper
+Deterministic Finite Automaton. The lexer takes into account the proper
 interpretation of Unicode graphemes. A technique of combinatory parsing was then
 used to combine the tokens into an abstract syntax tree. The implementation
 phase included the definition of an algorithm for detecting left recursion and
@@ -3671,13 +3671,24 @@ access the website and use the tool right from their browser without needing to
 carry out a complex setup process, thanks to the deployment on the GitHub Pages
 hosting service for static sites.
 
+The thesis also analyzed the quality of the project by defining various unit and
+integration tests to ensure the correctness of the business logic of the
+application. The project utilized property-based testing as a useful addition to
+a test suite that generates hundreds of test cases automatically. Integration
+tests helped to combine implemented components into a single library and compile
+it to the WebAssembly target. With the help of Google Lighthouse, the web
+application underwent an external review to check its quality, progress, or
+adherence to plans, modern web standards, and regulations. The thesis provided a
+way to analyze the business logic of the application in terms of the so-called
+cognitive complexity.
+
 The designed and implemented system gives the opportunity to extend it with
 various functionalities. First of all, the tool is designed from the start with
 other grammar specifications in mind. Specifications like BNF, ABNF, Wirth
 syntax notation, or other EBNF variations like the EBNF notation from the W3C
 Extensible Markup Language (XML) are a great fit for further expansion and a way
 to extend the list of supported languages. Each language would have an
-associated parser that compiles it down to a common form. Secondly, the
+associated parser that compiles it down to a common notation. Secondly, the
 functionalities of the application could be expanded by providing a
 code-generation aspect to the grammars given by users. Users would be able to
 ``kickstart'' their parsers by generating code in various popular programming

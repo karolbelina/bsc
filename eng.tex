@@ -145,7 +145,7 @@ daje możliwość rozszerzenia go o~inne specyfikacje gramatyk.
   \item[Chapter~\ref{ch:implementation-of-the-project}] talks about the
   implementation phase of the project. It describes the technologies used in the
   implementation, as well as the project structure. Finally, it presents various
-  implementational intricacies encountered during the process.
+  intricacies encountered during the implementation process.
   \item[Chapter~\ref{ch:project-quality-study}] studies the quality of the
   implemented project by proposing unit and integration tests of the business
   logic, defining benchmarks, as well as describing various auditing techniques.
@@ -223,7 +223,7 @@ distinguished, all of which contribute to the main objective as a whole
   \item presentation of the theoretical preliminaries of the project,
   \item definition of the outline of the project, including a description of the
   functional and non-functional requirements, the use case diagram, use case
-  scenarios, and the user interface prototype,
+  scenarios, and user stories,
   \item description of technologies used in the implementation,
   \item implementation of the project,
   \item description of the testing and deployment environments.
@@ -268,13 +268,19 @@ static sites.
 \section{Glossary}
 
 \begin{description}[leftmargin=!,labelwidth=2.5cm]
-  \item[AST] Abstract syntax tree --- \todo{},
-  \item[DFA] \todo{},
-  \item[EBNF] Extended Backus-Naur Form --- \todo{},
-  \item[parser] \todo{},
-  \item[\thisproject{}] The codename of the project,
-  \item[REPL] Read-Eval-Print loop --- \todo{},
-  \item \todo{}.
+  \item[AST] Abstract syntax tree
+  \item[BNF] Backus-Naur form
+  \item[CFG] Context-free grammars
+  \item[DFA] Deterministic finite automaton
+  \item[EBNF] Extended Backus-Naur form
+  \item[LBA] Linear bounded automaton
+  \item[Parser] A software component that takes input in the form of a sequence
+  of tokens and produces a structured output,
+  \item[\thisproject{}] The codename of the project
+  \item[PDA] Pushdown automaton
+  \item[PEG] Parsing expression grammar
+  \item[RE] Regular expression
+  \item[REPL] Read-Eval-Print loop
 \end{description}
 
 \chapter{Theoretical preliminaries} \label{ch:theoretical-preliminaries}
@@ -532,10 +538,10 @@ variants use different syntactic conventions.
 There are many concerns regarding the modern use of the ISO/IEC 14977 standard
 \cite{wheeler-2019}. The use of this standard in \thisproject{} comes mostly
 from its popularity, however, some considerations regarding the official
-specification of the botation should be taken into account. Although
+specification of the notation should be taken into account. Although
 \thisproject{} conforms to the majority of the EBNF specification, there are
-some deviations introduced to facilitate the use of the specifiation in a modern
-environment.
+some deviations introduced to facilitate the use of the specification in a
+modern environment.
 
 First of all, ISO/IEC 14977 does not support International/Unicode characters,
 code points, or byte values. Instead, it is defined through ISO/IEC 646
@@ -567,7 +573,7 @@ Prior to parsing, the input string provided by the user should be divided into
 individual \emph{tokens} in the process of \emph{tokenization}, or the
 \emph{lexical analysis}. Thanks to tokenization, all symbols provided in a
 textual form get separated and become independent from whitespace characters or
-other unmeaningful constructs of the language. This makes the parsing phase
+other meaningless constructs of the language. This makes the parsing phase
 easier to reason about --- the designers do not need to concern themselves with
 whitespace on every occasion.
 
@@ -601,8 +607,8 @@ listed in table~\ref{tab:tokens}.
   %
   \endlastfoot
   %
-  Non-terminal         & a string of alphanumeric characters or whitespaces
-  beginning with an alphabetic character \\
+  Non-terminal         & a string of alphanumeric characters or whitespace
+  characters beginning with an alphabetic character \\
   Terminal             & a string of at least one character surrounded by either
   ``\texttt{'}''s or ``\texttt{"}''s \\
   Special              & a string of characters surrounded by question marks
@@ -3628,7 +3634,9 @@ all of your crate's dependencies) and open the result in a web browser.
 
 \chapter{Modified specification} \label{ch:modified-spec}
 
-\todo{\ref{lst:specification}}
+Listing~\ref{lst:specification} shows the modified version of the specification
+of the ISO/IEC 14977 standard. The modification is described in detail in
+section~\ref{sec:modified-specification} of the thesis.
 
 \begin{listing}[H]
   \inputminted[fontsize=\small,frame=lines,breaklines,linenos]

@@ -1,4 +1,4 @@
-\documentclass[english,engineering]{wizthesis}
+\documentclass[english,bachelors,forcepolishlogotype]{wizthesis}
 
 \usepackage[utf8]{inputenc}
 \usepackage{float} % H float positioning
@@ -27,6 +27,7 @@
 \author{Karol Belina}
 \title{Formal grammar\par production rule parsing tool}
 \fieldofstudy{Computer Science}
+\supervisor{dr inż.\ Zdzisław Spławski}
 \keywords{Combinatory parsing, context-free grammars, Extended Backus-Naur Form}
 \summary{The thesis documents the process of designing and implementing a tool
 for parsing the production rules of context-free grammars in a textual form. It
@@ -234,10 +235,10 @@ distinguished, all of which contribute to the main objective as a whole
 The thesis will propose a definition of a grammar in the form of an abstract
 syntax tree of the Extended Backus-Naur Form. It will describe the process of
 implementing the business logic of the application in the Rust programming
-language compiled to WebAssembly. The compiled code is then ran inside the
-web-based application made with the Svelte framework, which incorporates the
-markup, CSS styles, and JavaScript scripts in the superset of the HyperText
-Markup Language (HTML).
+language~\cite{rust} compiled to WebAssembly~\cite{webassembly}. The compiled
+code is then ran inside the web-based application made with the Svelte
+framework, which incorporates the markup, CSS styles, and JavaScript scripts in
+the superset of the HyperText Markup Language (HTML).
 
 The implementation phase will include the process of tokenization --- the act of
 dividing the grammar in a textual form into a sequence of tokens --- while
@@ -366,7 +367,7 @@ sequences of terminal symbols from that language.
 In~\cite{chomsky-1956}, Chomsky divides formal grammars into four classes and
 classifies them in the now called \emph{Chomsky~Hierarchy}. Each class is a
 subset of another, distinguished by the complexity. The hierarchy is visualized
-in figure~\ref{fig:chomsky-hierarchy}.
+in Figure~\ref{fig:chomsky-hierarchy}.
 
 Type-3 grammars generate the so-called \emph{regular~languages}. As described
 in~\cite{aho-1990}, regular languages can be matched by
@@ -472,7 +473,7 @@ where $e$, $e_1$, and $e_2$ are parsing expressions.
 
 \emph{Backus-Naur form} or \emph{Backus normal form} (BNF) is a metasyntax
 notation for context-free grammars, often used similarly to Parsing expression
-grammars (discussed in section \ref{sbs:pegs}) to describe the syntax of various
+grammars (discussed in Section~\ref{sbs:pegs}) to describe the syntax of various
 languages, such as computer programming languages, instruction sets, document
 formats and communication protocols. They are applied in official language
 specifications, in manuals, and in textbooks on programming language theory ---
@@ -502,7 +503,7 @@ sequences of symbols, where each sequence is separated by the vertical bar
 potential substitution for the symbol on the left-hand side. Symbols that do not
 appear on a left side of any production rule are terminals. On the other hand,
 symbols that do appear on a left side are non-terminals, which must be always
-surrounded by angle brackets ``\texttt{<>}'', as seen in listing~\ref{lst:bnf}.
+surrounded by angle brackets ``\texttt{<>}'', as seen in Listing~\ref{lst:bnf}.
 
 Extended Backus-Naur form (EBNF) is a family of extensions of the original
 Backus-Naur form. These are not, by any means, a superset of BNF, and there's
@@ -564,7 +565,7 @@ of the specification.
 
 This led to an eventual modification of the ISO/IEC 14977 specification for the
 final implementation of the EBNF parser. The modified specification can be seen
-in appendix~\ref{ch:modified-spec}. It addresses the problem of Unicode
+in Appendix~\ref{ch:modified-spec}. It addresses the problem of Unicode
 characters and unambiguously defines the grammar.
 
 \section{Lexical analysis} \label{sec:lexing}
@@ -592,7 +593,7 @@ A \emph{lexical token} or simply \emph{token} is a string with an assigned
 meaning. It is defined as a pair of a \emph{token name} and an optional
 \emph{token value}. The token name is a category of the token. The EBNF
 specification consists of several, clearly identifiable token types, which are
-listed in table~\ref{tab:tokens}.
+listed in Table~\ref{tab:tokens}.
 
 \begin{longtable}[c]{@{}lm{9cm}@{}}
   \caption{Tokens types from the modified EBNF notation.}
@@ -754,13 +755,13 @@ program. The design of an AST is usually tightly linked with the design of a
 parser and its expected features.
 
 The definition of an abstract syntax tree for EBNF is closely related to the
-definition of Parsing expression grammars discussed in section~\ref{sbs:pegs}.
+definition of Parsing expression grammars discussed in Section~\ref{sbs:pegs}.
 Like PEGs, EBNF provides such constructs as sequences, alternatives, optionals,
 and repeated expressions. Additionally, EBNF can represent \emph{factors}, which
 are repeated expressions with a number of repetitions specified, as well as
 \emph{exceptions}, which are excluding alternatives that impose certain
 restrictions on expressions. All EBNF constructs can be represented as the nodes
-of the AST, which are listed in table~\ref{tab:ast-nodes}.
+of the AST, which are listed in Table~\ref{tab:ast-nodes}.
 
 \begin{longtable}[c]{@{}lm{9cm}@{}}
   \caption{Node types for the abstract syntax tree of EBNF.}
@@ -815,7 +816,7 @@ Figure~\ref{fig:regex101-matching} shows a typical usage of Regex101 ---
 matching a pasted test string to a regular expression. The tool makes it clear
 if data is matching the expression or not, it even notifies users when the
 expression is broken, and gives some explanation of why it is not working, as
-seen in figure~\ref{fig:regex101-error}.
+seen in Figure~\ref{fig:regex101-error}.
 
 \begin{figure}[ht]
   \centering
@@ -878,7 +879,7 @@ editor allows potential future users of Pest to experience the syntactic
 characteristics of the Pest's dialect of PEGs and its error reporting
 capabilities. The editor will inform the user about any syntactic errors, as
 well as errors of semantic nature, such as undefined or left-recursive
-production rules (seen in figure~\ref{fig:pest-error}) and highlight them in
+production rules (seen in Figure~\ref{fig:pest-error}) and highlight them in
 their exact locations.
 
 \begin{figure}[ht]
@@ -895,7 +896,7 @@ from a dropdown menu, which is an interesting choice, as opposed to
 automatically detecting the initial rule based on the dependency graph of
 production rules. The output window presents the parse tree, or the errors
 encountered in the input string in case there are any. These features can be
-seen in figure~\ref{fig:pest-output}.
+seen in Figure~\ref{fig:pest-output}.
 
 \begin{figure}[ht]
   \centering
@@ -914,7 +915,7 @@ search and replace interface, as well as bracket and tag matching, all of which
 basic textual form, without any interactive capabilities, which the user may
 value. Finally, while Pest's grammar is based on PEGs, and is similar in nature
 to EBNF, it is, in fact, not EBNF. The whole point of using EBNF and other
-notations discussed in section~\ref{sec:why-ebnf} is that they're standardized,
+notations discussed in Section~\ref{sec:why-ebnf} is that they're standardized,
 well-known, and accepted by the community; Pest's syntax is known only to users
 of Pest and requires them to learn a new, non-standard language just for the
 purpose of parsing grammars, where other, already established languages may have
@@ -923,26 +924,26 @@ sufficed.
 \chapter{Design of the project} \label{ch:design-of-the-project}
 
 This chapter introduces a specification for the application described in
-chapter~\ref{ch:problem-analysis}. The specification is presented in forms of a
+Chapter~\ref{ch:problem-analysis}. The specification is presented in forms of a
 list of functional and non-functional requirements in
-section~\ref{sec:requirements}, and user stories in
-section~\ref{sec:user-stories}. Section~\ref{sec:use-case-specification}
+Section~\ref{sec:requirements}, and user stories in
+Section~\ref{sec:user-stories}. Section~\ref{sec:use-case-specification}
 describes use cases and their descriptions structured in the form of a use case
 diagram in the Unified Modeling Language, as well as their example scenarios,
 also presented as activity and sequence diagrams. The chapter describes the
 architecture of the system from the logical and physical perspective as
-component and deployment diagrams in section~\ref{sec:system-architecture}. The
+component and deployment diagrams in Section~\ref{sec:system-architecture}. The
 chapter does not cover any class or database diagrams, as the implementation of
 this project and its functionally-oriented nature, as opposed to being
 object-oriented, does not require them. Finally, the chapter concludes with the
 prototype and sketches of the user interface for the web application in
-section~\ref{sec:interface-prototype}.
+Section~\ref{sec:interface-prototype}.
 
 \section{Requirements} \label{sec:requirements}
 
 \subsection{Functional requirements}
 
-Functional requirements shown in table~\ref{tab:functional-requirements} define
+Functional requirements shown in Table~\ref{tab:functional-requirements} define
 functionalities and features of the system. Each requirement is associated with
 a certain priority.
 
@@ -1036,7 +1037,7 @@ availability, and compatibility of the system.
 
 \section{User stories} \label{sec:user-stories}
 
-Stories in table~\ref{tab:user-stories} are short descriptions of a feature told
+Stories in Table~\ref{tab:user-stories} are short descriptions of a feature told
 from the perspective of the person who desires a new functionality in the
 system.
 
@@ -1107,7 +1108,7 @@ system.
 \subsection{Use cases} \label{sbs:use-cases}
 
 Figure~\ref{fig:use-case-diagram} shows the use case diagram of the system. Each
-use case also presented in table~\ref{tab:use-cases} along with a short
+use case also presented in Table~\ref{tab:use-cases} along with a short
 description.
 
 \begin{figure}[H]
@@ -1402,8 +1403,9 @@ and a list of steps made by the system or the user required to complete it.
 
 Figures~\ref{fig:uc1-activity-diagram}, \ref{fig:uc2-activity-diagram},
 \ref{fig:uc3-activity-diagram}, and \ref{fig:uc4-activity-diagram} are the
-graphical representations of use case scenarios defined in subsection
-\ref{sbs:use-case-scenarios}, represented in the form of UML activity diagrams.
+graphical representations of use case scenarios defined in
+Section~\ref{sbs:use-case-scenarios}, represented in the form of UML activity
+diagrams.
 
 \begin{figure}[H]
   \centering
@@ -1440,7 +1442,7 @@ Figure~\ref{fig:sequence-diagram} shows a sequence diagram, that is in essence
 an interaction diagram that details how operations in the system are carried out
 and visualizes interactions between objects and components. It captures
 interactions from every use case, all of which were defined in
-subsection~\ref{sbs:use-cases}.
+Section~\ref{sbs:use-cases}.
 
 \begin{figure}[H]
   \centering
@@ -1463,7 +1465,7 @@ for one clear aim within the entire system and only interacts with other
 essential elements on a need-to-know basis.} In a system with a
 functional-oriented approach it is more suitable for modelling interactions
 between components. The logical architecture of \thisproject{} is modelled with
-such a diagram and can be seen in figure~\ref{fig:logical-architecture}.
+such a diagram and can be seen in Figure~\ref{fig:logical-architecture}.
 
 \begin{figure}[H]
   \centering
@@ -1477,7 +1479,7 @@ such a diagram and can be seen in figure~\ref{fig:logical-architecture}.
 
 A deployment diagram in the Unified Modeling Language models the physical
 deployment of artifacts on nodes and can represent a physical architecture of
-a system. Diagram shown on figure~\ref{fig:physical-architecture} visualizes
+a system. Diagram shown on Figure~\ref{fig:physical-architecture} visualizes
 the architecture for \thisproject{}.
 
 \begin{figure}[H]
@@ -1494,7 +1496,7 @@ Because of the visual nature of the web application, a prototype of the user
 interface design should be established to allow the developer to plan out the
 implementation of the front-end aspect of the application. \thisproject{}, being
 a rather simple application, will consist of a single view (as seen in
-figure~\ref{fig:interface-prototype}), which is made out of several components.
+Figure~\ref{fig:interface-prototype}), which is made out of several components.
 
 \begin{figure}[H]
   \centering
@@ -1977,23 +1979,23 @@ which can be divided into several categories:
 \end{figure}
 
 The project structure of \thisproject{}, visualized in
-figure~\ref{fig:file-tree}, consists of several components:
+Figure~\ref{fig:file-tree}, consists of several components:
 \begin{description}
   \item[base] Rust crate containing the definition of the AST along with the
   \emph{checker} module, which will be described in detail in
-  section~\ref{sbs:grammar-processing},
+  Section~\ref{sbs:grammar-processing},
   \item[cli] The auxillary command-line application written in Rust, explored
-  further in section~\ref{sec:command-line-application},
+  further in Section~\ref{sec:command-line-application},
   \item[ebnf] The core business logic of the application in the form of a Rust
   crate. This crate is further divided into modules: the lexical, syntactic, and
   semantic analysers, all of which will be discussed in
-  sections~\ref{sbs:lexical-analyser}, \ref{sbs:syntactic-analyser}, and
+  Sections~\ref{sbs:lexical-analyser}, \ref{sbs:syntactic-analyser}, and
   \ref{sbs:semantic-analyser},
   \item[app] An npm package containing the web application written primarily
   with Svelte. The component also defines a simple Rust crate, which acts as a
   link between the \emph{base} and \emph{ebnf} crates and compiles them to
   WebAssembly. The structure of the web application is described in detail in
-  section~\ref{sec:web-based-application}.
+  Section~\ref{sec:web-based-application}.
 \end{description}
 
 \section{Business logic} \label{sec:business-logic}
@@ -2041,10 +2043,10 @@ the main language in \thisproject{}, is one example of such a language.
   \vspace{-2cm}
 \end{wraplisting}
 
-The tokenization process, described in section~\ref{sec:lexing}, converts a
+The tokenization process, described in Section~\ref{sec:lexing}, converts a
 stream of characters into a stream of tokens. A set of valid tokens can be
 represented as a sum type of all individual token types, shown in
-listing~\ref{lst:token}. Several type constructors carry additional information
+Listing~\ref{lst:token}. Several type constructors carry additional information
 about the token:
 \begin{description}
   \item[\texttt{Non-terminal}] is specified by the textual form of the
@@ -2069,9 +2071,9 @@ built right into the type system.
 
 \subsubsection*{Grammar type definition}
 
-The definition of the abstract Syntax Tree for EBNF in section \ref{sbs:ast}
+The definition of the abstract Syntax Tree for EBNF in Section~\ref{sbs:ast}
 gives an intuition for the definition of types related to grammars. The
-definition of the \texttt{Expression} type, shown is listing~\ref{lst:ast}, is
+definition of the \texttt{Expression} type, shown is Listing~\ref{lst:ast}, is
 recursive, meaning it has another instance of the enumeration as the associated
 value for one or more of the enumeration variants. In this case, any instance of
 \texttt{Alternative}, \texttt{Sequence}, \texttt{Optional}, \texttt{Repeated},
@@ -2096,9 +2098,9 @@ capabilities.
 \subsection{Lexical analyser} \label{sbs:lexical-analyser}
 
 The lexical analyser, also known as \emph{the lexer} or \emph{the tokenizer},
-performs the tokenization described in section~\ref{sec:lexing}. A simplified
+performs the tokenization described in Section~\ref{sec:lexing}. A simplified
 version of the EBNF tokenizer could be modelled as a Deterministic Finite-state
-Automaton (DFA) (see figure~\ref{fig:lexer-dfa}). This version, however, would
+Automaton (DFA) (see Figure~\ref{fig:lexer-dfa}). This version, however, would
 not support nested comments defined in the specification --- any nested
 structure cannot be tokenized with the use of regular languages, and those are,
 in fact, equivalent to DFAs.
@@ -2239,16 +2241,16 @@ split into several files:
   \item[\texttt{error.rs}] contains the definition of the \texttt{lexer::Error}
   type,
   \item[\texttt{tests.rs}] holds unit tests related to lexical analysis, which
-  will be later discussed in section~\ref{sec:testing}.
+  will be later discussed in Section~\ref{sec:testing}.
 \end{description}
 
 \subsection{Syntactic analyser} \label{sbs:syntactic-analyser}
 
 The syntactic analysis phase, also known as the parsing phase (described in
-section~\ref{sec:parsing}) is conducted by the parser module. The goal of this
+Section~\ref{sec:parsing}) is conducted by the parser module. The goal of this
 thesis is not implementing a parser combinator library from scratch, so instead
 of writing every parser by hand, \thisproject{} uses Nom (see
-subsection~\ref{sbs:used-technologies}) as the parser combinator library of
+Section~\ref{sbs:used-technologies}) as the parser combinator library of
 choice, which ships with a large number of utility parsers and combinators
 already defined. These are in turn combined into more sophisticated parsers that
 are capable of parsing certain EBNF-like structures.
@@ -2260,7 +2262,7 @@ are capable of parsing certain EBNF-like structures.
   \label{lst:parser}
 \end{listing}
 
-For instance, the parser seen in listing~\ref{lst:parser} parses the sequence of
+For instance, the parser seen in Listing~\ref{lst:parser} parses the sequence of
 \texttt{term}s separated by commas with the use of the
 \texttt{separated\_list\_1} native to Nom. It also utilizes the \texttt{map}
 combinator to transform the result into an appropriate type --- it returns the
@@ -2271,8 +2273,8 @@ in a similar fashion.
 
 All the more complicated parsers eventually use the so-called \emph{literals}
 --- the most simple parsers capable of parsing single tokens. Every token from
-the \texttt{Token} type (defined in subsection~\ref{sbs:domain-modelling}) has
-an equivalent literal parser.
+the \texttt{Token} type (defined in Section~\ref{sbs:domain-modelling}) has an
+equivalent literal parser.
 
 All parsers in Nom are basically functions, which most generally take a string
 as the input, and return an \texttt{IResult} --- either the parsed \emph{thing}
@@ -2318,7 +2320,7 @@ module. It is divided among several files:
   \item[\texttt{utils.rs}] defines the utility functions and \emph{literal}
   parsers,
   \item[\texttt{tests.rs}] contains unit tests related to syntactic analysis,
-  which are going to be discussed in section~\ref{sec:testing}.
+  which are going to be discussed in Section~\ref{sec:testing}.
 \end{description}
 
 \newpage
@@ -2350,11 +2352,11 @@ expression in which the same non-terminal occurs as the leftmost symbol.}
 Consider the following example:
 \begin{minted}[fontsize=\small]
   {lexers/ebnf_lexer.py:EbnfLexer -x}
-integer = ? [0-9.]+ ?
+integer = ? [0-9.]+ ?;
 value   = integer | '(', expr, ')';
-product = expr, {('*' | '/'), expr}
-sum     = expr, {('+' | '-'), expr}
-expr    = product | sum | value
+product = expr, {('*' | '/'), expr};
+sum     = expr, {('+' | '-'), expr};
+expr    = product | sum | value;
 \end{minted}
 \paraphrase{In this grammar, matching an \texttt{expr} requires testing if a
 \texttt{product} matches while matching a \texttt{product} requires testing if
@@ -2366,7 +2368,7 @@ them into infinite recursion. As left-recursive rules can always be rewritten, a
 grammar is often preprocessed to eliminate them.} \thisproject{}, however, does
 not attempt to do any rewrites. Instead, it only detects the presence of direct
 or indirect left recursion in the provided grammar. The process of detecting
-left recursion can be seen in algorithm~\ref{alg:detecting-left-recursion}.
+left recursion can be seen in Algorithm~\ref{alg:detecting-left-recursion}.
 
 The code related to preprocessing, or the syntactic analysis, can be found in
 the \texttt{preprocessor} module of the crate. The module is divided into
@@ -2377,7 +2379,7 @@ several separate files:
   \item[\texttt{error.rs}] defines the \texttt{preprocessor::Error}
   type,
   \item[\texttt{tests.rs}] contains unit tests related to preprocessing,
-  which are further mentioned in section~\ref{sec:testing}.
+  which are further mentioned in Section~\ref{sec:testing}.
 \end{description}
 
 \subsection{Grammar processing} \label{sbs:grammar-processing}
@@ -2504,7 +2506,7 @@ pub enum Node {
 \end{wraplisting}
 
 The recursive function produces a parse tree along the way, which is represented
-by the \texttt{Node} type defined in listing~\ref{lst:checker-node}. Each
+by the \texttt{Node} type defined in Listing~\ref{lst:checker-node}. Each
 \texttt{Node} represents a tree node, where \texttt{Nonterminal} variants are
 \emph{branches} (containing multiple children), and \texttt{Terminal} variants
 are \emph{leaves} of the tree. Additionally, each \texttt{Nonterminal} has an
@@ -2568,7 +2570,7 @@ the program parses the grammar, and then checks the provided input from a file.
 However, if the test string is not provided, the program, after parsing the
 grammar, enters the REPL mode. The program provides the \texttt{--help} and
 \texttt{--version} flags for displaying the help menu
-(figure~\ref{lst:cli-help}) and the current version of the program respectively.
+(Figure~\ref{lst:cli-help}) and the current version of the program respectively.
 
 For parsing command-line arguments, in its core \thisproject{} uses the
 \emph{Clap} crate for Rust --- a Command Line Argument Parser. It is a
@@ -2594,7 +2596,7 @@ StructOpt can automatically generate a command-line argument parser based on the
 values in the struct and their types. StructOpt is easy to use and is a
 convenient method of parsing the arguments into a single structure, which then
 can be used in the actual program. The StructOpt struct for \thisproject{} is
-defined in listing~\ref{lst:cli-structopt}, where it takes two file paths: one
+defined in Listing~\ref{lst:cli-structopt}, where it takes two file paths: one
 obligatory and positional, and one optional and marked with an appropriate flag.
 
 \begin{listing}[H]
@@ -2651,13 +2653,13 @@ The name \emph{read–eval–print loop} comes from the steps the program execut
 \end{itemize}
 The environment then returns to the \emph{read} state, creating a loop, which
 terminates when the program is closed. An example terminal output of the REPL
-mode can be seen in figure~\ref{lst:cli-repl}.
+mode can be seen in Figure~\ref{lst:cli-repl}.
 
 \section{Web-based application} \label{sec:web-based-application}
 
 \subsection{Linking the business logic}
 
-To use the business logic (described in section~\ref{sec:business-logic}) in a
+To use the business logic (described in Section~\ref{sec:business-logic}) in a
 web environment, the Rust code must be compiled to a WebAssembly module. This is
 done through Wasm-pack --- a~tool for building and working with WebAssembly
 generated from Rust code. The generated WebAssembly module can then be used like
@@ -2726,7 +2728,7 @@ impl EbnfParserParser {
 
 Since the \texttt{Grammar} struct does not to be exported directly to
 JavaScript, Wasm-bindgen exposes the \texttt{EbnfParserParser} struct
-encapsulating the \texttt{Grammar} (listing~\ref{lst:wasm-glue-parser}), which
+encapsulating the \texttt{Grammar} (Listing~\ref{lst:wasm-glue-parser}), which
 JavaScript treats as a regular class. Wasm-bindgen allows to mark the
 \texttt{new} function as a class constructor, so the construction of the
 \texttt{EbnfParserParser} object can be done via the \texttt{new} keyword.
@@ -2831,7 +2833,7 @@ an array of all children nodes. This structure is compatible with
 \emph{Svelte-tree} package --- a tree-like view component for Svelte. The
 component is used on the front-end to display a collapsable tree based on the
 structure described above. An example of the visualized parse tree is presented
-in figure~\ref{fig:front-end-parse-tree}.
+in Figure~\ref{fig:front-end-parse-tree}.
 
 Svelte-tree allows the user to associate a node with an identifier via the
 \texttt{let:node} construct, and this way access the names of nodes being
@@ -2839,7 +2841,7 @@ rendered at appropriate DOM elements.
 
 The Svelte-tree is abstracted away into its own Svelte component responsible for
 visualizing the parse tree, which can be seen in
-listing~\ref{lst:svelte-parse-tree}. In the \texttt{<script>} section it imports
+Listing~\ref{lst:svelte-parse-tree}. In the \texttt{<script>} section it imports
 the \texttt{Tree} component from the Svelte-tree package, and exposes the
 \texttt{tree} parameter as its input. Each node in the tree is marked with a
 \texttt{node} class, which, in the \texttt{<style>} section, is getting an
@@ -2909,7 +2911,7 @@ dependencies between these components.
 Tests related to the lexer test the functionality of the lexer, that is, test
 the ability of the lexer to turn the textual representation of EBNF into
 individual tokens. An typical unit test related to the lexer can be seen in
-listing~\ref{lst:lexer-unit-test}, where it makes an assertion that the result
+Listing~\ref{lst:lexer-unit-test}, where it makes an assertion that the result
 of the \texttt{lex} function on input ``\verb*| abc \n = 'def' |'' is a success
 (the \texttt{Ok} case), and it's a vector of three certain tokens.
 
@@ -2933,7 +2935,7 @@ fn test_multiline() {
 \end{listing}
 
 All test cases related to the lexer are listed in
-table~\ref{tab:lexer-test-cases} in a simplified format, where the result can
+Table~\ref{tab:lexer-test-cases} in a simplified format, where the result can
 either be a success case or a failure case, but does not provide information
 about the lexed tokens for simplicity. The actual test cases for the lexer
 are located in the file \texttt{ebnf/src/lexer/tests.rs}.
@@ -2999,7 +3001,7 @@ the ability to transform a list of tokens into an AST. To make the unit tests of
 the parser independent from the implementation of the lexer, the input to the
 \texttt{parse} function is a vector of tokens, rather than a result of the
 \texttt{lex} function. An example test case related to the parser is seen in
-listing~\ref{lst:parser-unit-test}, where the \texttt{ok\_case} macro represents
+Listing~\ref{lst:parser-unit-test}, where the \texttt{ok\_case} macro represents
 a test case that, after testing the \texttt{factor} parser, should result in a
 success, parse 3 tokens, and return a \texttt{Factor} AST node. In the same
 file, that is \texttt{ebnf/src/parser/tests.rs} one can also find the
@@ -3032,7 +3034,7 @@ ok_case!(
 
 Tests related to the preprocessor test the functionality of the preprocessor,
 that is, test the ability to detect undefined rules and left recursion. Test
-case in listing~\ref{lst:preprocessor-unit-test} tests the grammar
+case in Listing~\ref{lst:preprocessor-unit-test} tests the grammar
 \begin{minted}[fontsize=\small]{lexers/ebnf_lexer.py:EbnfLexer -x}
 a = b;
 b = a;
@@ -3112,12 +3114,12 @@ fn test_arbitrary_input(input: String) {
 
 \thisproject{} uses the \texttt{quickcheck} crate for Rust, which is a
 property-based testing framework inspired by Haskell's QuickCheck and has been
-described in section~\ref{sbs:used-technologies}. \texttt{quickcheck} tests the
+described in Section~\ref{sbs:used-technologies}. \texttt{quickcheck} tests the
 ``correctness'' of \texttt{lex} and \texttt{parse}, i.e. it checks if these
 functions do not emit a \emph{panic} for an arbitrary input, whether it's a
 random string of characters for the case of \texttt{lex}, or a random string of
 tokens for \texttt{parse}. Example \texttt{quickcheck} tests can be seen in
-listings~\ref{lst:lexer-quickcheck-test} and \ref{lst:parser-quickcheck-test},
+Listings~\ref{lst:lexer-quickcheck-test} and \ref{lst:parser-quickcheck-test},
 where the \texttt{quickcheck} macro is used to streamline the usage of the
 library. \texttt{quickcheck} catches any panics that may occur in \texttt{lex}
 and \texttt{parse} functions and reports them to the user along with the input
@@ -3125,7 +3127,7 @@ provided to these functions. In the case of \texttt{parse}, to generate an
 arbitrary string of \texttt{Token}s, it was necessary to implement the
 \texttt{Arbitrary} trait provided by \texttt{quickcheck} for \texttt{Token}.
 \texttt{Spanned<T>}, \texttt{Span}, and \texttt{Location} types (most of this
-has been omitted in listing \ref{lst:parser-quickcheck-test}).
+has been omitted in Listing~\ref{lst:parser-quickcheck-test}).
 
 \begin{listing}[H]
   \begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{rust}
@@ -3167,7 +3169,7 @@ and the wasm32-unknown-unknown target. The \texttt{wasm-pack test} command wraps
 the wasm-bindgen-test-runner CLI allowing the developer to run wasm tests in
 different browsers without needing to install the different webdrivers. An
 example integration test ran with wasm-bindgen-test can be seen in
-listing~\ref{lst:ebnf-integration-tests}.
+Listing~\ref{lst:ebnf-integration-tests}.
 
 \begin{listing}[H]
   \begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{rust}
@@ -3237,7 +3239,7 @@ the examples below were generated using the gnuplot backend.
   \label{fig:pdf-benchmark}
 \end{figure}
 
-The \emph{PDF chart} in figure~\ref{fig:pdf-benchmark} shows the
+The \emph{PDF chart} in Figure~\ref{fig:pdf-benchmark} shows the
 \emph{probability distribution function} for the samples. It also shows the
 ranges used to classify samples as outliers. In this example we can see that the
 performance trend does not change noticeably across the whole benchmark and
@@ -3250,7 +3252,7 @@ stays around \SI{55}{\micro\second}
   \label{fig:regression-benchmark}
 \end{figure}
 
-The \emph{regression plot}, shown in figure~\ref{fig:regression-benchmark},
+The \emph{regression plot}, shown in Figure~\ref{fig:regression-benchmark},
 shows each data point plotted on an X-Y plane showing the number of iterations
 versus the time taken. It also shows the line representing Criterion.rs' best
 guess at the time per iteration. A good benchmark will show the data points all
@@ -3312,7 +3314,7 @@ metrics that together reflect how fast the page is perceptually:
   shift each other during the loading.
 \end{description}
 All values for performance metrics generated by Lighthouse can be seen in
-table~\ref{tab:lighthouse-performance-metrics}. Besides the metrics, the website
+Table~\ref{tab:lighthouse-performance-metrics}. Besides the metrics, the website
 passed additional 29 audits, such as \emph{Minify CSS}, \emph{Minify
 JavaScript}, \emph{Enable text compression}, \emph{Initial server response time
 was short}, \emph{Remove duplicate modules in JavaScript bundles}, \emph{Avoids
@@ -3406,7 +3408,7 @@ it comes to maintenance.
 Deployment involves packaging up the web application and putting it in a
 production environment that can run the app. To package, or \emph{bundle} the
 web application, \thisproject{} uses Rollup --- a simple JavaScript module
-bundler, described in section~\ref{sbs:used-technologies}, which can also serve
+bundler, described in Section~\ref{sbs:used-technologies}, which can also serve
 as a \emph{build tool} for JavaScript. A bundler is a tool that recursively
 follows all imports from the entry point of the application and bundles them up
 into a single JavaScript file. What makes Rollup great, is its ability to keep
@@ -3494,7 +3496,7 @@ which is the only workflow in the project, the file is named \texttt{ci.yml} and
 sits in the \texttt{.github} directory at the root of the repository. The format
 of the workflow file is YAML --- a human-readable data-serialization language
 that is commonly used for configuration files. A part of the file can be seen in
-listing~\ref{lst:cd}. With the \texttt{on} keyword it lists the events that
+Listing~\ref{lst:cd}. With the \texttt{on} keyword it lists the events that
 invoke the workflow --- in this case, any push or pull request to the
 \emph{master} branch.
 
@@ -3537,7 +3539,7 @@ for the Web\-Assembly compilation.
 
 Artifacts described in this chapter are by-products of the design,
 implementation, and testing phases described in
-chapters~\ref{ch:design-of-the-project}, \ref{ch:implementation-of-the-project},
+Chapters~\ref{ch:design-of-the-project}, \ref{ch:implementation-of-the-project},
 and \ref{ch:project-quality-study}, which are the core of the software
 development part of the project.
 
@@ -3575,7 +3577,7 @@ open-source and is available on a public GitHub repository at
 \end{center}
 
 The source code consists of three Rust crates and one npm package, as seen in
-section~\ref{sbs:project-structure}. Most of these work together to compose the
+Section~\ref{sbs:project-structure}. Most of these work together to compose the
 single web application, with the npm package providing the tool chain necessary
 to build the project. The Rollup configuration provides the build tool necessary
 to bundle the source code in the form of Rust projects and Svelte files into a
@@ -3709,7 +3711,7 @@ EBNF notation).
 
 Listing~\ref{lst:specification} shows the modified version of the specification
 of the ISO/IEC 14977 standard. The modification is described in detail in
-section~\ref{sec:modified-specification} of the thesis.
+Section~\ref{sec:modified-specification} of the thesis.
 
 \begin{listing}[H]
   \inputminted[fontsize=\small,frame=lines,breaklines,linenos]

@@ -15,6 +15,7 @@
 \usepackage{array} % \raggedright, \arraybackslash
 \usepackage[polish,english,main=english]{babel}
 \usepackage{siunitx}
+\usepackage{subcaption}
 % Please load this as the very last package for footnotes to link correctly
 \usepackage{hyperref} % Hyperlinks
 
@@ -3640,7 +3641,235 @@ all of your crate's dependencies) and open the result in a web browser.
 
 \chapter{User manual} \label{ch:user-manual}
 
-\todo{}
+\section{System requirements}
+
+The development process gives the user much flexibility when it comes to the
+choice of an operating system. Any tool in the project's toolchain is available
+on all major operating systems, whether it's Windows, GNU/Linux or macOS.
+
+To install Rust along with Cargo please follow the official installation guide
+for your operating system available at
+\begin{center}
+  \url{https://www.rust-lang.org/tools/install}
+\end{center}
+Node.js and npm can be downloaded through
+\begin{center}
+  \url{https://www.npmjs.com/get-npm}
+\end{center}
+Wasm-pack's installer and installation guide can be found at
+\begin{center}
+  \url{https://rustwasm.github.io/wasm-pack/installer/}
+\end{center}
+All three tools must be installed on the machine of the user in order to run the
+application locally.
+
+\section{Installation guide}
+
+The source code of the application can be obtained either from the CD appended
+to the thesis, or from the official repository hosted on GitHub at
+\begin{center}
+  \url{https://github.com/karolbelina/parser-parser}
+\end{center}
+which can be downloaded as a ZIP file, or cloned from the command-line with
+the \texttt{git clone} command (in this case, make sure that Git is installed).
+
+After downloading, please make sure all necessary components are in place. To
+list all files in the project's directory, first change the current directory to
+\texttt{parser-parser} with the \texttt{cd} command and then list all files
+using the \texttt{ls} command on Unix-like systems and \texttt{dir} on Windows.
+Listing~\ref{lst:git-download} shows the process of downloading the repository
+from GitHub and listing all files in that repository from the command-line.
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,frame=lines,breaklines]{text}
+$ git clone https://github.com/karolbelina/parser-parser.git
+$ cd parser-parser
+$ ls
+Dockerfile  LICENSE  README.md  app  base  cli  ebnf
+  \end{minted}
+  \caption{Command-line output after downloading the source code on
+  Ubuntu~20.04.}
+  \label{lst:git-download}
+\end{listing}
+
+To run the web application, the user must first install npm dependencies of the
+\texttt{app} component of the project. To do this, one must change the current
+directory to \texttt{app}, and then, by using npm, install the necessary
+dependencies with the \texttt{npm install} command. This requires a connection
+with the internet and will take several minutes to complete. To finally build
+and run the application, the user must run the \texttt{npm run start} command,
+which will start the build process of the web application. This will build all
+Rust components of the application, as well as the Svelte application itself,
+and can take several additional minutes. After completion, the user should see
+the ``\texttt{Your application is ready}'' notification, and below, the local IP
+address where the application is currently being served, as seen in
+Listing~\ref{lst:npm-install-build}. To see the application, the user should
+copy the address and paste it into the address bar in any supported web browser.
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small,frame=lines,breaklines]{text}
+$ cd app
+$ npm install
+$ npm run build
+
+Your application is ready~!
+
+- Local:      http://localhost:5000
+- Network:    Add `--host` to expose
+
+------------------ LOGS ------------------
+  \end{minted}
+  \caption{Installation of the dependencies and building the web application.}
+  \label{lst:npm-install-build}
+\end{listing}
+
+\section{Usage guide}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[inner sep=0pt] (russell) at (0,0)
+      {\frame{\includegraphics[width=\textwidth]{parser_parser.png}}};
+    \node[] at (-0.25\textwidth,-1.3) {\Huge\bfseries\textcolor{red}{1}};
+    \node[] at (4.3,2.7) {\Huge\bfseries\textcolor{red}{2}};
+    \node[] at (0.25\textwidth,1.7) {\Huge\bfseries\textcolor{red}{3}};
+    \node[] at (0.25\textwidth,-1.3) {\Huge\bfseries\textcolor{red}{4}};
+  \end{tikzpicture}
+  \caption{Screenshot of the \thisproject{} web application with annotations in
+  red.}
+  \label{fig:parser-parser-screenshot}
+\end{figure}
+
+Figure~\ref{fig:parser-parser-screenshot} shows the web application served at
+the local address. The application window in divided into several sections,
+all of which have been annotated on Figure~\ref{fig:parser-parser-screenshot}:
+\begin{enumerate}
+  \item The grammar window, where the user can provide a grammar definition
+  in the EBNF format.
+  \item The initial production rule selection. After providing a valid grammar,
+  the user can select an initial production rule from the ones provided.
+  \item The test string window, where the user, after providing a valid grammar,
+  can test wheter an arbitrary input string belongs to the language generated
+  by that grammar.
+  \item The visualization of the parse tree, shown only if the user provides a
+  string that belongs to the language generated by the grammar. The
+  visualization is interactible --- the nodes of the parse tree can be collapsed
+  and expanded.
+\end{enumerate}
+
+The screenshot presents an example use case of the application, in which the
+user clicked on the grammar window (1) with the left mouse button and began to
+type the definiton of a desired grammar with the use of the keyboard. The
+grammar, defined as
+\begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{lexers/ebnf_lexer.py:EbnfLexer -x}
+expression = term, { ('+' | '-'), term };
+term       = factor, { ('*' | '/'), factor };
+factor     = constant
+           | variable
+           | '(', expression, ')';
+variable   = 'x' | 'y' | 'z';
+constant   = digit, { digit };
+digit      = '0' | '1' | '2' | '3' | '4'
+           | '5' | '6' | '7' | '8' | '9';
+\end{minted}
+is able to generate simple arithmetic expressions made out of natural numbers
+and variables $x$, $y$, and $z$. The supported operators are: addition,
+subtraction, multiplication, and division, all of which keep an appropriate
+operator precedence order. The expressions can be parenthesized to alter the
+natural order of precendence. The precedence support for operators is built into
+the definition of the grammar --- it is not a special behavior of
+\thisproject{}.
+
+After providing the grammar, the user clicked on the initial rule selection (2)
+and selected the initial production rule to be the ``\texttt{expression}'' rule.
+The user had the option to select any of the six rules defined in the grammar,
+which are updated in real-time, but has chosen the rule related to expressions.
+In the test string window (3) the user provided a test string ``\texttt{2+2*2}''
+to check if it belongs to the language generated by the previously provided
+grammar.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node[circle,draw](z){$+$}
+        child{node[circle,draw]{$1$}
+          child[missing]
+          child[missing]
+        }
+        child{node[circle,draw]{$*$}
+          child{node[circle,draw] {$2$}}
+          child{node[circle,draw] {$x$}}
+        };
+    \end{tikzpicture}
+    \caption{Expected parse tree structure.}
+    \label{fig:expected-parse-tree}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \frame{\includegraphics[width=\textwidth]{parse_tree_1.png}}
+    \caption{Parse tree in \thisproject{}.}
+    \label{fig:actual-parse-tree}
+  \end{subfigure}
+  \caption{A parse tree of a simple arithmetic expression and its operator
+  precedence.}
+  \label{fig:parser-parser-parse-tree-example}
+\end{figure}
+
+As the user typed the input string, the visualization of the parse tree (4) was
+being updated. Initially, the output showed ``failure'', as the initial empty
+string did not belong to the language, but as the user typed more and more
+characters into the test string window, the output window updated accordingly.
+By the time the user typed the entire desired test string, the output window
+showed a visualization of the parse tree of the ``\texttt{2+2*2}'' expression.
+Figure~\ref{fig:parser-parser-parse-tree-example} shows an expected,
+mathematically correct parse tree of a slightly altered $1 + 2 \cdot x$
+expression, as well as the parse tree of the same expression ``\texttt{1+2*x}''
+in \thisproject{}. The expected parse tree and the one generated in
+\thisproject{} have the same structure, where the multiplication operation would
+be evaluated first, as it is one level below the addition operator.
+
+The user had the option to collapse or expand individual nodes of the parse tree
+dynamically in case the resulting parse tree was too large to visualize as a
+whole. At any point, the user had the option to change the initial production
+rule of the grammar, as well as the grammar itself.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \frame{\includegraphics[width=\textwidth]{parser_parser_undefined_rule.png}}
+    \caption{Undefined rule detection.}
+    \label{fig:undefined-rule-detection}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \frame{\includegraphics[width=\textwidth]{parser_parser_left_recursion.png}}
+    \caption{Left recursion detection and its cycle.}
+    \label{fig:left-recursion-detection}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \frame{\includegraphics[width=\textwidth]{parser_parser_repetition_symbol_expected.png}}
+    \caption{Simple syntax error.}
+    \label{fig:simple-syntax-error}
+  \end{subfigure}
+  \caption{Three examples of errors detected by \thisproject{}.}
+  \label{fig:parser-parser-error-examples}
+\end{figure}
+
+As the user provides a definition of a grammar into the grammar window, the
+syntax and semantics of that grammar are being automatically validated. In case
+the definition is not valid, the reason of that is automatically reported to the
+user. Figure~\ref{fig:parser-parser-error-examples} shows three examples
+of invalid grammars, where the exact reason and its place in the definition is
+highlighted by underlining it with the red color. The user can then mouse over
+the highlighted area to read the error, and then correct it accordingly.
+
+As long as the definition of the grammar is invalid, the user cannot choose
+an initial production rule or test an input string.
 
 \chapter{Summary} \label{ch:summary}
 

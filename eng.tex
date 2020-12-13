@@ -157,6 +157,7 @@ daje możliwość rozszerzenia go o~inne specyfikacje gramatyk.
   continuous integration.
   \item[Chapter~\ref{ch:software-artifacts}] presents the results of the project
   in form of software artifacts.
+  \item[Chapter~\ref{ch:user-manual}] \todo{}
   \item[Chapter~\ref{ch:summary}] sums up the thesis and proposes next steps
   in the evolution of the project.
 \end{description}
@@ -269,6 +270,9 @@ static sites.
 \newpage
 
 \section{Glossary}
+
+\todo{Proszę dopisać, że definicje tych pojęć znajdują się w pracy. W skrócie
+wyjaśnić definicje}
 
 \begin{description}[leftmargin=!,labelwidth=2.5cm]
   \item[AST] Abstract syntax tree
@@ -636,6 +640,8 @@ specials, and integers.
 
 \section{Syntactic analysis} \label{sec:parsing}
 
+\todo{warto umieścić poglądowy rysunek, podobny do rysunku ze str. 48}
+
 \emph{Parsing}, \emph{syntax analysis}, or \emph{syntactic analysis} is the
 process of analyzing a string of symbols, either in natural languages, computer
 languages, or data structures, adhering to the rules of a formal grammar. A
@@ -759,7 +765,7 @@ look very similar to the grammars that are written to describe languages
 \emph{Abstract syntax trees} (AST) are data structures that represent the
 structure of program code, and are the result of the syntax analysis phase of a
 program. The design of an AST is usually tightly linked with the design of a
-parser and its expected features. \todo{jakiś odsyłacz do literatury}
+parser and its expected features \cite{aho-2019}.
 
 The definition of an abstract syntax tree for EBNF is closely related to the
 definition of Parsing expression grammars discussed in Section~\ref{sbs:pegs}.
@@ -1535,7 +1541,7 @@ Subversion
 
 According to the 2019 Developers Survey of Stack Overflow, Visual Studio Code
 ranked \#1 among the top popular developer tools, with $50.7\,\%$ of the 87317
-respondents using it. \cite{stack-overflow-insights-2019}
+respondents using it \cite{stack-overflow-insights-2019}.
 
 The extensions for the editor are made by the members of Visual Studio Code
 community. Two main extensions used by the author to develop the project were:
@@ -1590,7 +1596,7 @@ as a reference for using the tool.
 
 Git is now the most widely used source-code management tool, with $87.2\,\%$ of
 the 74298 respondents of the 2018 Developers Survey of Stack Overflow reporting
-that they use Git as their primary source-control system.
+that they use Git as their primary source-control system
 \cite{stack-overflow-insights-2018}.
 
 The main client of Git used in the project was the command-line tool on the
@@ -1608,21 +1614,21 @@ changes in the project repository in the Git version control system.
 
 \subsubsection*{GitHub}
 
-GitHub \cite{github} is a for-profit company owned by Microsoft that offers a cloud-based Git
-repository hosting service. As a company, GitHub makes money by selling hosted
-private code repositories, as well as other business-focused plans that make it
-easier for organizations to manage team members and security. The author used
-the free GitHub plan as the service for hosting the project's Git repository.
-Having the source code on an external server protected the project against data
-loss and allowed the developer to work on the project from any device at any
-convenient time.
+GitHub \cite{github} is a for-profit company owned by Microsoft that offers a
+cloud-based Git repository hosting service. As a company, GitHub makes money by
+selling hosted private code repositories, as well as other business-focused
+plans that make it easier for organizations to manage team members and security.
+The author used the free GitHub plan as the service for hosting the project's
+Git repository. Having the source code on an external server protected the
+project against data loss and allowed the developer to work on the project from
+any device at any convenient time.
 
 In addition to using GitHub as a hosting service, one can also exploit its
 project management features. Developers can define project boards related to the
-project's code repository, which are simple kanban board that can help organize
-and prioritize the work. With projects, the developers have the flexibility to
-manage boards for an entire project, or just for specific features.
-Figure~\ref{fig:github-projects} shows an example project board from
+project's code repository, which are simple kanban \cite{ahmad-2013} boards that
+can help organize and prioritize the work. With projects, the developers have
+the flexibility to manage boards for an entire project, or just for specific
+features. Figure~\ref{fig:github-projects} shows an example project board from
 \thisproject{}.
 
 Project boards contain \emph{issues} and \emph{pull requests}, which can be
@@ -1673,11 +1679,11 @@ safety, focuses on speed --- its design lets the developer design programs that
 have the performance and control of a low-level language, but with the powerful
 abstractions of a high-level language.
 
-Rust's design borrows heavily from the one of Haskell --- both languages feature
-a rich type system, both are immutable-by-default, avoid mutation of shared
-references et cetera. Many developers tend to write Rust code in a functional
-style and adhere to the principles of functional programming, even though the
-language is multi-paradigm.
+Rust's design borrows heavily from the one of Haskell \cite{haskell} --- both
+languages feature a rich type system, both are immutable-by-default, avoid
+mutation of shared references et cetera. Many developers tend to write Rust code
+in a functional style and adhere to the principles of functional programming,
+even though the language is multi-paradigm.
 
 Without the need of a garbage collector, Rust projects are well-suited to be
 used as libraries by other programming languages. The language over the last few
@@ -1718,12 +1724,12 @@ WebAssembly to be then used in a web environment for several reasons:
 
 \subsubsection*{Cargo}
 
-Cargo is the Rust's package manager. \paraphrase{It downloads the Rust package's
-dependencies and compiles them, ensuring that the developer will always get a
-repeatable build. To accomplish this goal, Cargo introduces two metadata files
-with various bits of package information, fetches and builds the dependencies,
-invokes the Rust compiler with correct parameters to build the package, and
-introduces conventions to make working with Rust packages easier.}
+Cargo \cite{crates-io} is the Rust's package manager. \paraphrase{It downloads
+the Rust package's dependencies and compiles them, ensuring that the developer
+will always get a repeatable build. To accomplish this goal, Cargo introduces
+two metadata files with various bits of package information, fetches and builds
+the dependencies, invokes the Rust compiler with correct parameters to build the
+package, and introduces conventions to make working with Rust packages easier.}
 
 Rust provides first-class support for unit and integration testing, and Cargo
 allows the developer to execute all tests with a single command. Additionally,
@@ -1768,42 +1774,42 @@ dependencies, the most important of which include:
   \end{itemize}
   Wasm-bindgen only generates bindings and glue for the JavaScript imports that
   are actually being used and Rust functionality that is being exported.}
-  \item[quickcheck] --- A property-based testing framework inspired by the
-  QuickCheck framework for Haskell. The crate comes with the ability to randomly
-  generate and shrink integers, floats, tuples, booleans, lists, strings,
-  options and results. All QuickCheck needs is a property function --- it will
-  then randomly generate inputs to that function and call the property for each
-  set of inputs. If the property fails (whether by a runtime error like index
-  out-of-bounds or by not satisfying the property), the inputs are "shrunk" to
-  find a smaller counter-example.
-  \item[criterion] --- Provides a powerful but simple way to measure software
-  performance. It provides both a framework for executing and analyzing
-  benchmarks and a set of driver functions that makes it easy to build and run
-  benchmarks, and to analyse their results.
-  \item[structopt] --- Parses command-line arguments by defining a struct.
-  StructOpt combines the Clap library with a custom derive for marking a struct
-  containing values that will be translated into specific command-line arguments
-  based on their types and markers. Besides the desired arguments, StructOpt
-  automatically generates the \emph{help} string, which can be invoked with the
-  \texttt{--help} flag, as well as a \texttt{--version} flag for checking the
-  version of the program.
+  \item[quickcheck] \cite{quickcheck} --- A property-based testing framework
+  inspired by the QuickCheck framework for Haskell. The crate comes with the
+  ability to randomly generate and shrink integers, floats, tuples, booleans,
+  lists, strings, options and results. All QuickCheck needs is a property
+  function --- it will then randomly generate inputs to that function and call
+  the property for each set of inputs. If the property fails (whether by a
+  runtime error like index out-of-bounds or by not satisfying the property), the
+  inputs are "shrunk" to find a smaller counter-example.
+  \item[criterion] \cite{criterion} --- Provides a powerful but simple way to
+  measure software performance. It provides both a framework for executing and
+  analyzing benchmarks and a set of driver functions that makes it easy to build
+  and run benchmarks, and to analyse their results.
+  \item[structopt] \cite{structopt} --- Parses command-line arguments by defining
+  a struct. StructOpt combines the Clap library with a custom derive for marking
+  a struct containing values that will be translated into specific command-line
+  arguments based on their types and markers. Besides the desired arguments,
+  StructOpt automatically generates the \emph{help} string, which can be invoked
+  with the \verb|--help| flag, as well as a \verb|--version| flag for
+  checking the version of the program.
 \end{description}
 All of the above dependencies are available under the MIT license.
 
 \subsubsection*{Wasm-pack}
 
-Wasm-pack is a tool for building and working with Rust-generated WebAssembly
-that the developer would like to interop with JavaScript, in the browser, or
-with Node.js. The generated WebAssembly packages then could be published to the
-npm registry, or otherwise used alongside any JavaScript packages in workflows
-that the developer already uses, such as Webpack or Rollup. The tool
-interoperates and utilizes the wasm-bindgen, another tool, to provide a bridge
-between the types of JavaScript and Rust. It allows JavaScript to call a Rust
-API with a string, or a Rust function to catch a JavaScript exception. wasm-pack
-wraps the CLI portion of the wasm-bindgen tool. This results in wrapping the
-WebAssembly module in JS wrappers which make it easier to interact with the
-module. Wasm-bindgen supports both ES6 modules and CommonJS and the developer
-can use wasm-pack to produce either type of package.
+Wasm-pack \cite{wasm-pack} is a tool for building and working with
+Rust-generated WebAssembly that the developer would like to interop with
+JavaScript, in the browser, or with Node.js. The generated WebAssembly packages
+then could be published to the npm registry, or otherwise used alongside any
+JavaScript packages in workflows that the developer already uses, such as
+Webpack or Rollup. The tool interoperates and utilizes the wasm-bindgen, another
+tool, to provide a bridge between the types of JavaScript and Rust. It allows
+JavaScript to call a Rust API with a string, or a Rust function to catch a
+JavaScript exception. wasm-pack wraps the CLI portion of the wasm-bindgen tool.
+This results in wrapping the WebAssembly module in JS wrappers which make it
+easier to interact with the module. Wasm-bindgen supports both ES6 modules and
+CommonJS and the developer can use wasm-pack to produce either type of package.
 
 \subsubsection*{Svelte}
 
@@ -1875,11 +1881,11 @@ code.}
 
 \subsubsection*{npm}
 
-\paraphrase{Node Package Manager is a package manager for the JavaScript
-programming language. It consists of a command-line client, also called npm, and
-an online database of public and paid-for private packages, called the npm
-registry. The registry is accessed via the client, and the available packages
-can be browsed and searched via the npm website.}
+\paraphrase{Node Package Manager \cite{npm} is a package manager for the
+JavaScript programming language. It consists of a command-line client, also
+called npm, and an online database of public and paid-for private packages,
+called the npm registry. The registry is accessed via the client, and the
+available packages can be browsed and searched via the npm website.}
 
 Npm provides several built-in scripts and allows users to define their own.
 \paraphrase{An npm script is a convenient way to bundle common shell commands
@@ -1908,11 +1914,12 @@ The project is dependent on several npm packages:
   autocompletion, code folding, configurable keybindings, search and replace
   interface, bracket and tag matching, support for split view, linter
   integration, various themes, and many more.
-  \item[svelte-tree] --- A tree-like view component for Svelte. The component
-  has the ability to display a collapsable tree structure based on a provided
-  tree of JavaScript objects with custom \texttt{name} and \texttt{children}
-  properties. The component provides a slot space to display custom nodes, which
-  will give the tree node DOM/components the access to the nodes being rendered.
+  \item[svelte-tree] \cite{svelte-tree} --- A tree-like view component for
+  Svelte. The component has the ability to display a collapsable tree structure
+  based on a provided tree of JavaScript objects with custom \texttt{name} and
+  \texttt{children} properties. The component provides a slot space to display
+  custom nodes, which will give the tree node DOM/components the access to the
+  nodes being rendered.
 \end{description}
 The configuration file also lists dependencies for the development process,
 which can be divided into several categories:
@@ -2034,6 +2041,8 @@ making illegal states unrepresentable. Constructs such as sum types and product
 types provide us with an expressive method of modelling the business rules.
 This method also allows the developer to utilize property-based testing ---
 letting the computer generate test cases.
+
+\todo{wyjaśnić, że tylko w celach pracy plus bibliografia?}
 
 For modelling the domain, the author will use the Haskell programming language,
 with its expressive data types and highly reusable abstractions, as well as a
@@ -2565,7 +2574,7 @@ OPTIONS:
 ARGS:
     <GRAMMAR FILE>    Grammar file path
   \end{minted}
-  \caption{The output of the program ran with the \texttt{--help} flag.}
+  \caption{The output of the program ran with the \texttt{-{}-help} flag.}
   \label{lst:cli-help}
 \end{wraplisting}
 
@@ -2576,8 +2585,8 @@ argument for passing a file containing the test input string denoted with the
 \texttt{-t}, or the \texttt{--test} flag. In case the test string is provided,
 the program parses the grammar, and then checks the provided input from a file.
 However, if the test string is not provided, the program, after parsing the
-grammar, enters the REPL mode. The program provides the \texttt{--help} and
-\texttt{--version} flags for displaying the help menu
+grammar, enters the REPL mode. The program provides the \verb|--help| and
+\verb|--version| flags for displaying the help menu
 (Figure~\ref{lst:cli-help}) and the current version of the program respectively.
 
 For parsing command-line arguments, in its core \thisproject{} uses the
@@ -3629,6 +3638,10 @@ directory. For convenience, running \texttt{cargo doc --open} will build the
 HTML for the current crate's documentation (as well as the documentation for
 all of your crate's dependencies) and open the result in a web browser.
 
+\chapter{User manual} \label{ch:user-manual}
+
+\todo{}
+
 \chapter{Summary} \label{ch:summary}
 
 The thesis described the process of designing and implementing a tool for
@@ -3716,7 +3729,7 @@ EBNF notation).
 
 \begin{appendices}
 
-\chapter{Modified specification} \label{ch:modified-spec}
+\chapter{Modified specification of the ISO/IEC 14977} \label{ch:modified-spec}
 
 Listing~\ref{lst:specification} shows the modified version of the specification
 of the ISO/IEC 14977 standard. The modification is described in detail in
@@ -3729,6 +3742,10 @@ Section~\ref{sec:modified-specification} of the thesis.
   \cite{iso-14977}.}
   \label{lst:specification}
 \end{listing}
+
+\chapter{CD contents}
+
+\todo{}
 
 \end{appendices}
 

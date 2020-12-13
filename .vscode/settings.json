@@ -27,7 +27,8 @@
         "*.synctex.gz(busy)",
         "*.toc",
         "*.bcf",
-        "*.run.xml"
+        "*.run.xml",
+        "*.cpt"
     ],
     "[latex]": {
         "editor.rulers": [80]

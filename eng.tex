@@ -67,6 +67,8 @@ program with the use of parser combinators.}
   \@BTswitch}
 \makeatother
 
+\setlist[description]{font=\normalfont}
+
 \newcommand{\todo}[1]{%
   \textcolor{red}{[\textbf{TODO}\ifx&#1&{}\else{ }\fi\emph{#1}]}%
 }
@@ -399,16 +401,15 @@ resolution \cite{hopcroft-2005}.
 Type-1 grammars generate context-sensitive languages. The languages described by
 these grammars are exactly all languages that can be recognized by a
 \emph{linear bounded automaton} (LBA) --- a Turing machine whose tape size is
-finite and can be predicted based on the length of the input. This feature
-makes an LBA a more realistic representation of a real-world computer than a
-Turing machine, which by definition has a tape of infinite length. Because of
-the ability to perform random access on its memory, LBAs can generate languages
+finite and can be predicted based on the length of the input. This feature makes
+an LBA a more realistic representation of a real-world computer than a Turing
+machine, which by definition has a tape of infinite length. Because of the
+ability to perform random access on its memory, LBAs can generate languages
 based on an arbitrary context, hence the name of languages these grammars
-generate. Context-sensitive languages have much more restrictive rules than
-type-2 and type-3 grammars --- these come in the form of $\alpha A \beta
-\rightarrow \alpha \gamma \beta$, where $A$ is a non-terminal, $\alpha$,
-$\beta$, and $\gamma$ are strings of terminals, and $\alpha$ and $\beta$ may be
-empty.
+generate. Context-sensitive languages have less restrictive rules than type-2
+and type-3 grammars --- these come in the form of $\alpha A \beta \rightarrow
+\alpha \gamma \beta$, where $A$ is a non-terminal, $\alpha$, $\beta$, and
+$\gamma$ are strings of terminals, and $\alpha$ and $\beta$ may be empty.
 
 Type-0 grammars include all formal grammars. They generate all languages that
 can be recognized by a Turing machine. These languages are also known as the
@@ -428,9 +429,7 @@ grammars for specifying syntax formally. From the syntactic point of view, PEGs
 look similar to context-free grammars. They, however, have a different
 interpretation: most notably, the choice operator in PEGs chooses the first
 match, while in CFGs it happens ambiguously. As a result, in PEGs, if a string
-parses successfully, it must have exactly one valid parse tree. Ordered choice
-in PEGs is similar to \emph{soft cut} operators provided by some programming
-languages.
+parses successfully, it must have exactly one valid parse tree.
 
 PEGs address limitations of expressiveness of context-free grammars and regular
 expressions by simplifying their syntax definitions. Each parsing rule in a PEG
@@ -534,7 +533,8 @@ Standardization adopted an EBNF standard (ISO/IEC 14977) in 1996
 \cite{iso-14977}. \thisproject{} uses EBNF as specified by that ISO. Other EBNF
 variants use different syntactic conventions.
 
-\section{Modifying the specification} \label{sec:modified-specification}
+\section{Modifying the ISO/IEC 14977 specification}
+\label{sec:modified-specification}
 
 There are many concerns regarding the modern use of the ISO/IEC 14977 standard
 \cite{wheeler-2019}. The use of this standard in \thisproject{} comes mostly
@@ -649,19 +649,24 @@ Determining if and how the input string can be produced from the initial symbol
 of the grammar is the main responsibility of the parser. This usually can be
 accomplished in two ways:
 \begin{description}
-  \item[Top-down parsing] This method of parsing can be portrayed as finding
+  \item[Top-down parsing] --- This method of parsing can be portrayed as finding
   left-most derivations of an input string by searching for parse trees using a
   top-down expansion of the given production rules of the formal grammar. Tokens
   of the input string are consumed sequentially from left to right. The
   inclusive choice is used to support ambiguity by expanding all alternative
   right-hand-sides of production rules.
-  \item[Bottom-up parsing] This method of parsing starts with the input string
+  \item[Bottom-up parsing] --- This method of parsing starts with the input string
   and makes an attempt to rewrite it back to the initial symbol. The parser
   tries to locate the most basic components, then the elements containing these,
   etc.
 \end{description}
 
 \subsection{Combinatory parsing}
+
+\todo{Czytelnik (a w szczególności recenzent) może nie znać Haskella. Proszę
+zdefiniować (ze zwięzłym wyjaśnieniem) typ Maybe. W bibliografii brak pozycji do
+Haskella, nie jest też wymieniony wśród używanych narzędzi. Parę zdań na temat
+haskella, jak się definiuje algebraiczne typy danych, o konstruktorach Maybe}
 
 \emph{Combinatory parsing} is a top-down parsing technique that involves
 \emph{parser combinators}. A parser combinator is a higher-order function that
@@ -720,6 +725,8 @@ parse (multiple (digit <|> letter)) "abc123"
 -- Just ("abc123", "")
 \end{minted}
 
+\todo{Przydałoby się krótkie wyjaśnienie konstrukcji "do"}
+
 Consider the following grammar defined in EBNF:
 \begin{minted}[fontsize=\small]
   {lexers/ebnf_lexer.py:EbnfLexer -x}
@@ -752,7 +759,7 @@ look very similar to the grammars that are written to describe languages
 \emph{Abstract syntax trees} (AST) are data structures that represent the
 structure of program code, and are the result of the syntax analysis phase of a
 program. The design of an AST is usually tightly linked with the design of a
-parser and its expected features.
+parser and its expected features. \todo{jakiś odsyłacz do literatury}
 
 The definition of an abstract syntax tree for EBNF is closely related to the
 definition of Parsing expression grammars discussed in Section~\ref{sbs:pegs}.
@@ -858,12 +865,12 @@ and functionalities.
 
 \section*{Pest}
 
-Pest \cite{pest} is a general purpose parser for the Rust programming language.
-It uses its own dialect of \emph{parsing expression grammars} as input,
-similarly to \thisproject{}. Pest addresses the problem of hand-written parsers
-in Rust, which in some circumstances can become hard to maintain by their
-developers. Writing a specialized, domain-specific parser for a language can
-become tedious, so developers usually gravitate towards using a
+Pest \cite{pest} is a general purpose parser for the Rust \cite{rust}
+programming language. It uses its own dialect of \emph{parsing expression
+grammars} as input, similarly to \thisproject{}. Pest addresses the problem of
+hand-written parsers in Rust, which in some circumstances can become hard to
+maintain by their developers. Writing a specialized, domain-specific parser for
+a language can become tedious, so developers usually gravitate towards using a
 grammar-generated parser. This allows the developers to focus on the definition
 of the language, rather than on the implementation of the parser.
 \paraphrase{Grammars which define the language offer better correctness
@@ -1533,12 +1540,12 @@ respondents using it. \cite{stack-overflow-insights-2019}
 The extensions for the editor are made by the members of Visual Studio Code
 community. Two main extensions used by the author to develop the project were:
 \begin{description}
-  \item[rust-analyzer] \cite{rust-analyzer} An implementation of the Language
-  Server Protocol for the Rust programming language, which provides features
-  such as code completion, messages for syntax and semantic errors, code
-  actions, diagnostics, ``go to definition'' and other editor actions.
-  \item[Svelte for VS Code] \cite{svelte-for-vs-code} An implementation of the
-  Language Server Protocol for the Svelte framework. The extension provides
+  \item[rust-analyzer] \cite{rust-analyzer} --- An implementation of the
+  Language Server Protocol for the Rust programming language, which provides
+  features such as code completion, messages for syntax and semantic errors,
+  code actions, diagnostics, ``go to definition'' and other editor actions.
+  \item[Svelte for VS Code] \cite{svelte-for-vs-code} --- An implementation of
+  the Language Server Protocol for the Svelte framework. The extension provides
   diagnostic messages for warnings and errors, support for Svelte pre-processors
   that provide source maps, as well as the support for Svelte-specific
   formatting (via prettier-plugin-svelte). Besides the Svelte language, the
@@ -1729,11 +1736,12 @@ that serves as a location to discover and download packages. Cargo is configured
 to use it by default to find requested packages.} The project uses several
 dependencies, the most important of which include:
 \begin{description}
-  \item[nom] \cite{nom,couprie-2015} \paraphrase{A parser combinators library for Rust. Its
-  goal is to provide tools to build safe parsers without compromising the speed
-  or memory consumption. To that end, it uses extensively Rust's strong typing
-  and memory safety to produce fast and correct parsers, and provides functions,
-  macros and traits to abstract most of the error prone details.
+  \item[nom] \cite{nom,couprie-2015} --- \paraphrase{A parser combinators
+  library for Rust. Its goal is to provide tools to build safe parsers without
+  compromising the speed or memory consumption. To that end, it uses extensively
+  Rust's strong typing and memory safety to produce fast and correct parsers,
+  and provides functions, macros and traits to abstract most of the error prone
+  details.
 
   While programming language parsers are usually written manually for more
   flexibility and performance, nom can be (and has been successfully) used as a
@@ -1741,11 +1749,11 @@ dependencies, the most important of which include:
   the grammar the developer would have written with other parser approaches. The
   resulting parsers are small and easy to write, as well as easy to test
   separately.}
-  \item[unicode-segmentation] \cite{unicode-segmentation} A library with a set
-  of iterators which split strings on \emph{grapheme clusters}, \emph{words} or
-  \emph{sentence boundaries}, according to the Unicode Standard Annex \#29
+  \item[unicode-segmentation] \cite{unicode-segmentation} --- A library with a
+  set of iterators which split strings on \emph{grapheme clusters}, \emph{words}
+  or \emph{sentence boundaries}, according to the Unicode Standard Annex \#29
   \cite{unicode-standard-annex-29} rules.
-  \item[wasm-bindgen] \cite{wasm-bindgen} \paraphrase{A Rust library and CLI
+  \item[wasm-bindgen] \cite{wasm-bindgen} --- \paraphrase{A Rust library and CLI
   tool that facilitate high-level interactions between Wasm modules and
   JavaScript. More specifically, this library allows JavaScript and Wasm to
   communicate with strings, JS objects, classes, etc, as opposed to purely
@@ -1760,7 +1768,7 @@ dependencies, the most important of which include:
   \end{itemize}
   Wasm-bindgen only generates bindings and glue for the JavaScript imports that
   are actually being used and Rust functionality that is being exported.}
-  \item[quickcheck] A property-based testing framework inspired by the
+  \item[quickcheck] --- A property-based testing framework inspired by the
   QuickCheck framework for Haskell. The crate comes with the ability to randomly
   generate and shrink integers, floats, tuples, booleans, lists, strings,
   options and results. All QuickCheck needs is a property function --- it will
@@ -1768,14 +1776,14 @@ dependencies, the most important of which include:
   set of inputs. If the property fails (whether by a runtime error like index
   out-of-bounds or by not satisfying the property), the inputs are "shrunk" to
   find a smaller counter-example.
-  \item[criterion] Provides a powerful but simple way to measure software
+  \item[criterion] --- Provides a powerful but simple way to measure software
   performance. It provides both a framework for executing and analyzing
   benchmarks and a set of driver functions that makes it easy to build and run
   benchmarks, and to analyse their results.
-  \item[structopt] Parses command-line arguments by defining a struct. StructOpt
-  combines the Clap library with a custom derive for marking a struct containing
-  values that will be translated into specific command-line arguments based on
-  their types and markers. Besides the desired arguments, StructOpt
+  \item[structopt] --- Parses command-line arguments by defining a struct.
+  StructOpt combines the Clap library with a custom derive for marking a struct
+  containing values that will be translated into specific command-line arguments
+  based on their types and markers. Besides the desired arguments, StructOpt
   automatically generates the \emph{help} string, which can be invoked with the
   \texttt{--help} flag, as well as a \texttt{--version} flag for checking the
   version of the program.
@@ -1886,7 +1894,7 @@ CSS, linting, or minifying.}
 
 The project is dependent on several npm packages:
 \begin{description}
-  \item[CodeMirror] \cite{codemirror} \paraphrase{A versatile text editor
+  \item[CodeMirror] \cite{codemirror} --- \paraphrase{A versatile text editor
   implemented in JavaScript for the browser. It is specialized for editing code,
   and comes with a number of language modes and addons that implement more
   advanced editing functionality. A rich programming API and a CSS theming
@@ -1900,9 +1908,9 @@ The project is dependent on several npm packages:
   autocompletion, code folding, configurable keybindings, search and replace
   interface, bracket and tag matching, support for split view, linter
   integration, various themes, and many more.
-  \item[svelte-tree] A tree-like view component for Svelte. The component has
-  the ability to display a collapsable tree structure based on a provided tree
-  of JavaScript objects with custom \texttt{name} and \texttt{children}
+  \item[svelte-tree] --- A tree-like view component for Svelte. The component
+  has the ability to display a collapsable tree structure based on a provided
+  tree of JavaScript objects with custom \texttt{name} and \texttt{children}
   properties. The component provides a slot space to display custom nodes, which
   will give the tree node DOM/components the access to the nodes being rendered.
 \end{description}
@@ -1981,17 +1989,17 @@ which can be divided into several categories:
 The project structure of \thisproject{}, visualized in
 Figure~\ref{fig:file-tree}, consists of several components:
 \begin{description}
-  \item[base] Rust crate containing the definition of the AST along with the
+  \item[base] --- Rust crate containing the definition of the AST along with the
   \emph{checker} module, which will be described in detail in
   Section~\ref{sbs:grammar-processing},
-  \item[cli] The auxillary command-line application written in Rust, explored
-  further in Section~\ref{sec:command-line-application},
-  \item[ebnf] The core business logic of the application in the form of a Rust
-  crate. This crate is further divided into modules: the lexical, syntactic, and
-  semantic analysers, all of which will be discussed in
+  \item[cli] --- The auxillary command-line application written in Rust,
+  explored further in Section~\ref{sec:command-line-application},
+  \item[ebnf] --- The core business logic of the application in the form of a
+  Rust crate. This crate is further divided into modules: the lexical,
+  syntactic, and semantic analysers, all of which will be discussed in
   Sections~\ref{sbs:lexical-analyser}, \ref{sbs:syntactic-analyser}, and
   \ref{sbs:semantic-analyser},
-  \item[app] An npm package containing the web application written primarily
+  \item[app] --- An npm package containing the web application written primarily
   with Svelte. The component also defines a simple Rust crate, which acts as a
   link between the \emph{base} and \emph{ebnf} crates and compiles them to
   WebAssembly. The structure of the web application is described in detail in
@@ -2463,35 +2471,35 @@ begin. The recursive function must either return \emph{success} or
 \noindent whether the parsing has succeeded. The program
 processes the input differently depending on the type of the AST node:
 \begin{description}
-  \item[Alternative] The program processes each case of the \emph{Alternative}
-  sequentially and returns the first one to return \emph{success}. If no case
-  returned \emph{success}, it returns \emph{failure},
-  \item[Sequence] The program processes each expression of the \emph{Sequence}
-  sequentially and returns \emph{success} if and only if every processed case
-  returned \emph{success}, otherwise it returns \emph{failure},
-  \item[Optional] The program processes the expression inside of the
+  \item[Alternative] --- The program processes each case of the
+  \emph{Alternative} sequentially and returns the first one to return
+  \emph{success}. If no case returned \emph{success}, it returns \emph{failure},
+  \item[Sequence] --- The program processes each expression of the
+  \emph{Sequence} sequentially and returns \emph{success} if and only if every
+  processed case returned \emph{success}, otherwise it returns \emph{failure},
+  \item[Optional] --- The program processes the expression inside of the
   \emph{Optional} and returns \emph{success} regardless of the result,
-  \item[Repeated] The program repeatedly processes the expression inside of the
-  \emph{Repeated} and returns \emph{success} regardless of any results,
-  \item[Factor] The program processes the expression inside of the \emph{Factor}
-  $N$ times, where $N$ is the number of repetitions of the \emph{Factor}. It
-  returns \emph{success} if the processing succeeds all $N$ times, otherwise it
-  returns \emph{failure},
-  \item[Exception] The program processes the \emph{subject} of the
+  \item[Repeated] --- The program repeatedly processes the expression inside of
+  the \emph{Repeated} and returns \emph{success} regardless of any results,
+  \item[Factor] --- The program processes the expression inside of the
+  \emph{Factor} $N$ times, where $N$ is the number of repetitions of the
+  \emph{Factor}. It returns \emph{success} if the processing succeeds all $N$
+  times, otherwise it returns \emph{failure},
+  \item[Exception] --- The program processes the \emph{subject} of the
   \emph{Exception} and in case of \emph{success}, it stores the processed input
   string to be then processed by the \emph{restriction} of the \emph{Exception}.
   If the restriction succeeds and the resulting processed input string is the
-  same as the input string in case of the subject, it returns \emph{failure}.
-  In every other case it returns \emph{success},
-  \item[Non-terminal] The program recursively processes the production rule
+  same as the input string in case of the subject, it returns \emph{failure}. In
+  every other case it returns \emph{success},
+  \item[Non-terminal] --- The program recursively processes the production rule
   specified by the identifier inside of the \emph{Non-terminal},
-  \item[Terminal] The program checks if the processed input string starts with
+  \item[Terminal] --- The program checks if the processed input string starts with
   the input specified by the \emph{Terminal} and returns \emph{success} if it
   does,
-  \item[Special] Currently, the program always returns \emph{failure} for any
+  \item[Special] --- Currently, the program always returns \emph{failure} for any
   special sequence,
-  \item[Empty] The program always returns \emph{success} without processing the
-  input string.
+  \item[Empty] --- The program always returns \emph{success} without processing
+  the input string.
 \end{description}
 
 \begin{wraplisting}{r}{0.5\textwidth}
@@ -2794,23 +2802,23 @@ Any option not supplied like this will be taken from
 are not checked in any way, so setting undefined option values is bound to lead
 to odd errors. Some more notable options include:
 \begin{description}
-  \item[\texttt{mode}] The mode to use. When not given, this will default to the
-  first mode that was loaded. It may be a string, which either simply names the
-  mode or is a MIME type associated with the mode. Alternatively, it may be an
-  object containing configuration options for the mode, with a name property
+  \item[\texttt{mode}] --- The mode to use. When not given, this will default to
+  the first mode that was loaded. It may be a string, which either simply names
+  the mode or is a MIME type associated with the mode. Alternatively, it may be
+  an object containing configuration options for the mode, with a name property
   that names the mode (for example \texttt{{name: "javascript", json: true}}).
   The value \texttt{null} indicates no highlighting should be applied.
-  \item[\texttt{theme}] The theme to style the editor with. The developer must
-  make sure the CSS file defining the corresponding \texttt{.cm-s-[name]} styles
-  is loaded from the theme directory in the distribution. The default is
+  \item[\texttt{theme}] --- The theme to style the editor with. The developer
+  must make sure the CSS file defining the corresponding \texttt{.cm-s-[name]}
+  styles is loaded from the theme directory in the distribution. The default is
   ``\texttt{default}'', for which colors are included in
   \texttt{codemirror.css}.
-  \item[\texttt{tabSize}] The width of a tab character. Defaults to 4.
-  \item[\texttt{extraKeys}] Can be used to specify extra key bindings for the
-  editor, alongside the ones defined by \texttt{keyMap}. Should be either null,
-  or a dictionary of key bindings.
-  \item[\texttt{lint}] Available after loading the Lint addon, which defines an
-  interface component for showing linting warnings, with pluggable warning
+  \item[\texttt{tabSize}] --- The width of a tab character. Defaults to 4.
+  \item[\texttt{extraKeys}] --- Can be used to specify extra key bindings for
+  the editor, alongside the ones defined by \texttt{keyMap}. Should be either
+  null, or a dictionary of key bindings.
+  \item[\texttt{lint}] --- Available after loading the Lint addon, which defines
+  an interface component for showing linting warnings, with pluggable warning
   sources. The \texttt{lint} option can be set to a warning source, which is a
   validator function that returns a list of errors from the provided string.
 \end{description}
@@ -3297,21 +3305,22 @@ particular metric.
 \thisproject{} scores 100 points in the performance category. This category has
 metrics that together reflect how fast the page is perceptually:
 \begin{description}
-  \item[First Contentful Paint] Shows how long it takes for a browser to render
+  \item[First Contentful Paint] --- Shows how long it takes for a browser to
+  render
   DOM content,
-  \item[Speed Index] Shows how quickly the contents of a page load visually. To
-  do this, Lighthouse records a video of your page loading and then computes a
-  visual progression between frames,
-  \item[Largest Contentful Paint] Reports the render time of the largest image
-  or text block within the viewport (i.e., the visible part of the page),
-  \item[Time To Interactive] Measures how long it takes a page to become
+  \item[Speed Index] --- Shows how quickly the contents of a page load visually.
+  To do this, Lighthouse records a video of your page loading and then computes
+  a visual progression between frames,
+  \item[Largest Contentful Paint] --- Reports the render time of the largest
+  image or text block within the viewport (i.e., the visible part of the page),
+  \item[Time To Interactive] --- Measures how long it takes a page to become
   \emph{fully} interactive, i.e. useful content (measured by FCP) is displayed,
   JavaScript event handlers are bound to visible elements' events, and the page
   responds to user interaction within 50 milliseconds,
-  \item[Total Blocking Time] The sum of all time records between FCP and TTI
+  \item[Total Blocking Time] --- The sum of all time records between FCP and TTI
   when a page is blocked from user interaction for more than 50 milliseconds,
-  \item[Cumulative Layout Shift] Metric for showing how aggressively elements
-  shift each other during the loading.
+  \item[Cumulative Layout Shift] --- Metric for showing how aggressively
+  elements shift each other during the loading.
 \end{description}
 All values for performance metrics generated by Lighthouse can be seen in
 Table~\ref{tab:lighthouse-performance-metrics}. Besides the metrics, the website

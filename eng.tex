@@ -29,7 +29,7 @@
 \title{Formal grammar\par production rule parsing tool}
 \fieldofstudy{Computer Science}
 \supervisor{dr inż.\ Zdzisław Spławski}
-\keywords{Combinatory parsing, context-free grammars, Extended Backus-Naur Form}
+\keywords{combinatory parsing, context-free grammars, Extended Backus-Naur Form}
 \summary{The thesis documents the process of designing and implementing a tool
 for parsing the production rules of context-free grammars in a textual form. It
 discusses the choice of Extended Backus-Naur Form notation over the alternatives
@@ -277,7 +277,7 @@ static sites.
 \section{Glossary}
 
 Please note that all terms below are explained in detail further in the thesis
-in their individual sections. This section provides simplified definitions of
+in their respective sections. This section provides simplified definitions of
 these terms.
 
 \begin{description}
@@ -715,10 +715,7 @@ form of guarantee, but a language for expressing the construction of programs.
 At the same time, the programmer does not have to state every type of every
 value, as types will be inferred by the compiler automatically. This makes the
 syntax of Haskell very concise and ideal for presenting various mathematical
-concepts. However, the reason why Haskell is functional is not its syntax but
-its semantics --- it equips the programmer with referential transparency, which
-makes it far easier to prove invariants, allows very high-level optimizations,
-and makes it easy to write general-purpose code.
+concepts.
 
 The basic idea of a parser is a function from strings to some \emph{things}. It
 can be easily defined in a programming language that supports higher-order
@@ -729,17 +726,30 @@ type Parser t = String -> Maybe (t, String)
 A parser that returns \emph{things} of an arbitrary type \texttt{t} is a
 function that takes a string and returns \texttt{Maybe} a pair of \emph{thing}
 \texttt{t} and the unconsumed part of the input string, which can in turn be
-passed on to some other parser. The \texttt{Parser} type utilizes the built-in
-\texttt{Maybe} type --- a type that represents an optional value. A value of
-type \texttt{Maybe t} either contains a value of type \texttt{t} (represented as
-\texttt{Just t}), or it is empty (represented as \texttt{Nothing}). Using
-\texttt{Maybe} is a good way to deal with errors or exceptional cases, as it is
-in the \texttt{Parser} type.
+passed on to some other parser.
 
-Such a type can be found in every library for combinatory parsing, and all of
-these libraries work in the same way: the user can utilize \emph{primitives} or
-``building blocks'' for parsers, and then combine them to build bigger, more
-sophisticated parsers.
+The \texttt{Parser} type utilizes the built-in \texttt{Maybe} type --- a type
+that represents an optional value. \texttt{Maybe}, as an algebraic data type is
+defined as
+\begin{minted}{haskell}
+data Maybe t = Just t | Nothing
+\end{minted}
+\texttt{Maybe} is a type constructor of a single argument (here, the \texttt{t}
+type), where the value of type \texttt{Maybe t} either contains a value of type
+\texttt{t} (represented as \texttt{Just t}, where \texttt{Just} is a
+single-argument value constructor of \texttt{Maybe}), or it is empty
+(represented as \texttt{Nothing}, which takes no arguments). Using
+\texttt{Maybe} is a good way to deal with errors or exceptional cases, as it is
+in the \texttt{Parser} type. Further in the thesis, Listing~\ref{lst:token} in
+Chapter~5 will illustrate a concrete use of algebraic data types. Please note
+that the \texttt{Parser} type is not an algebraic data type --- it is an alias
+to an existing function type from \texttt{String}s to \texttt{Maybe (t,
+String)}s. A type alias does not introduce any value constructors for that type.
+
+Such a \texttt{Parser} type can be found in every library for combinatory
+parsing, and all of these libraries work in the same way: the user can utilize
+\emph{primitives} or ``building blocks'' for parsers, and then combine them to
+build bigger, more sophisticated parsers.
 
 One of the simple primitive parsers is a parser for parsing a single digit at
 the beginning of the string, here called \texttt{digit}.
@@ -891,11 +901,11 @@ in the form it's been given to.
 
 \section*{Regex101}
 
-\paraphrase{Regex101 \cite{regex101} is an interactive console that lets the
-user debug regular expressions in real-time. Users can build their expressions
-and see how it affects a live data set all in one screen at the same time. The
-tool was made by Firas Dib, with contributions from many other developers. It is
-said to be the largest regex testing service in the world.
+Regex101 \cite{regex101} is a web-based tool that lets the user build regular
+expressions and debug them in real-time. Users are able to construct their
+expressions and see how it affects a data set all in a single screen at the same
+time. The tool was made by Firas Dib, with contributions from many other
+developers. It is said to be the largest regex testing service in the world.
 
 \begin{figure}[ht]
   \centering
@@ -925,26 +935,26 @@ seen in Figure~\ref{fig:regex101-error}.
   \label{fig:regex101-error}
 \end{figure}
 
-These two feedback mechanisms are really helpful if the user is not accustomed
-with the regular expression language, or just does not know how to build the
-right expression yet. Being able to trace each step of the expression is a true
-lifesaver when users are not able to figure out why something is not working, or
-even if they are simply interested in learning more about regular expressions.
-Getting this instant feedback without Regex101 would have required users to
-write their expressions in a text editor and then run the code separately,
-without getting much feedback about why it is or isn't working. Regex101.com
-eliminates this mystery.
+These two feedback mechanisms are essential if the user is not accustomed to the
+regular expression language, or just does not know how to construct the
+appropriate expression yet. Being able to follow each step of the expression is
+convenient when users are not able to figure out why something is not working,
+or even if they are simply interested in discovering more about regular
+expressions. Getting this immediate feedback without Regex101 would have
+required users to write their expressions in a text editor and then run the code
+separately, without getting much feedback about why it is or isn't working ---
+Regex101.com eliminates this step.
 
-Not only does Regex101.com make it easy to build expressions, find errors, and
-even learn the syntax, it makes looking up a token or character in regular
-expressions very easy. Always present, unless users minimize it, the \emph{Quick
-Reference} tool lets them look up any token or character they need. Finally,
-Regex101 lets users switch which \emph{flavor} or version of regular expressions
-they wish to use, as they might need to integrate a regular expression
-expression into any number of other programming languages such as Python,
-JavaScript, Golang, etc. Regex101 has the ability to change the version of the
-testing environment and will generate the code in that language for the user to
-use in other projects.}
+Not only does Regex101.com make it easy to construct expressions, discover
+errors, and even get accustomed to the syntax, it makes looking up a
+metacharacter in regular expressions very easy. Always present, unless users
+minimize it, the \emph{Quick Reference} tool lets them search for any token or
+character they need. Finally, Regex101 lets users switch which \emph{flavor} or
+version of regular expressions they want to use, as they may need to integrate a
+regular expression into any number of other programming languages such as
+Python, JavaScript, Golang, etc. Regex101 has the ability to switch the version
+of the testing environment and will generate the code in that language for the
+user to use in other projects.
 
 \thisproject{} takes a lot of inspiration from Regex101 when it comes to
 availability --- it's a web application, where all the work is done client-side.
@@ -964,12 +974,12 @@ hand-written parsers in Rust, which in some circumstances can become hard to
 maintain by their developers. Writing a specialized, domain-specific parser for
 a language can become tedious, so developers usually gravitate towards using a
 grammar-generated parser. This allows the developers to focus on the definition
-of the language, rather than on the implementation of the parser.
-\paraphrase{Grammars which define the language offer better correctness
-guarantees, and issues can be solved declaratively in the grammar itself. Rust's
-memory safety further limits the amount of damage bugs can do. High-level static
-analysis and careful low-level implementation build a solid foundation on which
-serious performance tuning is possible.}
+of the language, rather than on the implementation of the parser. Grammars that
+define the language offer better correctness guarantees, and any issues with the
+language can be fixed declaratively in the grammar itself. Memory safety of Rust
+additionally limits the damage bugs could cause. Static analysis and a precise
+low-level implementation form a stable foundation on which major performance
+tuning is feasible.
 
 Developers of Pest, in spite of focusing mainly on the functionalities in the
 Rust programming language, also provide an online editor available from the
@@ -1558,10 +1568,10 @@ Section~\ref{sbs:use-cases}.
 
 Logical architecture of a system can be represented by UML component diagrams,
 which focus on a system's components that are often used to model the static
-implementation view of a system. \paraphrase{A component diagram breaks down the
-system into various high levels of functionality. Each component is responsible
-for one clear aim within the entire system and only interacts with other
-essential elements on a need-to-know basis.} In a system with a
+implementation view of a system. A component diagram divides the system into
+various high levels of functionality. Each component is responsible for one
+distinct aim within the entire system and only communicates with other necessary
+elements on the so-called need-to-know basis. In a system with a
 functional-oriented approach it is more suitable for modelling interactions
 between components. The logical architecture of \thisproject{} is modelled with
 such a diagram and can be seen in Figure~\ref{fig:logical-architecture}.
@@ -1791,37 +1801,39 @@ which covers many features and concepts of Rust.
 WebAssembly \cite{webassembly} (abbreviated \emph{Wasm}) is a safe, portable,
 low-level code format designed for efficient execution and compact
 representation. Its main goal is to enable high performance applications on the
-Web, working alongside JavaScript, but not to be a replacement of it.
-\paraphrase{It is designed to be portable, compact, and execute at or near
-native speeds. Although it has currently gathered attention in the JavaScript
-and Web communities in general, Wasm makes no assumptions about its host
-environment.} WebAssembly is supported as a target for many programming
+Web, working alongside JavaScript, but not to be a replacement of it. Its design
+makes it portable, compact, and execute at native or near-native speeds.
+Although it has currently attracted attention in the JavaScript community and
+other Web communities in general, Wasm does not make any assumptions about its
+host environment. WebAssembly is supported as a target for many programming
 languages, including C$\sharp$ via Blazor, C++ via EmScripten, and the main
 language used in \thisproject{} --- Rust. The author compiles Rust code to
 WebAssembly to be then used in a web environment for several reasons:
 \begin{itemize}
-  \item \paraphrase{Code size is incredibly important since the \texttt{.wasm}
-  file must be downloaded over the network. Rust lacks a runtime, enabling small
-  Wasm sizes because there is no extra code included, like a garbage collector},
-  \item \paraphrase{Rust and WebAssembly integrates with existing JavaScript
-  tooling. It supports ECMAScript modules and the developer can continue using
-  the tooling their already use, like npm and Webpack},
-  \item \paraphrase{JavaScript Web applications struggle to attain and retain
-  reliable performance.} The code is required to be ran frequently, so Wasm can
-  solve this kind of problem \paraphrase{with better memory and CPU efficiency
-  at a lower level compared to the JavaScript interpreter}.
+  \item Code size is an important aspect, as the \texttt{.wasm} file must be
+  downloaded over the network. Rust does not require a runtime and does not come
+  with a garbage collector, allowing for small Wasm sizes, as there is no extra
+  code included,
+  \item Rust and WebAssembly integrate with existing JavaScript tooling --- the
+  developer can continue using the tooling they are already familiar with, like
+  npm and Webpack,
+  \item JavaScript Web applications struggle to achieve and maintain stable
+  performance. The code is required to be ran frequently, so Wasm can solve this
+  kind of problem with greater memory and CPU performance at a lower level
+  compared to the interpreter of JavaScript.
   \item The Rust language itself, with a strong package manager, high
   performance, memory safety, and zero-cost abstractions.
 \end{itemize}
 
 \subsubsection*{Cargo}
 
-Cargo \cite{crates-io} is the Rust's package manager. \paraphrase{It downloads
-the Rust package's dependencies and compiles them, ensuring that the developer
-will always get a repeatable build. To accomplish this goal, Cargo introduces
-two metadata files with various bits of package information, fetches and builds
-the dependencies, invokes the Rust compiler with correct parameters to build the
-package, and introduces conventions to make working with Rust packages easier.}
+Cargo \cite{crates-io} is the Rust's package manager. It downloads the
+dependencies of a Rust package and compiles them, making sure that the developer
+will always be presented with a repeatable build. To achieve this, Cargo
+includes two metadata files with various information about the packages, it
+downloads and builds the dependencies, runs the Rust compiler with appropriate
+parameters to build the package, and introduces various conventions to make
+working with Rust packages more comfortable.
 
 Rust provides first-class support for unit and integration testing, and Cargo
 allows the developer to execute all tests with a single command. Additionally,
@@ -1829,33 +1841,33 @@ Cargo allows the developer to install extensions, which enhance the workflow and
 the development process. One of extensions useful for the author was Clippy ---
 a collection of lints to catch common mistakes and improve the Rust code.
 
-\texttt{crates.io} \paraphrase{is the Rust community's central package registry
-that serves as a location to discover and download packages. Cargo is configured
-to use it by default to find requested packages.} The project uses several
-dependencies, the most important of which include:
+\texttt{crates.io} is the primary package registry of the Rust community that is
+used to discover and download packages. It is used by Cargo as a default way to
+find requested packages. The project uses several dependencies, the most
+important of which include:
 \begin{description}
-  \item[nom] \cite{nom,couprie-2015} --- \paraphrase{A parser combinators
-  library for Rust. Its goal is to provide tools to build safe parsers without
-  compromising the speed or memory consumption. To that end, it uses extensively
-  Rust's strong typing and memory safety to produce fast and correct parsers,
-  and provides functions, macros and traits to abstract most of the error prone
-  details.
+  \item[nom] \cite{nom,couprie-2015} --- A combinatory parsing library for the
+  Rust programming language. It provides tools to build memory-safe parsers
+  without compromising memory consumption or speed. To achieve this, Nom uses
+  Rust's strong typing and memory safety very extensively to deliver performant
+  parsers and provides various functions, macros, and traits to hide most of the
+  error-prone details.
 
-  While programming language parsers are usually written manually for more
-  flexibility and performance, nom can be (and has been successfully) used as a
-  prototyping parser for a language. The resulting code is small, and looks like
-  the grammar the developer would have written with other parser approaches. The
-  resulting parsers are small and easy to write, as well as easy to test
-  separately.}
+  Language parsers are often written manually for extra flexibility and
+  performance. Nom can be (and has been) successfully used as a parser for
+  prototyping a language. The resulting code of the parser is concise and
+  resembles the grammar the developer would have written with other parser
+  approaches. Parsers written with Nom are small and easy to maintain, as well
+  as easy to test separately.
   \item[unicode-segmentation] \cite{unicode-segmentation} --- A library with a
   set of iterators which split strings on \emph{grapheme clusters}, \emph{words}
   or \emph{sentence boundaries}, according to the Unicode Standard Annex \#29
   \cite{unicode-standard-annex-29} rules.
-  \item[wasm-bindgen] \cite{wasm-bindgen} --- \paraphrase{A Rust library and CLI
-  tool that facilitate high-level interactions between Wasm modules and
-  JavaScript. More specifically, this library allows JavaScript and Wasm to
-  communicate with strings, JS objects, classes, etc, as opposed to purely
-  integers and floats. Notable features of this project include:
+  \item[wasm-bindgen] \cite{wasm-bindgen} --- A Rust library and CLI tool that
+  makes high-level interactions between Wasm modules and JavaScript easier.
+  Besides integers and floats, this library allows JavaScript and Wasm to
+  communicate with strings, JS objects, classes, and other structures. Notable
+  features of this project include:
   \begin{itemize}
     \item Importing JS functionality into Rust such as DOM manipulation, console
     logging, or performance monitoring.
@@ -1864,8 +1876,8 @@ dependencies, the most important of which include:
     \item Automatically generating TypeScript bindings for Rust code being
     consumed by JS.
   \end{itemize}
-  Wasm-bindgen only generates bindings and glue for the JavaScript imports that
-  are actually being used and Rust functionality that is being exported.}
+  Wasm-bindgen only generates bindings for the JavaScript imports that are
+  actually being used, and Rust functionality that is being exposed.
   \item[quickcheck] \cite{quickcheck} --- A property-based testing framework
   inspired by the QuickCheck framework for Haskell. The crate comes with the
   ability to randomly generate and shrink integers, floats, tuples, booleans,
@@ -1907,36 +1919,35 @@ CommonJS and the developer can use wasm-pack to produce either type of package.
 
 Svelte \cite{svelte} is a free and open-source front end JavaScript framework.
 Svelte has its own compiler for converting app code into client-side JavaScript
-at build time. \paraphrase{The developer writes the components using HTML, CSS
-and JavaScript and during the build process Svelte compiles them into small
-standalone JavaScript modules. While frameworks like React and Vue do the bulk
-of their work in the user's browser while the app is running, Svelte shifts that
-work into a compile step that happens only when the developer builds their app,
-producing highly-optimized vanilla JavaScript. By statically analysing the
-component template, the compiler can make sure that the browser does as little
-work as possible. The outcome of this approach is not only smaller application
-bundles and better performance, but also a developer experience that is more
-approachable for people that have limited experience of the modern tooling
-ecosystem. Svelte is particularly appropriate to tackle the following
-situations:
+at build time. The developer writes the components using HTML, CSS, and
+JavaScript, which Svelte compiles during the build process into small standalone
+JavaScript modules. Unlike frameworks like React and Vue, which do most of their
+computations on the client-side while the app is running, Svelte turns that
+process into a compile-time step that happens only when the developer builds the
+app, which produces highly-optimized JavaScript. The compiler can ensure the
+user's web browser does as little work as possible by statically analyzing the
+templates of the components. Thanks to this approach, Svelte does not only
+provide smaller application bundles and better performance, but also an
+experience that is more friendly for people that are not familiar with the
+modern tooling ecosystem. Svelte is particularly appropriate to tackle the
+following situations:
 \begin{itemize}
+  \item Welcoming people with basic web development knowledge: Web developers
+  with basic HTML, CSS, and JavaScript knowledge can easily learn Svelte in a
+  short time and start building web applications.
+  \item Interactive pages or complex state-based visualizations: If the user is
+  building data-visualizations that require displaying a large number of
+  elements, the performance gains thanks to no runtime overhead will ensure that
+  user interactions are responsive.
   \item Web applications intended for low power devices: Applications built with
   Svelte have smaller bundle sizes, which is ideal for devices with slow network
   connections and limited processing power.
-  \item Highly interactive pages or complex visualizations: If the user is
-  building data-visualizations that need to display a large number of DOM
-  elements, the performance gains that come from a framework with no runtime
-  overhead will ensure that user interactions are responsive.
-  \item Onboarding people with basic web development knowledge: Svelte has a
-  shallow learning curve. Web developers with basic HTML, CSS, and JavaScript
-  knowledge can easily grasp Svelte specifics in a short time and start building
-  web applications.
 \end{itemize}
 
-Being a compiler, Svelte can extend HTML, CSS, and JavaScript, generating
-optimal JavaScript code without any runtime overhead. To achieve this, Svelte
-extends vanilla web technologies and only intervenes in very specific situations
-and only in the context of Svelte components.}
+Svelte, being a compiler, can extend features of HTML, CSS, and JavaScript, and
+generate optimal JavaScript code with no runtime overhead. To accomplish this,
+Svelte extends core web technologies and only modifies them in very specific
+circumstances and only in the context of Svelte components.
 
 \subsubsection*{Rollup}
 
@@ -2022,10 +2033,8 @@ which can be divided into several categories:
     \item \texttt{@rollup/plugin-alias},
     \item \texttt{@rollup/plugin-commonjs},
     \item \texttt{@rollup/plugin-node-resolve},
-    \item \texttt{@rollup/plugin-typescript},
     \item \texttt{@wasm-tool/rollup-plugin-rust},
     \item \texttt{rollup-plugin-copy},
-    \item \texttt{rollup-plugin-css-only},
     \item \texttt{rollup-plugin-livereload},
     \item \texttt{rollup-plugin-svelte},
     \item \texttt{rollup-plugin-terser}
@@ -2040,8 +2049,6 @@ which can be divided into several categories:
   \item Miscellaneous dependencies
   \begin{itemize}[noitemsep,nolistsep]
     \item \texttt{gh-pages},
-    \item \texttt{prettier},
-    \item \texttt{prettier-plugin-svelte},
     \item \texttt{rimraf},
     \item \texttt{sirv-cli}
   \end{itemize}
@@ -3957,10 +3964,11 @@ rule of the grammar, as well as the grammar itself.
 As the user provides a definition of a grammar into the grammar window, the
 syntax and semantics of that grammar are being automatically validated. In case
 the definition is not valid, the reason of that is automatically reported to the
-user. Figure~\ref{fig:parser-parser-error-examples} shows three examples
-of invalid grammars, where the exact reason and its place in the definition is
-highlighted by underlining it with the red color. The user can then mouse over
-the highlighted area to read the error, and then correct it accordingly.
+user. Figure~\ref{fig:parser-parser-error-examples} shows three examples of
+invalid grammars, where the exact reason and its place in the definition is
+highlighted by underlining it with the red color. The user can then hover the
+cursor over the highlighted area to read the error, and then correct it
+accordingly.
 
 As long as the definition of the grammar is invalid, the user cannot choose
 an initial production rule or test an input string.

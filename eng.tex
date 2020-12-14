@@ -9,7 +9,7 @@
 \usepackage[ruled,vlined,algochapter]{algorithm2e}
 \usepackage{wrapfig}
 \usepackage{tikz}
-\usetikzlibrary{automata,positioning,arrows,trees}
+\usetikzlibrary{automata,positioning,arrows,trees,shapes}
 \usepackage{booktabs}
 \usepackage{xltabular}
 \usepackage{array} % \raggedright, \arraybackslash
@@ -645,8 +645,6 @@ specials, and integers.
 
 \section{Syntactic analysis} \label{sec:parsing}
 
-\todo{warto umieścić poglądowy rysunek, podobny do rysunku ze str. 48}
-
 \emph{Parsing}, \emph{syntax analysis}, or \emph{syntactic analysis} is the
 process of analyzing a string of symbols, either in natural languages, computer
 languages, or data structures, adhering to the rules of a formal grammar. A
@@ -833,6 +831,41 @@ of the AST, which are listed in Table~\ref{tab:ast-nodes}.
   Special      & A special token \\
   Empty        & The empty string $\varepsilon$ \\* \bottomrule
 \end{longtable}
+
+\subsection{The parsing process}
+
+Figure~\ref{fig:parsing-process} shows the entire parsing process, starting with
+the textual representation of the EBNF grammar. The lexical analyser produces a
+string of tokens, which are then provided to the syntactic analyser, which
+produces an abstract syntax tree, or some sort of an intermediate representation
+of the abstract syntax tree. The semantic analyser analyses the intermediate
+representation and produces a final AST, which represents the grammar the user
+provided. At any point, the lexer, parser, or the processor may produce an error
+in the form it's been given to.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \node (input) [cylinder,shape border rotate=90,draw,minimum height=10mm,minimum width=2cm,label={EBNF grammar string}] {};
+    \node (lexer) [rectangle,draw,below=1.5cm of input,text width=2cm,align=center] {Lexical analyser (lexer)};
+    \node (parser) [rectangle,draw,right=3cm of lexer,text width=2cm,align=center] {Syntactic analyser (parser)};
+    \node (preprocessor) [rectangle,draw,right=3cm of parser,text width=3cm,align=center] {Semantic analyser (preprocessor)};
+    \node (output) [cylinder,shape border rotate=90,draw,above=1.5cm of preprocessor,minimum height=10mm,minimum width=2cm,label={Output grammar}] {};
+    \node (errors1) [below=1.5cm of lexer] {errors};
+    \node (errors2) [below=1.5cm of parser] {errors};
+    \node (errors3) [below=1.5cm of preprocessor] {errors};
+
+    \draw [-triangle 45] (input) edge[right] node{characters} (lexer)
+      (lexer) edge[below] node {tokens} (parser)
+      (parser) edge[below] node[text width=2.5cm,align=center] {intermediate representation} (preprocessor)
+      (preprocessor) edge[left] node {AST} (output)
+      (lexer) edge (errors1)
+      (parser) edge (errors2)
+      (preprocessor) edge (errors3);
+  \end{tikzpicture}
+  \caption{The visualization of the EBNF parsing process.}
+  \label{fig:parsing-process}
+\end{figure}
 
 \chapter{Analysis of similar solutions} \label{ch:analysis-of-similar-solutions}
 
@@ -2184,6 +2217,8 @@ inside integers or meta-identifiers is handled in the corresponding token loop.
       node distance=3cm,
       every state/.style={thick, fill=white},
       initial text=$ $,
+      every initial by arrow/.style={-triangle 45},
+      initial distance=4cm
     }
 
     \node[state, initial] (1) {$1$};
@@ -2209,7 +2244,7 @@ inside integers or meta-identifiers is handled in the corresponding token loop.
     \node[state, left of=21, accepting] (16) {$16$};
     \node[state, below right of=18, accepting] (17) {$17$};
 
-    \draw (1) edge[right] node{\texttt{(}} (2)
+    \draw[-triangle 45,every loop/.append style={-triangle 45}] (1) edge[right] node{\texttt{(}} (2)
           (2) edge[right] node{\texttt{*}} (3)
           (3) edge[above] node{$\Sigma - \{\texttt{)}\}$} (4)
           (4) edge[loop above] node{$\Sigma - \{\texttt{*}\}$} (4)

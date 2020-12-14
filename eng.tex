@@ -674,11 +674,6 @@ accomplished in two ways:
 
 \subsection{Combinatory parsing}
 
-\todo{Czytelnik (a w szczególności recenzent) może nie znać Haskella. Proszę
-zdefiniować (ze zwięzłym wyjaśnieniem) typ Maybe. W bibliografii brak pozycji do
-Haskella, nie jest też wymieniony wśród używanych narzędzi. Parę zdań na temat
-haskella, jak się definiuje algebraiczne typy danych, o konstruktorach Maybe}
-
 \emph{Combinatory parsing} is a top-down parsing technique that involves
 \emph{parser combinators}. A parser combinator is a higher-order function that
 receives several parsers as inputs and produces an entirely new parser as its
@@ -693,15 +688,36 @@ construct, readable, modular, well-structured, and easily maintainable
 and diverse semantic actions are closely integrated with syntactic analysis,
 such as compiler prototyping and processors for domain-specific languages.
 
+Following examples of parsers will be written in the Haskell \cite{haskell}
+programming language. Haskell is purely functional, and one of its features
+(heavily utilized in examples below) is higher-order functions, which are
+functions that can be passed to other functions as values. Every expression in
+Haskell has a type which is determined at compile time. Types become not only a
+form of guarantee, but a language for expressing the construction of programs.
+At the same time, the programmer does not have to state every type of every
+value, as types will be inferred by the compiler automatically. This makes the
+syntax of Haskell very concise and ideal for presenting various mathematical
+concepts. However, the reason why Haskell is functional is not its syntax but
+its semantics --- it equips the programmer with referential transparency, which
+makes it far easier to prove invariants, allows very high-level optimizations,
+and makes it easy to write general-purpose code.
+
 The basic idea of a parser is a function from strings to some \emph{things}. It
 can be easily defined in a programming language that supports higher-order
 functions. The definition of a parser in Haskell would look like
 \begin{minted}{haskell}
-type Parser a = String -> Maybe (a, String)
+type Parser t = String -> Maybe (t, String)
 \end{minted}
-A parser that returns \emph{things} \texttt{a} is a function that takes a string
-and returns \texttt{Maybe} a pair of \emph{thing} \texttt{a} and the unconsumed
-part of the input string, which can in turn be passed on to some other parser.
+A parser that returns \emph{things} of an arbitrary type \texttt{t} is a
+function that takes a string and returns \texttt{Maybe} a pair of \emph{thing}
+\texttt{t} and the unconsumed part of the input string, which can in turn be
+passed on to some other parser. The \texttt{Parser} type utilizes the built-in
+\texttt{Maybe} type --- a type that represents an optional value. A value of
+type \texttt{Maybe t} either contains a value of type \texttt{t} (represented as
+\texttt{Just t}), or it is empty (represented as \texttt{Nothing}). Using
+\texttt{Maybe} is a good way to deal with errors or exceptional cases, as it is
+in the \texttt{Parser} type.
+
 Such a type can be found in every library for combinatory parsing, and all of
 these libraries work in the same way: the user can utilize \emph{primitives} or
 ``building blocks'' for parsers, and then combine them to build bigger, more
@@ -736,8 +752,6 @@ parse (multiple (digit <|> letter)) "abc123"
 -- Just ("abc123", "")
 \end{minted}
 
-\todo{Przydałoby się krótkie wyjaśnienie konstrukcji "do"}
-
 Consider the following grammar defined in EBNF:
 \begin{minted}[fontsize=\small]
   {lexers/ebnf_lexer.py:EbnfLexer -x}
@@ -755,8 +769,22 @@ expression = do x <- term
                return (Addition x y)
              <|> term
 \end{minted}
-where \texttt{term}, \texttt{expression} and \texttt{char} are different
-parsers. The key observation here is that the production rule looks basically
+where \texttt{term}, \texttt{expression}, and \texttt{char} are different
+parsers.
+
+The \texttt{do} keyword in the example above signifies a \emph{``do'' block},
+where several parsers are applied to the input sequentially. As all values
+returned by \texttt{term}, \texttt{expression}, and \texttt{char} parsers may
+result in an error (the \texttt{Nothing} value), it would be reasonable to not
+check subsequent parsers after encountering a \texttt{Nothing} value, as it is
+guaranteed the whole parser already failed. ``Do'' blocks are a concise way to
+represent just that --- a sequential operation which might result in an error,
+without having to check if the \texttt{Maybe} values are \texttt{Just} values or
+\texttt{Nothing} values at every step. If any of the values are
+\texttt{Nothing}, the whole \texttt{do} expression will result in a
+\texttt{Nothing}.
+
+The key observation here is that the production rule looks basically
 the same as the parser. With some more of these smaller parsers, a complete
 parser for arithmetic expressions could be implemented. This is the idea of
 parser combinators --- parsers are, in principle, functions. The user defines a
@@ -2000,7 +2028,7 @@ which can be divided into several categories:
       child [missing] {}
       child [missing] {};
   \end{tikzpicture}
-  \caption{The approximate directory tree of the \thisproject{} project.}
+  \caption{A simplified directory tree of the \thisproject{} project.}
   \label{fig:file-tree}
 \end{figure}
 
@@ -3758,17 +3786,17 @@ all of which have been annotated on Figure~\ref{fig:parser-parser-screenshot}:
   \item The initial production rule selection. After providing a valid grammar,
   the user can select an initial production rule from the ones provided.
   \item The test string window, where the user, after providing a valid grammar,
-  can test wheter an arbitrary input string belongs to the language generated
+  can test whether an arbitrary input string belongs to the language generated
   by that grammar.
   \item The visualization of the parse tree, shown only if the user provides a
   string that belongs to the language generated by the grammar. The
-  visualization is interactible --- the nodes of the parse tree can be collapsed
+  visualization is interactive --- the nodes of the parse tree can be collapsed
   and expanded.
 \end{enumerate}
 
 The screenshot presents an example use case of the application, in which the
 user clicked on the grammar window (1) with the left mouse button and began to
-type the definiton of a desired grammar with the use of the keyboard. The
+type the definition of a desired grammar with the use of the keyboard. The
 grammar, defined as
 \begin{minted}[fontsize=\small,frame=lines,breaklines,linenos]{lexers/ebnf_lexer.py:EbnfLexer -x}
 expression = term, { ('+' | '-'), term };
@@ -3785,7 +3813,7 @@ is able to generate simple arithmetic expressions made out of natural numbers
 and variables $x$, $y$, and $z$. The supported operators are: addition,
 subtraction, multiplication, and division, all of which keep an appropriate
 operator precedence order. The expressions can be parenthesized to alter the
-natural order of precendence. The precedence support for operators is built into
+natural order of precedence. The precedence support for operators is built into
 the definition of the grammar --- it is not a special behavior of
 \thisproject{}.
 

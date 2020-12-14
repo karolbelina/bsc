@@ -1519,7 +1519,13 @@ Figure~\ref{fig:interface-prototype}), which is made out of several components.
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}
-    \draw (0,0) rectangle (12,9) node[pos=.5] {\todo{}};
+    \draw (0,0) rectangle (15,8);
+    \draw[black,fill=black] (14.5,7.5) circle (0.25);
+    \draw (0.25,0.25) rectangle (7.375,7) node[pos=.5] {\footnotesize\ttfamily Grammar window};
+    \draw (7.625,6.25) rectangle (12,7) node[pos=.5] {\footnotesize\ttfamily Selection box};
+    \draw (7.625,3.625) rectangle (14.75,6) node[pos=.5] {\footnotesize\ttfamily Test string window};
+    \draw (7.625,0.25) rectangle (14.75,3.375) node[pos=.5] {\footnotesize\ttfamily Visualization window};
+    \node[] at (2.4,7.5) {\Large\ttfamily\thisproject{}};
   \end{tikzpicture}
   \caption{The user interface sketch.}
   \label{fig:interface-prototype}
@@ -1977,7 +1983,7 @@ which can be divided into several categories:
         child { node {wasm}}
       }
       child [missing] {}
-      child [missing] {};
+      child [missing] {}
       child { node {base}
         child { node {checker}}
         child { node {ast}}
@@ -1992,7 +1998,7 @@ which can be divided into several categories:
       }
       child [missing] {}
       child [missing] {}
-      child [missing] {}
+      child [missing] {};
   \end{tikzpicture}
   \caption{The approximate directory tree of the \thisproject{} project.}
   \label{fig:file-tree}
@@ -2047,13 +2053,14 @@ types provide us with an expressive method of modelling the business rules.
 This method also allows the developer to utilize property-based testing ---
 letting the computer generate test cases.
 
-\todo{wyjaśnić, że tylko w celach pracy plus bibliografia?}
-
-For modelling the domain, the author will use the Haskell programming language,
-with its expressive data types and highly reusable abstractions, as well as a
-concise syntax. However, modelling based on algebraic data types is also
-practical for other languages with complex enough type systems --- Rust, used as
-the main language in \thisproject{}, is one example of such a language.
+For modelling the domain, the author will use the Haskell \cite{haskell}
+programming language, with its expressive data types and highly reusable
+abstractions, as well as a concise syntax. However, modelling based on algebraic
+data types is also practical for other languages with complex enough type
+systems --- Rust, used as the main language in \thisproject{}, is one example of
+such a language. Please note that the author uses Haskell only in the thesis
+document --- the project and its implementation uses the Rust programming
+language.
 
 \subsubsection*{Token type definition}
 

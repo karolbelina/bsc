@@ -276,23 +276,43 @@ static sites.
 
 \section{Glossary}
 
-\todo{Proszę dopisać, że definicje tych pojęć znajdują się w pracy. W skrócie
-wyjaśnić definicje}
+Please note that all terms below are explained in detail further in the thesis
+in their individual sections. This section provides simplified definitions of
+these terms.
 
-\begin{description}[leftmargin=!,labelwidth=2.5cm]
-  \item[AST] Abstract syntax tree
-  \item[BNF] Backus-Naur form
-  \item[CFG] Context-free grammars
-  \item[DFA] Deterministic finite automaton
-  \item[EBNF] Extended Backus-Naur form
-  \item[LBA] Linear bounded automaton
-  \item[Parser] A software component that takes input in the form of a sequence
-  of tokens and produces a structured output,
-  \item[\thisproject{}] The codename of the project
-  \item[PDA] Pushdown automaton
-  \item[PEG] Parsing expression grammar
-  \item[RE] Regular expression
-  \item[REPL] Read-Eval-Print loop
+\begin{description}
+  \item[AST --- Abstract syntax tree] \hfill \\ A tree representation of the
+  syntactic structure of computer source code written in some language.
+  \item[BNF --- Backus-Naur form] \hfill \\ A notation for context-free grammars
+  used to describe the syntax of various languages.
+  \item[CFG --- Context-free grammar] \hfill \\ A type of a formal grammar, in
+  which the production rules can be applied regardless of the context (the
+  surrounding symbols) of a non-terminal.
+  \item[DFA --- Deterministic finite automaton] \hfill \\ A finite-state machine
+  that accepts or rejects a given string of symbols, by running through a state
+  sequence uniquely determined by the string.
+  \item[EBNF --- Extended Backus-Naur form] \hfill \\ A family of languages used
+  to describe other languages. An extension of Backus-Naur Form; allows to more
+  easily define optionals, repetitions, and other constructs.
+  \item[Formal grammar] \hfill \\ Formally defines the construction of strings
+  of symbols from the language's alphabet according to the language's syntax.
+  \item[LBA --- Linear bounded automaton] \hfill \\ A restricted form of Turing
+  machine that is able to recognize context-sensitive languages described by
+  type-1 grammars in the Chomsky hierarchy.
+  \item[Parser] \hfill \\ A software component that takes input in the form of a
+  sequence of characters or tokens and produces a structured output.
+  \item[\thisproject{}] \hfill \\ The codename of the project.
+  \item[PDA --- Pushdown automaton] \hfill \\ A type of automaton that employs a
+  stack and is able to recognize context-free~languages.
+  \item[PEG --- Parsing expression grammar] \hfill \\ A type of analytic formal
+  grammar introduced by Bryan Ford in 2004, which is an unambiguous version of
+  the context-free grammar more suitable for machine parsing.
+  \item[RE --- Regular expression] \hfill \\ The most restrictive type of a
+  formal grammar often used for lexical analysis of programming languages and
+  for defining search patterns for text.
+  \item[REPL --- Read-Eval-Print loop] \hfill \\ A simple interactive computer
+  programming environment that takes single user inputs, executes them, and
+  returns the result to the user.
 \end{description}
 
 \chapter{Theoretical preliminaries} \label{ch:theoretical-preliminaries}
@@ -428,7 +448,7 @@ no constraints on the structure of the production rules.
 \subsection{Parsing expression grammars} \label{sbs:pegs}
 
 The syntax of various programming languages and protocols has been expressed
-with the use of Chomsky's hierarchy of grammars --- context-free grammars and
+with the use of Chomsky hierarchy of grammars --- context-free grammars and
 regular expressions, in particular. Their original purpose is modeling natural
 languages, and the ability to express ambiguous constructs reflects that. This,
 however, makes it difficult to express deterministic, machine-oriented languages

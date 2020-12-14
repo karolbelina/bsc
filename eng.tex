@@ -74,8 +74,6 @@ program with the use of parser combinators.}
   \textcolor{red}{[\textbf{TODO}\ifx&#1&{}\else{ }\fi\emph{#1}]}%
 }
 
-\newcommand{\paraphrase}[1]{#1}
-
 \newcommand{\thisproject}{Parser-parser}
 
 \begin{document}
@@ -1951,66 +1949,64 @@ circumstances and only in the context of Svelte components.
 
 \subsubsection*{Rollup}
 
-\paraphrase{Rollup \cite{rollup} is a module bundler for JavaScript which
-compiles small pieces of code into a complex library or application. It uses the
-standardized ES module format for code, which lets the developer freely and
-seamlessly combine individual functions and external libraries. Rollup can
-optimize ES modules for faster native loading in modern browsers, or output a
-legacy module format.
+Rollup \cite{rollup} is a module bundler for JavaScript which is able to compile
+smaller code modules into a complex library or application. It uses the
+standardized ES module format for code, which lets the developer smoothly and
+seamlessly connect individual functions and external modules. Rollup is able to
+optimize modules for faster loading in modern browsers, or output a legacy
+format of modules.
 
-By dividing the project into smaller separate pieces, the development process is
-often times more straightforward, since that usually removes unexpected
-interactions and dramatically reduces the complexity of the problems the
-developer needs to solve, and simply writing smaller projects in the first place
-isn't necessarily the answer. Unfortunately, JavaScript has not historically
-included this capability as a core feature in the language. This finally changed
-with the ES6 revision of JavaScript, which includes a syntax for importing and
-exporting functions and data so they can be shared between separate scripts. The
-specification is now fixed, but it is only implemented in modern browsers.
-Rollup allows the user to write code using the new module system, and will then
-compile it back down to existing supported formats such as CommonJS modules, AMD
-modules, and IIFE-style scripts. This means that the developer gets to write
-future-proof code.
+By splitting the project into smaller distinct pieces, the development process
+is oftentimes more straightforward, since that generally removes unexpected
+interactions and reduces the complexity of the issues the developer needs to
+work on --- simply writing smaller projects isn't necessarily the answer to
+that. Historically, JavaScript has not included the feature of modules as a core
+feature in the language. This changed with the ES6 revision of JavaScript, which
+includes syntax for importing and exporting functions and data so they can be
+shared between separate scripts. The specification is now fixed, however, it is
+implemented only in modern browsers. Rollup allows the user to write code using
+the new module system, and will then compile it back down to existing supported
+formats such as CommonJS modules, AMD modules, and IIFE-style scripts. This
+means that the developer gets to write future-proof code.
 
-In addition to enabling the use of ES modules, Rollup also statically analyzes
-the imported code, and will exclude anything that isn't actually used. This
-allows the user to build on top of existing tools and modules without adding
-extra dependencies or bloating the size of the project. Because Rollup includes
-the bare minimum, it results in lighter, faster, and less complicated libraries
-and applications. Since this approach can utilise explicit \texttt{import} and
-\texttt{export} statements, it is more effective than simply running an
-automated \emph{minifier} to detect unused variables in the compiled output
-code.}
+Besides enabling the use of ES modules, Rollup also statically analyzes the
+imported code and will exclude anything that isn't used in the code. This allows
+the user to build on top of existing tools and modules without adding extra
+dependencies or increasing the size of the project. Rollup only includes the
+minimum, which results in lighter, faster, and less complicated libraries and
+applications. Since this approach can utilise explicit \texttt{import} and
+\texttt{export} statements, it is more powerful than running an automated
+\emph{minifier} to discover unused variables in the compiled JavaScript code.
 
 \subsubsection*{npm}
 
-\paraphrase{Node Package Manager \cite{npm} is a package manager for the
-JavaScript programming language. It consists of a command-line client, also
-called npm, and an online database of public and paid-for private packages,
-called the npm registry. The registry is accessed via the client, and the
-available packages can be browsed and searched via the npm website.}
+Node Package Manager \cite{npm} is a package manager for the JavaScript
+programming language. It includes a command-line client, and an online database
+of public and paid-for private packages called the npm registry. The registry
+can be accessed through the client application, and the available packages can
+also be browsed and searched via the npm website.
 
-Npm provides several built-in scripts and allows users to define their own.
-\paraphrase{An npm script is a convenient way to bundle common shell commands
-for the project. They are typically commands, or a string of commands, which
-would normally be entered at the command line in order to do something with the
-application. Scripts are stored in a project's configuration file, which means
-they're shared amongst everyone using the codebase. They help automate
-repetitive tasks, and mean having to learn fewer tools. Scripts also ensure that
-everyone is using the same command with the same flags. Common use cases for npm
-scripts include building the project, starting a development server, compiling
-CSS, linting, or minifying.}
+Npm provides several built-in scripts and allows users to define their own. An
+npm script is a convenient way to bundle common shell commands for the project.
+They are usually commands, or strings of commands, which would normally be
+entered at the command line in order to do something with the application.
+Scripts are stored in a project's configuration file, which means they're shared
+amongst everyone using the codebase. They aid in automating repetitive tasks and
+allow the user to have to learn fewer tools. Scripts also make sure that every
+programmer is using the same command with the same parameters. Common use cases
+for npm scripts include building the project, starting a development server,
+compiling CSS, linting, or minifying.
 
 The project is dependent on several npm packages:
 \begin{description}
-  \item[CodeMirror] \cite{codemirror} --- \paraphrase{A versatile text editor
-  implemented in JavaScript for the browser. It is specialized for editing code,
-  and comes with a number of language modes and addons that implement more
-  advanced editing functionality. A rich programming API and a CSS theming
-  system are available for customizing CodeMirror to fit the needs, as well as
-  extending it with new functionality. It is the editor used in the dev tools
+  \item[CodeMirror] \cite{codemirror} --- A versatile text editor implemented in
+  JavaScript for the browser. It is specialized for editing code and includes
+  several built-in language modes and addons that implement more advanced
+  functionalities. A rich programming API and a CSS theming system are available
+  for customizing CodeMirror to fit the needs of the user, as well as making
+  extensions with new functionalities. CodeMirror is used in the developer tools
   for Firefox, Chrome, and Safari, in Light Table, Adobe Brackets, Bitbucket,
-  and many other projects.}
+  and many other projects.
 
   CodeMirror supports a wide variety of configurations --- the basic version of
   the editor without any addons provides the support for over 100 languages,
@@ -2116,24 +2112,24 @@ Figure~\ref{fig:file-tree}, consists of several components:
 
 \subsection{Domain modelling} \label{sbs:domain-modelling}
 
-\paraphrase{Domain Modeling is a way to describe and model entities and the
-relationships between them, which collectively describe the problem domain
-space. Types can be used to represent the domain in a fine-grained way. In many
-cases, types can even be used to encode business rules so that the developer
-cannot produce incorrect code. Static type checking can be used as an instant
-unit test --- making sure that the code is correct at compile time. Types are
-the laws that dictate what is allowed to happen in the domain, and could be used
-to prevent anyone else from putting the system in a state invalid to the domain.
-Making illegal states unrepresentable is all about statically proving that all
-runtime values correspond to valid objects in the business domain, and that
-makes the code much easier to reason about --- that gives the developer
-confidence that the business rules are being respected.}
+Domain Modeling is a way to describe and model entities and the relationships
+between them, which as a whole describe the problem domain space. Types can be
+utilized to describe the domain in a detailed way. Oftentimes, types can even be
+used to encode business rules so that the developer cannot write invalid code.
+Static type checking can be used as an immediate unit test --- making sure that
+the code is valid at compile time. Types are the rules that describe what can
+happen in the domain and could be utilized to prevent anyone else from putting
+the system in a state invalid to the domain. Forcing illegal states to be
+unrepresentable is the idea of statically proving that all values in the runtime
+correspond to valid objects in the business domain. That makes the code much
+easier to reason about and gives the developer confidence that the business
+rules are being respected.
 
-\paraphrase{If the logic is represented by types, it is automatically
+If the logic of the system is represented by types, it is automatically
 self-documenting, and any changes to the business rules will immediately produce
-breaking changes, which is a generally a welcome feature. This way the developer
-can encode business requirements and produce a compiler-enforced documentation in
-the development process.}
+breaking changes, which is generally a welcome feature. This way the programmer
+can encode business requirements by writing code and, in the development
+process, produce documentation enforced by the compiler.
 
 Using algebraic data types is a powerful technique for designing with types and
 making illegal states unrepresentable. Constructs such as sum types and product
@@ -2461,12 +2457,12 @@ non-terminal is undefined if there is no \texttt{Production} in the
 side). When such a non-terminal is found, the algorithm reports an
 \texttt{UndefinedRule} error at the position of the non-terminal.
 
-\paraphrase{In the formal language theory, a production rule is left-recursive
-if the leftmost symbol of it is itself (in the case of direct left recursion) or
-can be made itself by some sequence of substitutions (in the case of indirect
-left recursion). A PEG is called \emph{well-formed} if it contains no
-left-recursive rules, i.e., rules that allow a non-terminal to expand to an
-expression in which the same non-terminal occurs as the leftmost symbol.}
+In the formal language theory, a production rule is left-recursive if the
+leftmost symbol of it is itself (in the case of direct left recursion) or can be
+made itself by some sequence of substitutions (in the case of indirect left
+recursion). A PEG is called \emph{well-formed} if it contains no left-recursive
+rules, i.e., rules that allow a non-terminal to expand to an expression in which
+the same non-terminal occurs as the leftmost symbol.
 
 Consider the following example:
 \begin{minted}[fontsize=\small]
@@ -2477,14 +2473,15 @@ product = expr, {('*' | '/'), expr};
 sum     = expr, {('+' | '-'), expr};
 expr    = product | sum | value;
 \end{minted}
-\paraphrase{In this grammar, matching an \texttt{expr} requires testing if a
-\texttt{product} matches while matching a \texttt{product} requires testing if
-an \texttt{expr} matches. Because the term appears in the leftmost position,
-these rules make up a circular definition that cannot be resolved.}
+In this grammar, matching an \texttt{expr} first requires testing if a
+\texttt{product} matches while, at the same time, matching a \texttt{product}
+requires testing if an \texttt{expr} matches. As the term appears in the
+leftmost position, these rules make up a circular definition and cannot be
+resolved.
 
-\paraphrase{Left recursion often poses problems for parsers because it leads
-them into infinite recursion. As left-recursive rules can always be rewritten, a
-grammar is often preprocessed to eliminate them.} \thisproject{}, however, does
+Left recursion regularly poses problems for parsers as it leads them into the
+state of infinite recursion. As left-recursive rules can always be rewritten,
+grammars are often preprocessed to eliminate them. \thisproject{}, however, does
 not attempt to do any rewrites. Instead, it only detects the presence of direct
 or indirect left recursion in the provided grammar. The process of detecting
 left recursion can be seen in Algorithm~\ref{alg:detecting-left-recursion}.
@@ -2999,27 +2996,28 @@ appropriate styling with CSS.
 
 \subsection{Unit testing}
 
-\paraphrase{Unit testing is a type of software testing where individual units or
-components of a software are tested. The purpose is to validate that each unit
-of the software code performs as expected. Unit tests help to fix bugs early in
-the development cycle, and help to understand the code base and make changes to
-the code quickly. Good unit tests also serve as project documentation. Unit
-testing allows the programmer to refactor code at a later date, and make sure
-the module still works correctly (i.e. Regression testing). The procedure is to
-write test cases for all functions and methods so that whenever a change causes
-a fault, it can be quickly identified and fixed. Unit testing, however, can't be
-expected to catch every error in a program. It is not possible to evaluate all
-execution paths even in the most trivial programs. Unit testing by its very
-nature focuses on a unit of code. Hence it can't catch integration errors or
-broad system level errors.
+Unit testing is a type of software testing where individual units or components
+of the software are being tested. The purpose of unit testing is to validate
+that each unit of the software code performs in an expected way. Unit tests
+assist in fixing bugs early in the development cycle, help to understand the
+code base and make changes to the code quicker, and can also serve as project
+documentation. Unit testing allows the programmer to refactor code, and ensure
+the refactored module still works correctly. The process is to write test cases
+for all functionalities so that whenever a change causes an error, it can be
+quickly identified and be dealt with. Unit testing, however, can't be expected
+to catch every error in a program. It is not possible to evaluate all execution
+paths even in the most trivial programs. Unit testing by its definition focuses
+on a unit of code --- it can't catch integration errors or broad system-level
+errors.
 
-A developer writes a section of code in the application just to test the
-function. Isolating the tested code helps in revealing unnecessary dependencies
-between the code being tested and other units in the project --- testing should
-be focused on only one piece of code at a time. Unit Test cases should be
-independent. In case of any enhancements or change in requirements, unit test
-cases should not be affected. If units are made less interdependent to make unit
-testing possible, the unintended impact of changes to any code is less.}
+A programmer usually writes a section of code in the application just to test a
+function. Isolating the tested code helps in disconnecting unnecessary
+dependencies from the code being tested and other units in the project ---
+testing should be focused on only one piece of code at a time, and individual
+unit test cases should be independent. In case of any changes in requirements,
+unit test cases should not be affected. If units are made less interdependent to
+make unit testing possible, the unintended impact of changes to any code is less
+noticeable.
 
 Unit tests in \thisproject{} focus on testing the individual components of the
 EBNF parser, that is: the lexer, the parser, and the preprocessor. If the

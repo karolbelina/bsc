@@ -29,10 +29,10 @@
 \title{Formal grammar\par production rule parsing tool}
 \fieldofstudy{Computer Science}
 \supervisor{dr inż.\ Zdzisław Spławski}
-\keywords{combinatory parsing, context-free grammars, Extended Backus-Naur Form}
+\keywords{combinatory parsing, context-free grammars, Extended Backus-Naur form}
 \summary{The thesis documents the process of designing and implementing a tool
 for parsing the production rules of context-free grammars in a textual form. It
-discusses the choice of Extended Backus-Naur Form notation over the alternatives
+discusses the choice of Extended Backus-Naur form notation over the alternatives
 and provides a model for parsing such a notation. The implemented parser can
 turn a high-level specification of a grammar into a parser itself, which in turn
 is capable of constructing a parse tree from arbitrary input provided to the
@@ -87,7 +87,7 @@ program with the use of parser combinators.}
 
 The thesis presents the design and implementation of a context-free grammar
 parsing tool with real-time explanations and error detection. It discusses the
-choice of Extended Backus-Naur Form notation over the alternatives and provides
+choice of Extended Backus-Naur form notation over the alternatives and provides
 a model for parsing such a notation. For this purpose, the official
 specification of the EBNF from the ISO/IEC 14977 standard has been examined and
 transformed into an unambiguous form. A definition of an abstract syntax tree is
@@ -209,7 +209,7 @@ The main goal of this thesis is to design and implement a specialized tool, that
 serves teachers, programmers and other kinds of enthusiasts of the theory of
 formal languages in the field of discrete mathematics and computer science, in
 order to formulate and visualize context-free grammars in the Extended
-Backus-Naur Form. To make it more approachable to users, the tool must provide a
+Backus-Naur form. To make it more approachable to users, the tool must provide a
 graphical user interface. Additionally, to ensure the hightest degree of
 approachability, the tool must be available in the form of an easily accessible
 web-based application that is deployed on a web page and can run in a browser
@@ -239,7 +239,7 @@ distinguished, all of which contribute to the main objective as a whole
 \section{Scope of the project}
 
 The thesis will propose a definition of a grammar in the form of an abstract
-syntax tree of the Extended Backus-Naur Form. It will describe the process of
+syntax tree of the Extended Backus-Naur form. It will describe the process of
 implementing the business logic of the application in the Rust programming
 language~\cite{rust} compiled to WebAssembly~\cite{webassembly}. The compiled
 code is then ran inside the web-based application made with the Svelte
@@ -3976,14 +3976,14 @@ an initial production rule or test an input string.
 
 The thesis described the process of designing and implementing a tool for
 formulating and visualizing context-free grammars in the Extended Backus-Naur
-Form. First, it provided a basic analysis of the advantages of the Extended
-Backus-Naur Form notation over its predecessor --- Backus-Naur Form. It
+form. First, it provided a basic analysis of the advantages of the Extended
+Backus-Naur form notation over its predecessor --- Backus-Naur Form. It
 transformed the official specification of the ISO/IEC 14977 standard by removing
 inaccuracies and ambiguities, as well as to make it more suitable for modern
 software environments by providing support for Unicode as the base character set
 of the specification. A definition of tokens, as well as the grammar in the form
 of an abstract syntax tree, was proposed to specify the structure of the
-Extended Backus-Naur Form in the implementation phase of the project.
+Extended Backus-Naur form in the implementation phase of the project.
 
 The design process carried out by the author was a key step in designing and
 implementing the project. Planned use cases allowed the developer to map out key

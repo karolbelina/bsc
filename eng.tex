@@ -329,12 +329,13 @@ grammar can also be applied in reverse: it can be determined if a string of
 symbols belongs to a given language by breaking it down into its constituents
 and analyzing them in the process known as \emph{parsing}.
 
-For now, let's consider a simple example of a formal grammar. It consists of two
-sets of symbols: (1) set $N = \{\,S, B\,\}$, whose symbols are
-\emph{non-terminal} and must be rewritten into other, possibly non-terminal,
-symbols, and (2) set $\Sigma = \{\,a, b, c\,\}$, whose symbols are
-\emph{terminal} and cannot be rewritten further. Let $S$ be the start symbol
-and set $P$ be the set of the following production rules:
+A formal grammar is a 4-tuple $(N, \Sigma, P, S)$, where $N$ is the set of
+\emph{non-terminal} symbols, which must be rewritten into other, possibly
+non-terminal symbols; $\Sigma$ is the set of \emph{terminal} symbols, which
+cannot be rewritten further; $P$ is the set of production rules, and $S$ is the
+start symbol. Let's consider a simple example of a formal grammar, where $N =
+\{\,S, B\,\}$, $\Sigma = \{\,a, b, c\,\}$, and $P$ is the set of the following
+production rules:
 \begin{enumerate}[noitemsep]
   \item $S \rightarrow aBSc$
   \item $S \rightarrow abc$
@@ -375,7 +376,7 @@ Such a system provides us with a notation for describing a given
 language formally. Such a language is a usually infinite set of finite-length
 sequences of terminal symbols from that language.
 
-\subsection{The Chomsky Hierarchy}
+\subsection{The Chomsky hierarchy}
 
 \begin{wrapfigure}{R}{0.45\textwidth}
   \centering
@@ -389,12 +390,12 @@ sequences of terminal symbols from that language.
     \draw[color=black](0,-0.6) ellipse (0.5 and 0.25)
       node {\small regular};
   \end{tikzpicture}
-  \caption{The~Chomsky~Hierarchy visualized.}
+  \caption{The~Chomsky~hierarchy visualized.}
   \label{fig:chomsky-hierarchy}
 \end{wrapfigure}
 
 In~\cite{chomsky-1956}, Chomsky divides formal grammars into four classes and
-classifies them in the now called \emph{Chomsky~Hierarchy}. Each class is a
+classifies them in the now called \emph{Chomsky~hierarchy}. Each class is a
 subset of another, distinguished by the complexity. The hierarchy is visualized
 in Figure~\ref{fig:chomsky-hierarchy}.
 
@@ -730,7 +731,7 @@ The \texttt{Parser} type utilizes the built-in \texttt{Maybe} type --- a type
 that represents an optional value. \texttt{Maybe}, as an algebraic data type is
 defined as
 \begin{minted}{haskell}
-data Maybe t = Just t | Nothing
+data Maybe t = Nothing | Just t
 \end{minted}
 \texttt{Maybe} is a type constructor of a single argument (here, the \texttt{t}
 type), where the value of type \texttt{Maybe t} either contains a value of type

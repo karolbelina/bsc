@@ -2262,8 +2262,8 @@ inside integers or meta-identifiers is handled in the corresponding token loop.
     \node[state, below left of=1, accepting] (18) {$18$};
     \node[state, below of=14, accepting] (19) {$19$};
     \node[state, above right of=19, accepting] (20) {$20$};
-    \node[state, below of=19, accepting] (21) {$21$};
-    \node[state, above right of=21] (22) {$22$};
+    \node[state, below of=19] (21) {$21$};
+    \node[state, above right of=21, accepting] (22) {$22$};
     \node[state, left of=21, accepting] (16) {$16$};
     \node[state, below right of=18, accepting] (17) {$17$};
 
@@ -3649,7 +3649,7 @@ for the Web\-Assembly compilation.
   \inputminted[fontsize=\footnotesize,frame=lines,breaklines,linenos]{yaml}
     {listings/cd.yaml}
   \caption{The deployment part of the GitHub Action workflow file related to
-  CI/CD.}
+  CD.}
   \label{lst:cd}
 \end{listing}
 

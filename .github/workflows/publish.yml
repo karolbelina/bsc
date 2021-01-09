@@ -29,7 +29,7 @@ jobs:
     - name: Build
       uses: xu-cheng/latex-action@v2
       with:
-        root_file: eng.tex
+        root_file: bsc.tex
         pre_compile: "mktexlsr && updmap-sys --enable Map psfonts.map"
         post_compile: "latexmk -c"
     - name: Get current date
@@ -44,7 +44,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: "eng-${{ steps.date.outputs.formattedTime }}-${{ steps.hash.outputs.sha8 }}"
+        name: "bsc-${{ steps.date.outputs.formattedTime }}-${{ steps.hash.outputs.sha8 }}"
         path: W08_242499_2020_praca_inżynierska.pdf
     - name: Prepare the publish folder
       run: "mkdir publish && mv W08_242499_2020_praca_inżynierska.pdf publish/"

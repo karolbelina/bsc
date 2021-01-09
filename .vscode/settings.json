@@ -63,7 +63,7 @@
     "cSpell.language": "en,pl",
     "cSpell.ignorePaths": [
         "*",
-        "!eng.tex",
+        "!bsc.tex",
         "!bibliography.bib"
     ],
     "cSpell.words": [
